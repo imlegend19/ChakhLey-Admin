@@ -10,6 +10,9 @@ class MyApp extends StatelessWidget {
       title: 'Chakh Le - Admin',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        appBarTheme: AppBarTheme(
+          elevation: 0
+        )
       ),
       home: LoginPage(
         title: "ChakhLe - Login",
