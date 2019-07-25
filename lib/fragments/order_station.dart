@@ -1,3 +1,4 @@
+import 'package:chakh_le_admin/pages/order_page.dart';
 import 'package:flutter/material.dart';
 
 class OrderStation extends StatefulWidget {
@@ -30,7 +31,7 @@ class _OrderStationState extends State<OrderStation> {
         ),
         body: TabBarView(
           children: [
-            Text('Pending'),
+            OrderPage(),
             Text('Accepted'),
             Text('Preparing'),
             Text('Ready'),
