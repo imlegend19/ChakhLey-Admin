@@ -32,12 +32,12 @@ class _OrderStationState extends State<OrderStation> {
         body: TabBarView(
           children: [
             OrderPage(),
-            Text('Accepted'),
-            Text('Preparing'),
-            Text('Ready'),
-            Text('Out For Delivery'),
-            Text('Delivered'),
-            Text('Cancelled'),
+            OrderPage(),
+            OrderPage(),
+            OrderPage(),
+            OrderPage(),
+            OrderPage(),
+            OrderPage(),
           ],
         ),
       ),

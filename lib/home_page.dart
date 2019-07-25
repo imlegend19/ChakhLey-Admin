@@ -59,8 +59,6 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        // here we display the title corresponding to the fragment
-        // you can instead choose to have a static title
         title: Text(widget.drawerItems[_selectedDrawerIndex].title),
       ),
       drawer: Drawer(

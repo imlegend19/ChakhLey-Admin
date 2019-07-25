@@ -1,7 +1,14 @@
+import 'package:chakh_le_admin/fragments/view_details.dart';
 import 'package:flutter/material.dart';
 
-Widget orderCard(String name, String nextStatus,String orderId,double totalPrice,String payment) {
-    return Card(
+Widget orderCard(BuildContext context,String name, String nextStatus, String orderId,
+    double totalPrice, String payment) {
+  return Card(
+    child: InkWell(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ViewDetails()));
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -97,5 +104,6 @@ Widget orderCard(String name, String nextStatus,String orderId,double totalPrice
           )
         ],
       ),
-    );
+    ),
+  );
 }

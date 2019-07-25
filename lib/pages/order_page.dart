@@ -17,7 +17,7 @@ class _OrderPageState extends State<OrderPage> {
     return Scaffold(
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return orderCard();
+          return orderCard(context,'Jatin','pe','12sw',100,'P');
         },
       ),
     );
