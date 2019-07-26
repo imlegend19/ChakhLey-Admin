@@ -1,3 +1,4 @@
+import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/pages/order_page.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class _OrderStationState extends State<OrderStation> {
               Tab(text: 'Accepted'),
               Tab(text: 'Preparing'),
               Tab(text: 'Ready'),
-              Tab(text: 'Out For Delivery'),
+              Tab(text: 'Dispatched'),
               Tab(text: 'Delivered'),
               Tab(text: 'Cancelled'),
             ],
@@ -31,13 +32,13 @@ class _OrderStationState extends State<OrderStation> {
         ),
         body: TabBarView(
           children: [
-            OrderPage(),
-            OrderPage(),
-            OrderPage(),
-            OrderPage(),
-            OrderPage(),
-            OrderPage(),
-            OrderPage(),
+            OrderPage(status: "Pending", order: fetchOrder("Pe")),
+            OrderPage(status: "Accepted", order: fetchOrder("Ac")),
+            OrderPage(status: "Preparing", order: fetchOrder("Pr")),
+            OrderPage(status: "Ready", order: fetchOrder("R")),
+            OrderPage(status: "Dispatched", order: fetchOrder("Di")),
+            OrderPage(status: "Delivery", order: fetchOrder("D")),
+            OrderPage(status: "Cancelled", order: fetchOrder("C")),
           ],
         ),
       ),

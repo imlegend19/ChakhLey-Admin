@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Chakh Le - Admin',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.red,
         appBarTheme: AppBarTheme(
