@@ -1,4 +1,6 @@
-import 'package:chakh_le_admin/pages/view_details_page.dart';
+import 'package:chakh_le_admin/pages/basic_info_page.dart';
+import 'package:chakh_le_admin/pages/suborder_page.dart';
+import 'package:chakh_le_admin/pages/transaction_page.dart';
 import 'package:flutter/material.dart';
 
 class ViewDetails extends StatefulWidget {
@@ -31,9 +33,9 @@ class _ViewDetailsState extends State<ViewDetails> {
         ),
         body: TabBarView(
           children: [
-            Text('Basic Information'),
-            ViewDetailsPage(),
-            Text('Transaction')
+            BasicInfoPage(),
+            subOrderPage(),
+          TransactionPage()
           ],
         ),
       ),
