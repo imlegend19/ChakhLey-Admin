@@ -1,4 +1,5 @@
 import 'package:chakh_le_admin/utils/transaction_saved_card.dart';
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
 
 class TransactionPage extends StatefulWidget {
@@ -7,20 +8,26 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-  List<DropdownMenuItem<String>> listMode = [];
-  List<DropdownMenuItem<String>> listType = [];
+  String selectedMode;
+  String selectedType;
+  String selectedModeResult;
+  String selectedTypeResult;
 
   @override
   void initState() {
+    selectedMode = '';
+    selectedType = '';
+    selectedModeResult = '';
+    selectedTypeResult = '';
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
-    loadData();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _alerttransaction(context, 1000, listMode, listType),
+        onPressed: () => _alerttransaction(context, 1000,selectedMode,selectedType),
         child: Icon(Icons.add),
       ),
       body: ListView.builder(
@@ -31,26 +38,7 @@ class _TransactionPageState extends State<TransactionPage> {
     );
   }
 
-  void loadData() {
-    listMode = [];
-    listType = [];
-    listMode.add(DropdownMenuItem(child: Text('Credit Card'), value: 'CC'));
-    listMode.add(DropdownMenuItem(child: Text('Debit Card'), value: 'DC'));
-    listMode.add(DropdownMenuItem(child: Text('Paytm'), value: 'PTM'));
-    listMode.add(DropdownMenuItem(child: Text('Cash'), value: 'C'));
-    listMode.add(DropdownMenuItem(child: Text('InstaMojo'), value: 'IMJ'));
-    listMode.add(DropdownMenuItem(child: Text('Paytm Gateway'), value: 'PTMG'));
-    listType.add(DropdownMenuItem(child: Text('Cash'), value: 'C'));
-    listType.add(DropdownMenuItem(child: Text('Online'), value: 'O'));
-  }
-
-  Widget _alerttransaction(
-      BuildContext context,
-      double totalAmount,
-      List<DropdownMenuItem<String>> listMode,
-      List<DropdownMenuItem<String>> listType) {
-    String selectedMode;
-    String selectedType;
+  Widget _alerttransaction(BuildContext context, double totalAmount,String selectedMode,String selectedType) {
     showDialog(
       context: context,
       builder: (context) {
@@ -90,85 +78,127 @@ class _TransactionPageState extends State<TransactionPage> {
             ),
           ),
           content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  text: 'Amount: ',
-                  style: TextStyle(
-                      fontFamily: 'Avenir-Bold',
-                      fontSize: 20.0,
-                      color: Colors.black),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '$totalAmount',
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'Avenir-Black',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey[500])),
-                  ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    text: 'Amount: ',
+                    style: TextStyle(
+                        fontFamily: 'Avenir-Bold',
+                        fontSize: 20.0,
+                        color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '$totalAmount',
+                          style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Avenir-Black',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey[500])),
+                    ],
+                  ),
                 ),
-              ),
-              Row(
-                children: <Widget>[
-                  Text('Payment Mode: '),
-                  DropdownButton(
-                    elevation: 4,
-                    items: listMode,
-                    hint: Text('Select Mode'),
-                    onChanged: (String value) {
-                      setState(() {
-                        selectedMode = value;
-                      });
-                    },
-                    isExpanded: false,
-                    value: selectedMode,
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Text('Payment Type: '),
-                  DropdownButton(
-                    elevation: 4,
-                    items: listType,
-                    hint: Text('Select Type'),
-                    onChanged: (String value) {
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropDownFormField(
+                    titleText: 'Payment Type',
+                    hintText: 'Please choose one',
+                    value: selectedType,
+                    onSaved: (value) {
                       setState(() {
                         selectedType = value;
                       });
                     },
-                    isExpanded: false,
-                    value: selectedType,
-                  )
-                ],
-              ),
-              Center(
-                child: RaisedButton(
-                  disabledColor: Colors.red.shade200,
-                  color: Colors.red,
-                  disabledElevation: 0.0,
-                  elevation: 3.0,
-                  splashColor: Colors.red.shade200,
-                  child: Text(
-                    'Confirm',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15.0,
-                      fontFamily: 'Avenir-Bold',
-                      color: Colors.white,
-                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedType = value;
+                      });
+                    },
+                    dataSource: [
+                      {
+                        "display": "Cash",
+                        "value": "C",
+                      },
+                      {
+                        "display": "Online",
+                        "value": "O",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
-                  onPressed: () => {},
                 ),
-              ),
-            ],
-          ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropDownFormField(
+                        titleText: 'Payment Mode',
+                        hintText: 'Please choose one',
+                        value: selectedMode,
+                        onSaved: (value) {
+                          setState(() {
+                            selectedMode = value;
+                          });
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            selectedMode = value;
+                          });
+                        },
+                        dataSource: [
+                          {
+                            "display": "Credit Card",
+                            "value": "CC",
+                          },
+                          {
+                            "display": "Debit Card",
+                            "value": "DC",
+                          },
+                          {
+                            "display": "Cash",
+                            "value": "C",
+                          },
+                          {
+                            "display": "INSTAMOJO",
+                            "value": "IMJ",
+                          },
+                          {
+                            "display": "Paytm",
+                            "value": "PTM",
+                          },
+                          {
+                            "display": "Paytm Gateway",
+                            "value": "PTMG",
+                          },
+                        ],
+                        textField: 'display',
+                        valueField: 'value',
+                      ),
+                    ),
+                Center(
+                  child: RaisedButton(
+                    disabledColor: Colors.red.shade200,
+                    color: Colors.red,
+                    disabledElevation: 0.0,
+                    elevation: 3.0,
+                    splashColor: Colors.red.shade200,
+                    child: Text(
+                      'Confirm',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15.0,
+                        fontFamily: 'Avenir-Bold',
+                        color: Colors.white,
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
         );
       },
     );

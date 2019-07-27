@@ -16,7 +16,7 @@ Widget SubOrderCard(BuildContext context, Order order, int index) {
                 '${order.suborderSet[index][SuborderSetStatic.keyProduct][APIStatic.keyName]}',
                 style: TextStyle(
                     fontFamily: 'Avenir-Bold',
-                    fontSize: 20.0,
+                    fontSize: 18.0,
                     color: Colors.black),
               ),
               Text(
@@ -40,13 +40,13 @@ Widget SubOrderCard(BuildContext context, Order order, int index) {
                   text: 'Quantity: ',
                   style: TextStyle(
                       fontFamily: 'Avenir-Bold',
-                      fontSize: 20.0,
+                      fontSize: 18.0,
                       color: Colors.black),
                   children: <TextSpan>[
                     TextSpan(
                         text: '${order.suborderSet[index][SuborderSetStatic.keyQuantity]}',
                         style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: 14.0,
                             fontFamily: 'Avenir-Black',
                             fontWeight: FontWeight.w500,color: Colors.grey[500])),
                   ],
@@ -54,7 +54,7 @@ Widget SubOrderCard(BuildContext context, Order order, int index) {
               ),
               Text(
                 '${order.suborderSet[index][SuborderSetStatic.keySubTotal]}',
-                style: TextStyle(fontFamily: 'Avenir-Black', fontSize: 20.0),
+                style: TextStyle(fontFamily: 'Avenir-Black', fontSize: 18.0,color: Colors.grey),
               )
             ],
           ),

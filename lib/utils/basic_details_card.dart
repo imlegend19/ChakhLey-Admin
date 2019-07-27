@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 Widget basicDetailsCard(Order order){
   return Card(
     child: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top:10.0,left: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -16,13 +16,13 @@ Widget basicDetailsCard(Order order){
               text: 'Address: ',
               style: TextStyle(
                   fontFamily: 'Avenir-Bold',
-                  fontSize: 20.0,
+                  fontSize: 18.0,
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
                     text: '${order.delivery[RestaurantStatic.keyFullAddress]}',
                     style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 14.0,
                         fontFamily: 'Avenir-Black',
                         fontWeight: FontWeight.w500,color: Colors.grey[500])),
               ],
@@ -39,7 +39,7 @@ Widget basicDetailsCard(Order order){
                 TextSpan(
                     text: '${order.restaurant[APIStatic.keyName]}',
                     style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 14.0,
                         fontFamily: 'Avenir-Black',
                         fontWeight: FontWeight.w500,color: Colors.grey[500])),
               ],
@@ -56,7 +56,7 @@ Widget basicDetailsCard(Order order){
                 TextSpan(
                     text: '${order.name}',
                     style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 14.0,
                         fontFamily: 'Avenir-Black',
                         fontWeight: FontWeight.w500,color: Colors.grey[500])),
               ],
@@ -73,7 +73,7 @@ Widget basicDetailsCard(Order order){
                 TextSpan(
                     text: '${order.email}',
                     style: TextStyle(
-                        fontSize: 15.0,
+                        fontSize: 14.0,
                         fontFamily: 'Avenir-Black',
                         fontWeight: FontWeight.w500,color: Colors.grey[500])),
               ],
