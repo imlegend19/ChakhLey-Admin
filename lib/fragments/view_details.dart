@@ -38,17 +38,13 @@ class _ViewDetailsState extends State<ViewDetails> {
         body: TabBarView(
           children: [
             Container(
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return BasicDetailsCard(
-                      'Surat', 'HOD Pizza', 'Jatin', 'jatin@gmail.com');
-                },
-              ),
+                  child: basicDetailsCard(widget.order)
             ),
             Container(
               child: ListView.builder(
+                itemCount: widget.order.suborderSet.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return SubOrderCard(context, 'Burger', 100, 10, 1000);
+                  return SubOrderCard(context,widget.order, index);
                 },
               ),
             ),

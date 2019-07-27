@@ -1,6 +1,8 @@
+import 'package:chakh_le_admin/entity/api_static.dart';
+import 'package:chakh_le_admin/entity/order.dart';
 import 'package:flutter/material.dart';
 
-Widget BasicDetailsCard(String address,String restaurant,String name,String email){
+Widget basicDetailsCard(Order order){
   return Card(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -18,7 +20,7 @@ Widget BasicDetailsCard(String address,String restaurant,String name,String emai
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '$address',
+                    text: '${order.delivery[RestaurantStatic.keyFullAddress]}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',
@@ -35,7 +37,7 @@ Widget BasicDetailsCard(String address,String restaurant,String name,String emai
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '$restaurant',
+                    text: '${order.restaurant[APIStatic.keyName]}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',
@@ -52,7 +54,7 @@ Widget BasicDetailsCard(String address,String restaurant,String name,String emai
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '$name',
+                    text: '${order.name}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',
@@ -69,7 +71,7 @@ Widget BasicDetailsCard(String address,String restaurant,String name,String emai
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '$email',
+                    text: '${order.email}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',
