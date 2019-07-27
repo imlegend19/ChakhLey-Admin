@@ -1,9 +1,13 @@
-import 'package:chakh_le_admin/pages/basic_info_page.dart';
-import 'package:chakh_le_admin/pages/suborder_page.dart';
+import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/pages/transaction_page.dart';
+import 'package:chakh_le_admin/utils/basic_details_card.dart';
+import 'package:chakh_le_admin/utils/suborder.dart';
 import 'package:flutter/material.dart';
 
 class ViewDetails extends StatefulWidget {
+  final Order order;
+  ViewDetails({this.order});
+
   @override
   _ViewDetailsState createState() => _ViewDetailsState();
 }
@@ -33,9 +37,22 @@ class _ViewDetailsState extends State<ViewDetails> {
         ),
         body: TabBarView(
           children: [
-            BasicInfoPage(),
-            subOrderPage(),
-          TransactionPage()
+            Container(
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return BasicDetailsCard(
+                      'Surat', 'HOD Pizza', 'Jatin', 'jatin@gmail.com');
+                },
+              ),
+            ),
+            Container(
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return SubOrderCard(context, 'Burger', 100, 10, 1000);
+                },
+              ),
+            ),
+            TransactionPage()
           ],
         ),
       ),

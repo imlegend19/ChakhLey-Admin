@@ -8,8 +8,8 @@ Widget orderCard(BuildContext context, Order order) {
   return Card(
     child: InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ViewDetails()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ViewDetails(order: order)));
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -156,9 +156,12 @@ Widget orderCard(BuildContext context, Order order) {
                                       .orderCode[order.status]) ==
                                   6
                               ? 'Completed'
-                              : 'Next: ' + ConstantVariables.order[ConstantVariables.order
-                                      .indexOf(ConstantVariables
-                                          .orderCode[order.status]) + 1],
+                              : 'Next: ' +
+                                  ConstantVariables.order[ConstantVariables
+                                          .order
+                                          .indexOf(ConstantVariables
+                                              .orderCode[order.status]) +
+                                      1],
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               fontSize: 14.0,

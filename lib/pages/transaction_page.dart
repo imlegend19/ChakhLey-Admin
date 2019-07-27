@@ -49,8 +49,8 @@ class _TransactionPageState extends State<TransactionPage> {
       double totalAmount,
       List<DropdownMenuItem<String>> listMode,
       List<DropdownMenuItem<String>> listType) {
-    String selectedMode = null;
-    String selectedType = null;
+    String selectedMode;
+    String selectedType;
     showDialog(
       context: context,
       builder: (context) {
@@ -134,7 +134,6 @@ class _TransactionPageState extends State<TransactionPage> {
                   Text('Payment Type: '),
                   DropdownButton(
                     elevation: 4,
-                    value: selectedType,
                     items: listType,
                     hint: Text('Select Type'),
                     onChanged: (String value) {
@@ -143,6 +142,7 @@ class _TransactionPageState extends State<TransactionPage> {
                       });
                     },
                     isExpanded: false,
+                    value: selectedType,
                   )
                 ],
               ),
