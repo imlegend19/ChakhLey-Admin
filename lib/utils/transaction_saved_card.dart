@@ -1,7 +1,8 @@
 import 'package:chakh_le_admin/entity/order.dart';
+import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:flutter/material.dart';
 
-Widget transactionCard(Order order) {
+Widget transactionCard(BuildContext context,Transaction transaction) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -19,7 +20,7 @@ Widget transactionCard(Order order) {
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '${order.}',
+                    text: '${transaction.amount}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',
@@ -37,7 +38,7 @@ Widget transactionCard(Order order) {
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '$mode',
+                    text: '${transaction.paymentMode}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',
@@ -55,7 +56,7 @@ Widget transactionCard(Order order) {
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '$type',
+                    text: '${transaction.paymentType}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',
@@ -73,7 +74,7 @@ Widget transactionCard(Order order) {
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '$acceptedBy',
+                    text: '${transaction.acceptedBy}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',

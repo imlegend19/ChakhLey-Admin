@@ -1,4 +1,5 @@
 import 'package:chakh_le_admin/entity/order.dart';
+import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:chakh_le_admin/pages/transaction_page.dart';
 import 'package:chakh_le_admin/utils/basic_details_card.dart';
 import 'package:chakh_le_admin/utils/suborder.dart';
@@ -50,7 +51,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                 ),
               ),
             ),
-            TransactionPage(order: widget.order)
+            TransactionPage(transaction: fetchTransactions(widget.order.id.toString()),order: widget.order,)
           ],
         ),
       ),

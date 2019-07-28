@@ -1,4 +1,5 @@
 import 'package:chakh_le_admin/entity/order.dart';
+import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:chakh_le_admin/utils/transaction_saved_card.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,9 @@ class TransactionPage extends StatefulWidget {
   _TransactionPageState createState() => _TransactionPageState();
 
   final Order order;
+  final Future<GetTransactions> transaction;
 
-  TransactionPage({this.order});
+  TransactionPage({@required this.transaction,@required this.order});
 }
 
 class _TransactionPageState extends State<TransactionPage> {
@@ -18,6 +20,7 @@ class _TransactionPageState extends State<TransactionPage> {
   String selectedModeResult;
   String selectedTypeResult;
 
+  bool isVisible = false;
   @override
   void initState() {
     super.initState();
@@ -26,21 +29,36 @@ class _TransactionPageState extends State<TransactionPage> {
     selectedType = '';
     selectedModeResult = '';
     selectedTypeResult = '';
+
+    paymentDoneCheck();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            _alertTransaction(context, 1000, selectedMode, selectedType),
-        child: Icon(Icons.add),
+      floatingActionButton: Visibility(
+        visible: isVisible,
+        child: FloatingActionButton(
+          onPressed: () =>
+              _alertTransaction(context, 1000, selectedMode, selectedType),
+          child: Icon(Icons.add),
+        ),
       ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return transactionCard(widget.order);
-        },
-      ),
+      body: FutureBuilder<GetTransactions>(
+          future: widget.transaction,
+          builder: (context, response) {
+            if (response.hasData) {
+              return ListView.builder(
+                itemCount: response.data.count,
+                itemBuilder: (BuildContext context, int index) {
+                  return transactionCard(
+                      context, response.data.transactions[index]);
+                },
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 
@@ -190,5 +208,14 @@ class _TransactionPageState extends State<TransactionPage> {
         );
       },
     );
+  }
+
+  void paymentDoneCheck(){
+    if(widget.order.paymentDone == true){
+      isVisible = false;
+    }
+    else{
+      isVisible =true;
+    }
   }
 }

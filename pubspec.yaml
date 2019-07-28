@@ -24,6 +24,10 @@ dependencies:
   http:
   url_launcher:
   dropdown_formfield: ^0.1.0
+  shared_preferences:
+  fluttertoast: ^3.0.1
+  pin_code_text_field:
+  rounded_modal:
 
 dev_dependencies:
   flutter_test:

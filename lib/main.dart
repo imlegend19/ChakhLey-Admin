@@ -1,5 +1,14 @@
+import 'dart:io';
+import 'dart:convert' as JSON;
+
+import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/home_page.dart';
+import 'package:chakh_le_admin/pages/otp.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+
+import 'models/user_post.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
   TextStyle style = TextStyle(fontFamily: 'Avenir - Bold', fontSize: 15.0);
   TextEditingController _phnController = TextEditingController();
 
+
   @override
   void initState() {
     super.initState();
@@ -74,17 +84,6 @@ class _LoginPageState extends State<LoginPage> {
           border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
     );
-
-    final otpField = TextField(
-      style: style,
-      enabled: enableOtp,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-          hintText: "Password",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
-    );
-
     final loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
@@ -94,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: enableLogin
             ? () {
-                Navigator.pushReplacementNamed(context, '/homepage');
+          loginUserPost();
               }
             : null,
         child: Text(
@@ -129,8 +128,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 45.0),
                     phnField,
-                    SizedBox(height: 25.0),
-                    otpField,
                     SizedBox(
                       height: 35.0,
                     ),
@@ -144,5 +141,53 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ));
+  }
+
+  Future<http.Response> createPost(LoginPost post) async {
+    final response = await http.post(UserStatic.keyOtpURL,
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: postLoginToJson(post));
+
+    return response;
+  }
+  
+  loginUserPost() {
+    LoginPost post = LoginPost(
+      destination: _phnController.text,
+      isLogin: "true",
+    );
+
+    // ignore: missing_return
+    createPost(post).then((response) {
+      if (response.statusCode == 201) {
+        print(response.body);
+        Navigator.of(context).pop();
+        showOTPBottomSheet(context, _phnController.text, true);
+        Fluttertoast.showToast(
+          msg: "OTP has been sent to your registered email.",
+          fontSize: 13.0,
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIos: 2,
+        );
+        return "true";
+      } else if (response.statusCode == 403) {
+        // OTP requesting not allowed
+        var json = JSON.jsonDecode(response.body);
+        assert(json is Map);
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(
+          msg: json['detail'],
+          fontSize: 13.0,
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIos: 2,
+        );
+      } else if (response.statusCode == 400) {
+        print(response.statusCode);
+      } else {
+        print(response.statusCode);
+      }
+    }).catchError((error) {
+      print('error : $error');
+    });
   }
 }
