@@ -1,6 +1,7 @@
+import 'package:chakh_le_admin/entity/order.dart';
 import 'package:flutter/material.dart';
 
-Widget TransactionSavedCard(double totalAmount,String mode,String type,String acceptedBy){
+Widget transactionCard(Order order) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -18,7 +19,7 @@ Widget TransactionSavedCard(double totalAmount,String mode,String type,String ac
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '$totalAmount',
+                    text: '${order.}',
                     style: TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Avenir-Black',

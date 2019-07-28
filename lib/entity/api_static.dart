@@ -143,5 +143,12 @@ abstract class OrderStatic {
 }
 
 abstract class TransactionStatic{
-  static const
+  static const transactionURL = APIStatic.baseURL + "transactions/list/?order=";
+
+  static const keyOrder = "order";
+  static const keyAmount = "amount";
+  static const keyIsCredit = "is_credit";
+  static const keyPaymentType = "payment_type";
+  static const keyPaymentMode = "payment_mode";
+  static const keyAcceptedBy = "accepted_by";
 }

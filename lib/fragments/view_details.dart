@@ -18,6 +18,7 @@ class _ViewDetailsState extends State<ViewDetails> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: Colors.grey[200],
         appBar: AppBar(
           backgroundColor: Colors.red,
           title: Text('View Details'),
@@ -37,18 +38,19 @@ class _ViewDetailsState extends State<ViewDetails> {
         ),
         body: TabBarView(
           children: [
-            Container(
-                  child: basicDetailsCard(widget.order)
-            ),
-            Container(
-              child: ListView.builder(
-                itemCount: widget.order.suborderSet.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return SubOrderCard(context,widget.order, index);
-                },
+            Container(child: basicDetailsCard(widget.order)),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Container(
+                child: ListView.builder(
+                  itemCount: widget.order.suborderSet.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return subOrderCard(context, widget.order, index);
+                  },
+                ),
               ),
             ),
-            TransactionPage()
+            TransactionPage(order: widget.order)
           ],
         ),
       ),
