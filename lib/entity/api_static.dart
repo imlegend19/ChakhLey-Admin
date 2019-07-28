@@ -141,3 +141,7 @@ abstract class OrderStatic {
   static const keyOrderDate = "order_date";
   static const keyStatus = "status";
 }
+
+abstract class TransactionStatic{
+  static const
+}
