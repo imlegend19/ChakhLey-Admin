@@ -24,9 +24,10 @@ class MyApp extends StatelessWidget {
           elevation: 0
         )
       ),
-      home: LoginPage(
-        title: "ChakhLe - Login",
-      ),
+      home: HomePage(),
+//      LoginPage(
+//        title: "ChakhLe - Login",
+//      ),
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => HomePage(),
       },
@@ -51,11 +52,11 @@ class _LoginPageState extends State<LoginPage> {
   TextStyle style = TextStyle(fontFamily: 'Avenir - Bold', fontSize: 15.0);
   TextEditingController _phnController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
     _phnController.addListener(getButtonText);
+
   }
 
   void getButtonText() {

@@ -144,6 +144,7 @@ abstract class OrderStatic {
 
 abstract class TransactionStatic{
   static const transactionURL = APIStatic.baseURL + "transactions/list/?order=";
+  static const transactionCreateURL = APIStatic.baseURL + "transactions/create/";
 
   static const keyOrder = "order";
   static const keyAmount = "amount";

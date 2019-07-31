@@ -1,5 +1,8 @@
 import 'package:chakh_le_admin/fragments/order_station.dart';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:flutter/material.dart';
+
+import 'entity/employee.dart';
 
 class DrawerItem {
   String title;
@@ -14,12 +17,25 @@ class HomePage extends StatefulWidget {
     DrawerItem("Fragment 3", Icons.info)
   ];
 
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEmployee().then((value) {
+      setState(() {
+        ConstantVariables.deliveryBoyList = value.employees;
+        ConstantVariables.deliveryBoyCount = value.count;
+      });
+    });
+  }
 
   _getDrawerItemWidget(int pos) {
     switch (pos) {

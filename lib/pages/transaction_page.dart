@@ -1,8 +1,16 @@
+import 'dart:io';
+
+import 'package:chakh_le_admin/entity/api_static.dart';
+import 'package:chakh_le_admin/entity/employee.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
+import 'package:chakh_le_admin/entity/transaction_post.dart';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/transaction_saved_card.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 class TransactionPage extends StatefulWidget {
   @override
@@ -10,27 +18,35 @@ class TransactionPage extends StatefulWidget {
 
   final Order order;
   final Future<GetTransactions> transaction;
+  final Future<GetEmployees> employees;
 
-  TransactionPage({@required this.transaction,@required this.order});
+  TransactionPage(
+      {@required this.transaction,
+      @required this.order,
+      @required this.employees});
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-  String selectedMode;
-  String selectedType;
-  String selectedModeResult;
-  String selectedTypeResult;
-
+  String selectedMode ='';
+  String selectedType= '';
+  int selectedDeliveryBoy = null;
   bool isVisible = false;
+  List deliveryBoys = [];
+
   @override
   void initState() {
     super.initState();
-
-    selectedMode = '';
-    selectedType = '';
-    selectedModeResult = '';
-    selectedTypeResult = '';
-
     paymentDoneCheck();
+
+    for (final i in ConstantVariables.deliveryBoyList) {
+      deliveryBoys.add(
+        {
+          "display": i.name,
+          "value": i.id,
+        }
+      );
+
+    }
   }
 
   @override
@@ -39,8 +55,8 @@ class _TransactionPageState extends State<TransactionPage> {
       floatingActionButton: Visibility(
         visible: isVisible,
         child: FloatingActionButton(
-          onPressed: () =>
-              _alertTransaction(context, 1000, selectedMode, selectedType),
+          onPressed: () => _alertTransaction(
+              context, widget.order.total, selectedMode, selectedType),
           child: Icon(Icons.add),
         ),
       ),
@@ -125,7 +141,7 @@ class _TransactionPageState extends State<TransactionPage> {
                   dataSource: [
                     {
                       "display": "Cash",
-                      "value": "C",
+                      "value": "COD",
                     },
                     {
                       "display": "Online",
@@ -182,6 +198,27 @@ class _TransactionPageState extends State<TransactionPage> {
                   valueField: 'value',
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropDownFormField(
+                  titleText: 'Delivery Boy',
+                  hintText: 'Please choose one',
+                  value: selectedDeliveryBoy,
+                  onSaved: (value) {
+                    setState(() {
+                      selectedDeliveryBoy = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      selectedDeliveryBoy = value;
+                    });
+                  },
+                  dataSource: deliveryBoys,
+                  textField: 'display',
+                  valueField: 'value',
+                ),
+              ),
               Center(
                 child: RaisedButton(
                   disabledColor: Colors.red.shade200,
@@ -200,7 +237,10 @@ class _TransactionPageState extends State<TransactionPage> {
                   ),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    checkoutTransaction();
+                  },
                 ),
               ),
             ],
@@ -210,12 +250,57 @@ class _TransactionPageState extends State<TransactionPage> {
     );
   }
 
-  void paymentDoneCheck(){
-    if(widget.order.paymentDone == true){
+  void paymentDoneCheck() {
+    if (widget.order.paymentDone == true) {
       isVisible = false;
+    } else {
+      isVisible = true;
     }
-    else{
-      isVisible =true;
-    }
+  }
+
+  Future<http.Response> createPost(PostTransaction post) async {
+    final response = await http.post(TransactionStatic.transactionCreateURL,
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: postTransactionToJson(post));
+
+    return response;
+  }
+
+  checkoutTransaction() {
+    PostTransaction post = PostTransaction(
+        order: widget.order.id,
+        amount: widget.order.total.toString(),
+        isCredit: true,
+        paymentType: selectedType,
+        paymentMode: selectedMode,
+        acceptedBy: selectedDeliveryBoy);
+
+    createPost(post).then((response) {
+      if (response.statusCode == 201) {
+        Fluttertoast.showToast(
+          msg: "Transaction Completed",
+          fontSize: 13.0,
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIos: 2,
+        );
+        Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+      } else if (response.statusCode == 400) {
+        // print(response.body);
+      }
+    }).catchError((Object error) {
+      Fluttertoast.showToast(
+        msg: "Please check your internet!",
+        fontSize: 13.0,
+        toastLength: Toast.LENGTH_LONG,
+        timeInSecForIos: 2,
+      );
+    }).catchError((error) {
+      Fluttertoast.showToast(
+        msg: error.toString(),
+        fontSize: 13.0,
+        toastLength: Toast.LENGTH_LONG,
+        timeInSecForIos: 2,
+      );
+    });
   }
 }

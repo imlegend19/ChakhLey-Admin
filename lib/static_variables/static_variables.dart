@@ -20,6 +20,9 @@ class ConstantVariables {
   static String version;
   static String buildNumber;
 
+  static var deliveryBoyList;
+  static int deliveryBoyCount;
+
   static Map<String, String> orderCode = {
     "Pending": "Pe",
     "Accepted": "Ac",
@@ -49,4 +52,7 @@ class ConstantVariables {
     "D": "Delivered",
     "C": "Cancelled"
   };
+
+
+
 }
