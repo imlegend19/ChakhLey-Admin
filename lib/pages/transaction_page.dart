@@ -5,6 +5,7 @@ import 'package:chakh_le_admin/entity/employee.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:chakh_le_admin/entity/transaction_post.dart';
+import 'package:chakh_le_admin/fragments/order_station.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/transaction_saved_card.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
@@ -27,9 +28,9 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-  String selectedMode ='';
-  String selectedType= '';
-  int selectedDeliveryBoy = null;
+  String selectedMode;
+  String selectedType;
+  int selectedDeliveryBoy;
   bool isVisible = false;
   List deliveryBoys = [];
 
@@ -39,13 +40,10 @@ class _TransactionPageState extends State<TransactionPage> {
     paymentDoneCheck();
 
     for (final i in ConstantVariables.deliveryBoyList) {
-      deliveryBoys.add(
-        {
-          "display": i.name,
-          "value": i.id,
-        }
-      );
-
+      deliveryBoys.add({
+        "display": i.name,
+        "value": i.id,
+      });
     }
   }
 
@@ -55,8 +53,7 @@ class _TransactionPageState extends State<TransactionPage> {
       floatingActionButton: Visibility(
         visible: isVisible,
         child: FloatingActionButton(
-          onPressed: () => _alertTransaction(
-              context, widget.order.total, selectedMode, selectedType),
+          onPressed: () => _alertTransaction(context, widget.order.total),
           child: Icon(Icons.add),
         ),
       ),
@@ -78,8 +75,7 @@ class _TransactionPageState extends State<TransactionPage> {
     );
   }
 
-  _alertTransaction(BuildContext context, double totalAmount,
-      String selectedMode, String selectedType) {
+  _alertTransaction(BuildContext context, double totalAmount) {
     showDialog(
       context: context,
       builder: (context) {
@@ -99,151 +95,158 @@ class _TransactionPageState extends State<TransactionPage> {
               ),
             ),
           ),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  text: 'Amount: ',
-                  style: TextStyle(
-                      fontFamily: 'Avenir-Bold',
-                      fontSize: 20.0,
-                      color: Colors.black),
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '$totalAmount',
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: 'Avenir-Black',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey[500])),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropDownFormField(
-                  titleText: 'Payment Type',
-                  hintText: 'Please choose one',
-                  value: selectedType,
-                  onSaved: (value) {
-                    setState(() {
-                      selectedType = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      selectedType = value;
-                    });
-                  },
-                  dataSource: [
-                    {
-                      "display": "Cash",
-                      "value": "COD",
-                    },
-                    {
-                      "display": "Online",
-                      "value": "O",
-                    },
-                  ],
-                  textField: 'display',
-                  valueField: 'value',
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropDownFormField(
-                  titleText: 'Payment Mode',
-                  hintText: 'Please choose one',
-                  value: selectedMode,
-                  onSaved: (value) {
-                    setState(() {
-                      selectedMode = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      selectedMode = value;
-                    });
-                  },
-                  dataSource: [
-                    {
-                      "display": "Credit Card",
-                      "value": "CC",
-                    },
-                    {
-                      "display": "Debit Card",
-                      "value": "DC",
-                    },
-                    {
-                      "display": "Cash",
-                      "value": "C",
-                    },
-                    {
-                      "display": "INSTAMOJO",
-                      "value": "IMJ",
-                    },
-                    {
-                      "display": "Paytm",
-                      "value": "PTM",
-                    },
-                    {
-                      "display": "Paytm Gateway",
-                      "value": "PTMG",
-                    },
-                  ],
-                  textField: 'display',
-                  valueField: 'value',
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropDownFormField(
-                  titleText: 'Delivery Boy',
-                  hintText: 'Please choose one',
-                  value: selectedDeliveryBoy,
-                  onSaved: (value) {
-                    setState(() {
-                      selectedDeliveryBoy = value;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      selectedDeliveryBoy = value;
-                    });
-                  },
-                  dataSource: deliveryBoys,
-                  textField: 'display',
-                  valueField: 'value',
-                ),
-              ),
-              Center(
-                child: RaisedButton(
-                  disabledColor: Colors.red.shade200,
-                  color: Colors.red,
-                  disabledElevation: 0.0,
-                  elevation: 3.0,
-                  splashColor: Colors.red.shade200,
-                  child: Text(
-                    'Confirm',
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    text: 'Amount: ',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15.0,
-                      fontFamily: 'Avenir-Bold',
-                      color: Colors.white,
-                    ),
+                        fontFamily: 'Avenir-Bold',
+                        fontSize: 20.0,
+                        color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '$totalAmount',
+                          style: TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Avenir-Black',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey[500])),
+                    ],
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0)),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    checkoutTransaction();
-                  },
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropDownFormField(
+                    titleText: 'Payment Type',
+                    hintText: 'Please choose one',
+                    value: selectedType,
+                    onSaved: (value) {
+                      setState(() {
+                        selectedType = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        selectedType = value;
+                      });
+                    },
+                    dataSource: [
+                      {
+                        "display": "Cash",
+                        "value": "COD",
+                      },
+                      {
+                        "display": "Online",
+                        "value": "O",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropDownFormField(
+                    titleText: 'Payment Mode',
+                    hintText: 'Please choose one',
+                    value: selectedMode,
+                    onSaved: (value) {
+                      setState(() {
+                        selectedMode = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        selectedMode = value;
+                      });
+                    },
+                    dataSource: [
+                      {
+                        "display": "Credit Card",
+                        "value": "CC",
+                      },
+                      {
+                        "display": "Debit Card",
+                        "value": "DC",
+                      },
+                      {
+                        "display": "Cash",
+                        "value": "C",
+                      },
+                      {
+                        "display": "INSTAMOJO",
+                        "value": "IMJ",
+                      },
+                      {
+                        "display": "Paytm",
+                        "value": "PTM",
+                      },
+                      {
+                        "display": "Paytm Gateway",
+                        "value": "PTMG",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropDownFormField(
+                    titleText: 'Delivery Boy',
+                    hintText: 'Please choose one',
+                    value: selectedDeliveryBoy,
+                    onSaved: (value) {
+                      setState(() {
+                        selectedDeliveryBoy = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDeliveryBoy = value;
+                      });
+                    },
+                    dataSource: deliveryBoys,
+                    textField: 'display',
+                    valueField: 'value',
+                  ),
+                ),
+                Center(
+                  child: RaisedButton(
+                    disabledColor: Colors.red.shade200,
+                    color: Colors.red,
+                    disabledElevation: 0.0,
+                    elevation: 3.0,
+                    splashColor: Colors.red.shade200,
+                    child: Text(
+                      'Confirm',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15.0,
+                        fontFamily: 'Avenir-Bold',
+                        color: Colors.white,
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      checkoutTransaction();
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return OrderStation();
+                      }));
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -277,13 +280,16 @@ class _TransactionPageState extends State<TransactionPage> {
 
     createPost(post).then((response) {
       if (response.statusCode == 201) {
+        patchOrder(
+            widget.order.id,
+            ConstantVariables.orderCode[ConstantVariables.order[
+                ConstantVariables.order.indexOf(widget.order.status) + 1]]);
         Fluttertoast.showToast(
           msg: "Transaction Completed",
           fontSize: 13.0,
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIos: 2,
         );
-        Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
       } else if (response.statusCode == 400) {
         // print(response.body);
       }

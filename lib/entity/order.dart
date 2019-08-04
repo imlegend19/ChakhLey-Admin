@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'api_static.dart';
 
@@ -91,5 +92,38 @@ Future<GetOrders> fetchOrder(String status) async {
     return order;
   } else {
     throw Exception('Failed to load get');
+  }
+}
+
+patchOrder(int id, String status) async {
+  var json = {"status": "$status"};
+
+  http.Response response = await http.patch(
+    OrderStatic.keyOrderDetailURL + id.toString() + '/',
+    headers: {"Content-Type": "application/json"},
+    body: jsonEncode(json),
+  );
+
+  if (response.statusCode == 200) {
+    Fluttertoast.showToast(
+      msg: "Status Updated",
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  } else if (response.statusCode == 503) {
+    Fluttertoast.showToast(
+      msg: "Please check your internet!",
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  } else {
+    Fluttertoast.showToast(
+      msg: 'Error!!',
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
   }
 }

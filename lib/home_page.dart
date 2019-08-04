@@ -17,14 +17,12 @@ class HomePage extends StatefulWidget {
     DrawerItem("Fragment 3", Icons.info)
   ];
 
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
-
 
   @override
   void initState() {

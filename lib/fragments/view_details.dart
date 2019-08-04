@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 
 class ViewDetails extends StatefulWidget {
   final Order order;
-  ViewDetails({this.order,});
+  ViewDetails({
+    this.order,
+  });
 
   @override
   _ViewDetailsState createState() => _ViewDetailsState();
@@ -38,27 +40,27 @@ class _ViewDetailsState extends State<ViewDetails> {
             preferredSize: Size(0.0, 50),
           ),
         ),
-        body:TabBarView(
-                children: [
-                  Container(child: basicDetailsCard(widget.order)),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Container(
-                      child: ListView.builder(
-                        itemCount: widget.order.suborderSet.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return subOrderCard(context, widget.order, index);
-                        },
-                      ),
-                    ),
-                  ),
-                  TransactionPage(
-                    transaction: fetchTransactions(widget.order.id.toString()),
-                    order: widget.order,
-                    employees: fetchEmployee(),
-                  )
-                ],
+        body: TabBarView(
+          children: [
+            Container(child: basicDetailsCard(widget.order)),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Container(
+                child: ListView.builder(
+                  itemCount: widget.order.suborderSet.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return subOrderCard(context, widget.order, index);
+                  },
+                ),
               ),
+            ),
+            TransactionPage(
+              transaction: fetchTransactions(widget.order.id.toString()),
+              order: widget.order,
+              employees: fetchEmployee(),
+            )
+          ],
+        ),
       ),
     );
   }

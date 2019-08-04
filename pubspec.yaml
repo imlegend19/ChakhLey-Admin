@@ -28,6 +28,7 @@ dependencies:
   fluttertoast: ^3.0.1
   pin_code_text_field:
   rounded_modal:
+  connectivity:
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +43,7 @@ flutter:
     - assets/non_veg.png
     - assets/not_found.png
     - assets/veg.png
+    - assets/no_internet_connection.gif
 
   fonts:
     - family: Avenir

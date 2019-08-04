@@ -20,7 +20,6 @@ class Transaction {
       this.paymentType,
       this.paymentMode,
       this.acceptedBy});
-
 }
 
 class GetTransactions {

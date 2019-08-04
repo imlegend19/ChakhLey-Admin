@@ -150,18 +150,21 @@ Widget orderCard(BuildContext context, Order order) {
                       padding: const EdgeInsets.only(right: 5.0),
                       child: RaisedButton(
                         color: Colors.deepPurpleAccent,
-                        onPressed: () {},
+                        onPressed: () {
+                          patchOrder(
+                              order.id,
+                              ConstantVariables.orderCode[ConstantVariables
+                                  .order[ConstantVariables.order
+                                      .indexOf(order.status) +
+                                  1]]);
+                        },
                         child: Text(
                           ConstantVariables.order.indexOf(ConstantVariables
                                       .orderCode[order.status]) ==
                                   6
                               ? 'Completed'
-                              : 'Next: ' +
-                                  ConstantVariables.order[ConstantVariables
-                                          .order
-                                          .indexOf(ConstantVariables
-                                              .orderCode[order.status]) +
-                                      1],
+                              : 'Next: '
+                                  '${ConstantVariables.order[ConstantVariables.order.indexOf(order.status) + 1]}',
                           style: TextStyle(
                               fontFamily: 'Avenir',
                               fontSize: 14.0,

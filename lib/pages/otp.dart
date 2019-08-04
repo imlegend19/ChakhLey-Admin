@@ -13,7 +13,6 @@ import 'package:http/http.dart' as http;
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:rounded_modal/rounded_modal.dart';
 
-
 void showOTPBottomSheet(
     BuildContext context, String destination, bool decider) {
   showRoundedModalBottomSheet(
@@ -58,7 +57,7 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
               children: <Widget>[
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 8.0, bottom: 5.0, left: 15.0),
+                      const EdgeInsets.only(top: 8.0, bottom: 5.0, left: 15.0),
                   child: Text(
                     'Verify OTP',
                     style: TextStyle(
@@ -95,7 +94,7 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
                   widget.decider
                       ? verifyOTP(pin)
                       : verifyRegisterOTP(pin, OTPBottomSheet.name,
-                      OTPBottomSheet.email, OTPBottomSheet.phone);
+                          OTPBottomSheet.email, OTPBottomSheet.phone);
                 },
                 pinBoxHeight: 50.0,
                 pinBoxWidth: 50.0,
@@ -106,7 +105,7 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
                     fontSize: 14.0,
                     color: Colors.black87),
                 pinTextAnimatedSwitcherTransition:
-                ProvidedPinBoxTextAnimation.scalingTransition,
+                    ProvidedPinBoxTextAnimation.scalingTransition,
                 pinTextAnimatedSwitcherDuration: Duration(milliseconds: 150),
               ),
             ),
@@ -117,7 +116,8 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
   }
 
   Future<http.Response> createOTPPost(VerifyLoginOTPPost post) async {
-    final response = await http.post(UserStatic.keyOtpURL,
+    final response = await http.post(
+      UserStatic.keyOtpURL,
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
       body: postVerifyLoginOTPToJson(post),
     );
@@ -135,7 +135,7 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
 
   void verifyRegisterOTP(String pin, String name, String email, String phone) {
     UserOTPPost post =
-    UserOTPPost(name: name, email: email, mobile: phone, verifyOTP: pin);
+        UserOTPPost(name: name, email: email, mobile: phone, verifyOTP: pin);
 
     createRegisterOTPPost(post).then((response) {
       validate(response);
@@ -200,15 +200,13 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
       assert(json is Map);
       String token = json["token"];
       var decodedObject = parseJwt(token);
-      saveUserCredentials(
-          decodedObject['user_id'],
-          decodedObject['email'],
-          decodedObject['mobile'],
-          decodedObject['name']
-      );
-      Navigator.pushAndRemoveUntil( context,
+      saveUserCredentials(decodedObject['user_id'], decodedObject['email'],
+          decodedObject['mobile'], decodedObject['name']);
+      Navigator.pushAndRemoveUntil(
+        context,
         MaterialPageRoute(builder: (BuildContext context) => HomePage()),
-        ModalRoute.withName('/'),);
+        ModalRoute.withName('/'),
+      );
     }
   }
 }

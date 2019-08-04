@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'api_static.dart';
 
-class Employee{
+class Employee {
   final int id;
   final String name;
   final String designation;
@@ -12,16 +12,15 @@ class Employee{
   final String leftOn;
   final String salary;
 
-  Employee({
-    this.id,
-    this.name,
-    this.designation,
-    this.business,
-    this.isActive,
-    this.joinedOn,
-    this.leftOn,
-    this.salary
-  });
+  Employee(
+      {this.id,
+      this.name,
+      this.designation,
+      this.business,
+      this.isActive,
+      this.joinedOn,
+      this.leftOn,
+      this.salary});
 }
 
 class GetEmployees {
@@ -40,15 +39,14 @@ class GetEmployees {
       Map<String, dynamic> jsonOrder = results[i];
       employees.add(
         Employee(
-          id: jsonOrder[APIStatic.keyID],
-          name: jsonOrder[APIStatic.keyName],
-          designation: jsonOrder[EmployeeStatic.keyDesignation],
-          business: jsonOrder[APIStatic.keyBusiness],
-          isActive: jsonOrder[EmployeeStatic.keyIsActive],
-          joinedOn: jsonOrder[EmployeeStatic.keyJoinedOn],
-          leftOn: jsonOrder[EmployeeStatic.keyLeftOn],
-          salary: jsonOrder[EmployeeStatic.keySalary]
-        ),
+            id: jsonOrder[APIStatic.keyID],
+            name: jsonOrder[APIStatic.keyName],
+            designation: jsonOrder[EmployeeStatic.keyDesignation],
+            business: jsonOrder[APIStatic.keyBusiness],
+            isActive: jsonOrder[EmployeeStatic.keyIsActive],
+            joinedOn: jsonOrder[EmployeeStatic.keyJoinedOn],
+            leftOn: jsonOrder[EmployeeStatic.keyLeftOn],
+            salary: jsonOrder[EmployeeStatic.keySalary]),
       );
     }
 
@@ -59,7 +57,8 @@ class GetEmployees {
 }
 
 Future<GetEmployees> fetchEmployee() async {
-  final response = await http.get(EmployeeStatic.keyEmployeeURL+ "?designation=DB");
+  final response =
+      await http.get(EmployeeStatic.keyEmployeeURL + "?designation=DB");
 
   if (response.statusCode == 200) {
     int count = jsonDecode(response.body)[APIStatic.keyCount];

@@ -2,7 +2,7 @@ import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:flutter/material.dart';
 
-Widget transactionCard(BuildContext context,Transaction transaction) {
+Widget transactionCard(BuildContext context, Transaction transaction) {
   return Card(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -56,12 +56,14 @@ Widget transactionCard(BuildContext context,Transaction transaction) {
                   color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                    text: '${transaction.paymentType}',
-                    style: TextStyle(
-                        fontSize: 15.0,
-                        fontFamily: 'Avenir-Black',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[500])),
+                  text: '${transaction.paymentType}',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontFamily: 'Avenir-Black',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[500],
+                  ),
+                ),
               ],
             ),
           ),
@@ -69,17 +71,20 @@ Widget transactionCard(BuildContext context,Transaction transaction) {
             text: TextSpan(
               text: 'Accepted By: ',
               style: TextStyle(
-                  fontFamily: 'Avenir-Bold',
-                  fontSize: 20.0,
-                  color: Colors.black),
+                fontFamily: 'Avenir-Bold',
+                fontSize: 20.0,
+                color: Colors.black,
+              ),
               children: <TextSpan>[
                 TextSpan(
-                    text: '${transaction.acceptedBy}',
-                    style: TextStyle(
-                        fontSize: 15.0,
-                        fontFamily: 'Avenir-Black',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[500])),
+                  text: '${transaction.acceptedBy}',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontFamily: 'Avenir-Black',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[500],
+                  ),
+                ),
               ],
             ),
           ),

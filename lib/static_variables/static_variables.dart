@@ -52,7 +52,4 @@ class ConstantVariables {
     "D": "Delivered",
     "C": "Cancelled"
   };
-
-
-
 }

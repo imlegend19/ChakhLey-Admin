@@ -4,6 +4,7 @@ import 'dart:convert' as JSON;
 import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/home_page.dart';
 import 'package:chakh_le_admin/pages/otp.dart';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -19,15 +20,8 @@ class MyApp extends StatelessWidget {
       title: 'Chakh Le - Admin',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
-        appBarTheme: AppBarTheme(
-          elevation: 0
-        )
-      ),
+          primarySwatch: Colors.red, appBarTheme: AppBarTheme(elevation: 0)),
       home: HomePage(),
-//      LoginPage(
-//        title: "ChakhLe - Login",
-//      ),
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => HomePage(),
       },
@@ -56,7 +50,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _phnController.addListener(getButtonText);
-
   }
 
   void getButtonText() {
@@ -94,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: enableLogin
             ? () {
-          loginUserPost();
+                loginUserPost();
               }
             : null,
         child: Text(
@@ -151,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return response;
   }
-  
+
   loginUserPost() {
     LoginPost post = LoginPost(
       destination: _phnController.text,
