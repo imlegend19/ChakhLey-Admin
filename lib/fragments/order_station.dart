@@ -34,13 +34,13 @@ class _OrderStationState extends State<OrderStation> {
         setState(() {
           body = TabBarView(
             children: [
-              OrderPage(status: "Pending", order: fetchOrder("Pe")),
-              OrderPage(status: "Accepted", order: fetchOrder("Ac")),
-              OrderPage(status: "Preparing", order: fetchOrder("Pr")),
-              OrderPage(status: "Ready", order: fetchOrder("R")),
-              OrderPage(status: "Dispatched", order: fetchOrder("Di")),
-              OrderPage(status: "Delivery", order: fetchOrder("D")),
-              OrderPage(status: "Cancelled", order: fetchOrder("C")),
+              OrderPage(status: "Pe"),
+              OrderPage(status: "Ac"),
+              OrderPage(status: "Pr"),
+              OrderPage(status: "R"),
+              OrderPage(status: "Di"),
+              OrderPage(status: "D"),
+              OrderPage(status: "C"),
             ],
           );
         });
