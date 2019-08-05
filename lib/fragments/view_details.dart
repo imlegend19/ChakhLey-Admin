@@ -17,6 +17,8 @@ class ViewDetails extends StatefulWidget {
 }
 
 class _ViewDetailsState extends State<ViewDetails> {
+  TextEditingController _cancelMessage = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -42,7 +44,7 @@ class _ViewDetailsState extends State<ViewDetails> {
         ),
         body: TabBarView(
           children: [
-            Container(child: basicDetailsCard(widget.order)),
+            checkToCancel(),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Container(
@@ -63,5 +65,35 @@ class _ViewDetailsState extends State<ViewDetails> {
         ),
       ),
     );
+  }
+
+  Widget addCancelOption(Order order, TextEditingController cancelledMessage) {
+    return Container(
+        child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: RaisedButton(
+        color: Colors.deepPurpleAccent,
+        child: Text(
+          'Cancel',
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: () {
+          patchOrder(order.id, 'C');
+        },
+      ),
+    ));
+  }
+
+  Widget checkToCancel() {
+    if (widget.order.status == "Pending") {
+      return Column(
+        children: <Widget>[
+          Container(child: basicDetailsCard(widget.order)),
+          Container(child: addCancelOption(widget.order, _cancelMessage))
+        ],
+      );
+    } else {
+      return Container(child: basicDetailsCard(widget.order));
+    }
   }
 }

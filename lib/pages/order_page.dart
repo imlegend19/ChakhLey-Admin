@@ -15,37 +15,51 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<GetOrders>(
-        future: widget.order,
-        builder: (context, response) {
-          if (response.hasData) {
-            if (response.data.count != 0) {
-              return ListView.builder(
-                itemCount: response.data.count,
-                itemBuilder: (BuildContext context, int index) {
-                  return orderCard(context, response.data.orders[index]);
-                },
-              );
+      body: RefreshIndicator(
+        child: FutureBuilder<GetOrders>(
+          future: widget.order,
+          builder: (context, response) {
+            if (response.hasData) {
+              if (response.data.count != 0) {
+                return ListView.builder(
+                  itemCount: response.data.count,
+                  itemBuilder: (BuildContext context, int index) {
+                    return orderCard(context, response.data.orders[index]);
+                  },
+                );
+              } else {
+                return Center(
+                  child: Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Text(
+                        'No ${widget.status} Orders Yet',
+                        style: TextStyle(fontSize: 30.0),
+                      )),
+                );
+              }
             } else {
-              return Center(
-                child: Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text(
-                      'No ${widget.status} Orders Yet',
-                      style: TextStyle(fontSize: 30.0),
-                    )),
+              return Container(
+                child: Center(child: ColorLoader()),
               );
             }
-          } else {
-            return Container(
-              child: Center(child: ColorLoader()),
-            );
-          }
-        },
+          },
+        ),
+        onRefresh: _handleRefresh,
       ),
     );
   }
+  Future<Null> _handleRefresh() async {
+    await new Future.delayed(new Duration(seconds: 2));
+
+    setState(() {
+      OrderPage(status: widget.status, order: fetchOrder(ConstantVariables.orderCode[widget.status]));
+    });
+
+    return null;
+  }
 }
+

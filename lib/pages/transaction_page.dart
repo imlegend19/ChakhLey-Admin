@@ -238,10 +238,6 @@ class _TransactionPageState extends State<TransactionPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       checkoutTransaction();
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return OrderStation();
-                      }));
                     },
                   ),
                 ),

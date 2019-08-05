@@ -1,7 +1,9 @@
 import 'package:chakh_le_admin/entity/order.dart';
+import 'package:chakh_le_admin/fragments/order_station.dart';
 import 'package:chakh_le_admin/fragments/view_details.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Widget orderCard(BuildContext context, Order order) {
@@ -151,24 +153,11 @@ Widget orderCard(BuildContext context, Order order) {
                       child: RaisedButton(
                         color: Colors.deepPurpleAccent,
                         onPressed: () {
-                          patchOrder(
-                              order.id,
-                              ConstantVariables.orderCode[ConstantVariables
-                                  .order[ConstantVariables.order
-                                      .indexOf(order.status) +
-                                  1]]);
+                          checkStatusOnPressed(order);
                         },
                         child: Text(
-                          ConstantVariables.order.indexOf(ConstantVariables
-                                      .orderCode[order.status]) ==
-                                  6
-                              ? 'Completed'
-                              : 'Next: '
-                                  '${ConstantVariables.order[ConstantVariables.order.indexOf(order.status) + 1]}',
-                          style: TextStyle(
-                              fontFamily: 'Avenir',
-                              fontSize: 14.0,
-                              color: Colors.white),
+                          checkStatusText(order),
+                          style: TextStyle(color: Colors.white),
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -179,9 +168,38 @@ Widget orderCard(BuildContext context, Order order) {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     ),
   );
 }
+
+String checkStatusText(Order order) {
+  if (ConstantVariables.order.indexOf(order.status) == 5) {
+    return 'Completed';
+  } else if (ConstantVariables.order.indexOf(order.status) == 6) {
+    return 'Cancelled';
+  } else {
+    return '${ConstantVariables.order[ConstantVariables.order.indexOf(order.status) + 1]}';
+  }
+}
+
+void checkStatusOnPressed(Order order) {
+  if (ConstantVariables.order.indexOf(order.status) == 5 ||
+      ConstantVariables.order.indexOf(order.status) == 6) {
+    Fluttertoast.showToast(
+      msg: "${order.status}",
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  } else {
+    patchOrder(
+        order.id,
+        ConstantVariables.orderCode[ConstantVariables
+            .order[ConstantVariables.order.indexOf(order.status) + 1]]);
+  }
+}
+
+
