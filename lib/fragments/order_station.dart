@@ -34,11 +34,10 @@ class _OrderStationState extends State<OrderStation> {
         setState(() {
           body = TabBarView(
             children: [
-              OrderPage(status: "Pe"),
+              OrderPage(status: "N"),
               OrderPage(status: "Ac"),
               OrderPage(status: "Pr"),
-              OrderPage(status: "R"),
-              OrderPage(status: "Di"),
+              OrderPage(status: "O"),
               OrderPage(status: "D"),
               OrderPage(status: "C"),
             ],
@@ -57,18 +56,18 @@ class _OrderStationState extends State<OrderStation> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 7,
+      length: 6,
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 0,
+          automaticallyImplyLeading: false,
           actions: <Widget>[],
           title: TabBar(
             tabs: [
-              Tab(text: 'Pending'),
+              Tab(text: 'New'),
               Tab(text: 'Accepted'),
               Tab(text: 'Preparing'),
-              Tab(text: 'Ready'),
-              Tab(text: 'Dispatched'),
+              Tab(text: "On It's Way"),
               Tab(text: 'Delivered'),
               Tab(text: 'Cancelled'),
             ],

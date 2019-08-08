@@ -29,6 +29,7 @@ dependencies:
   pin_code_text_field:
   rounded_modal:
   connectivity:
+  dropdown_menu:
 
 dev_dependencies:
   flutter_test:

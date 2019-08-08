@@ -16,6 +16,8 @@ class Order {
   final bool paymentDone;
   final List<dynamic> suborderSet;
   final Map<String, dynamic> delivery;
+  final Map<String, dynamic> deliveryBoy;
+  final bool hasDeliveryBoy;
 
   Order({
     this.id,
@@ -30,6 +32,8 @@ class Order {
     this.paymentDone,
     this.suborderSet,
     this.delivery,
+    this.deliveryBoy,
+    this.hasDeliveryBoy,
   });
 }
 
@@ -61,6 +65,8 @@ class GetOrders {
           paymentDone: jsonOrder[OrderStatic.keyPaymentDone],
           suborderSet: jsonOrder[OrderStatic.keySuborderSet],
           delivery: jsonOrder[OrderStatic.keyDelivery],
+          deliveryBoy: jsonOrder[OrderStatic.keyDeliveryBoy],
+          hasDeliveryBoy: jsonOrder[OrderStatic.keyHasDeliveryBoy],
         ),
       );
     }
@@ -91,12 +97,74 @@ Future<GetOrders> fetchOrder(String status) async {
 
     return order;
   } else {
+    print(response.body);
+    throw Exception('Failed to load get');
+
+  }
+}
+
+Future<GetOrders> fetchOrderDeliveryBoy(String status,int deliveryBoy) async {
+  final response = await http.get(OrderStatic.keyOrderListURL + status + OrderStatic.keyDeliveryBoyAddUrL + '$deliveryBoy');
+
+  if (response.statusCode == 200) {
+    int count = jsonDecode(response.body)[APIStatic.keyCount];
+    int execute = count ~/ 10 + 1;
+
+    GetOrders order = GetOrders.fromJson(jsonDecode(response.body));
+    execute--;
+
+    while (execute != 0) {
+      GetOrders tempOrder = GetOrders.fromJson(jsonDecode(
+          (await http.get(jsonDecode(response.body)[APIStatic.keyNext])).body));
+      order.orders += tempOrder.orders;
+      order.count += tempOrder.count;
+      execute--;
+    }
+
+    return order;
+  } else {
+    print(response.body);
     throw Exception('Failed to load get');
   }
 }
 
 patchOrder(int id, String status) async {
   var json = {"status": "$status"};
+
+  http.Response response = await http.patch(
+    OrderStatic.keyOrderDetailURL + id.toString() + '/',
+    headers: {"Content-Type": "application/json"},
+    body: jsonEncode(json),
+  );
+
+  if (response.statusCode == 200) {
+    Fluttertoast.showToast(
+      msg: "Status Updated",
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  } else if (response.statusCode == 503) {
+    Fluttertoast.showToast(
+      msg: "Please check your internet!",
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  } else {
+    Fluttertoast.showToast(
+      msg: 'Error!!',
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  }
+}
+
+patchOrderDeliveryBoy(int id, String status,int deliveryBoy) async {
+  var json = {"status": "$status",
+    "delivery_boy": deliveryBoy
+  };
 
   http.Response response = await http.patch(
     OrderStatic.keyOrderDetailURL + id.toString() + '/',

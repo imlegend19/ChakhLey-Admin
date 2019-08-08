@@ -131,6 +131,7 @@ abstract class SuborderSetStatic {
 
 abstract class OrderStatic {
   static const keyOrderListURL = APIStatic.baseURL + "order/list/?status=";
+  static const keyDeliveryBoyAddUrL = "&delivery_boy=";
   static const keyOrderDetailURL = APIStatic.baseURL + "order/";
 
   static const keyPreparationTime = "preparation_time";
@@ -140,6 +141,8 @@ abstract class OrderStatic {
   static const keyTotal = "total";
   static const keyOrderDate = "order_date";
   static const keyStatus = "status";
+  static const keyDeliveryBoy = "delivery_boy";
+  static const keyHasDeliveryBoy = "has_delivery_boy";
 }
 
 abstract class TransactionStatic {

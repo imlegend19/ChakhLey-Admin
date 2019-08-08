@@ -20,35 +20,33 @@ class ConstantVariables {
   static String version;
   static String buildNumber;
 
-  static var deliveryBoyList;
+  static List deliveryBoyList;
   static int deliveryBoyCount;
 
   static Map<String, String> orderCode = {
-    "Pending": "Pe",
+    "New": "N",
     "Accepted": "Ac",
     "Preparing": "Pr",
-    "Ready": "R",
-    "Dispatched": "Di",
+    "On its way": "O",
     "Delivered": "D",
     "Cancelled": "C"
   };
 
   static List<String> order = [
-    "Pending",
+    "New",
     "Accepted",
     "Preparing",
-    "Ready",
-    "Dispatched",
+    "On its way",
     "Delivered",
     "Cancelled"
   ];
 
+
   static Map<String, String> codeOrder = {
-    "Pe": "Pending",
+    "N": "New",
     "Ac": "Accepted",
     "Pr": "Preparing",
-    "R": "Ready",
-    "Di": "Dispatched",
+    "O": "On its way",
     "D": "Delivered",
     "C": "Cancelled"
   };

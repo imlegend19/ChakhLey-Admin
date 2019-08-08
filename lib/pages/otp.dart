@@ -2,7 +2,6 @@ import 'dart:convert' as JSON;
 import 'dart:io';
 
 import 'package:chakh_le_admin/entity/api_static.dart';
-import 'package:chakh_le_admin/home_page.dart';
 import 'package:chakh_le_admin/models/user_post.dart';
 import 'package:chakh_le_admin/models/user_pref.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
@@ -190,23 +189,30 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
         timeInSecForIos: 2,
       );
     } else if (response.statusCode == 202) {
-      Fluttertoast.showToast(
-        msg: "Logged In Successfully !!!",
-        fontSize: 13.0,
-        toastLength: Toast.LENGTH_LONG,
-        timeInSecForIos: 2,
-      );
       var json = JSON.jsonDecode(response.body);
       assert(json is Map);
       String token = json["token"];
       var decodedObject = parseJwt(token);
-      saveUserCredentials(decodedObject['user_id'], decodedObject['email'],
-          decodedObject['mobile'], decodedObject['name']);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (BuildContext context) => HomePage()),
-        ModalRoute.withName('/'),
-      );
+      if (decodedObject["is_admin"]) {
+        Fluttertoast.showToast(
+          msg: "Logged In Successfully !!!",
+          fontSize: 13.0,
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIos: 2,
+        );
+        saveUserCredentials(decodedObject['user_id'], decodedObject['email'],
+            decodedObject['mobile'], decodedObject['name']);
+        Navigator.popAndPushNamed(context, '/homepage');
+      } else {
+        Fluttertoast.showToast(
+          msg:
+              "You are not a valid business owner!",
+          fontSize: 13.0,
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIos: 2,
+        );
+        Navigator.pop(context);
+      }
     }
   }
 }

@@ -92,3 +92,4 @@ Widget transactionCard(BuildContext context, Transaction transaction) {
     ),
   );
 }
+

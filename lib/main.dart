@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 import 'models/user_post.dart';
+import 'models/user_pref.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,9 +22,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.red, appBarTheme: AppBarTheme(elevation: 0)),
-      home: HomePage(),
+      home: LoginPage(),
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => HomePage(),
+        '/loginpage': (BuildContext context) => LoginPage(),
       },
     );
   }
@@ -34,10 +36,6 @@ bool enableLogin = false;
 bool enableOtp = false;
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -46,9 +44,26 @@ class _LoginPageState extends State<LoginPage> {
   TextStyle style = TextStyle(fontFamily: 'Avenir - Bold', fontSize: 15.0);
   TextEditingController _phnController = TextEditingController();
 
+  bool loggedIn = true;
+
   @override
   void initState() {
     super.initState();
+
+    getDetails().then((val) {
+      ConstantVariables.user = val;
+    });
+
+    isLoggedIn().then((val) {
+      if (val) {
+        Navigator.pushReplacementNamed(context, '/homepage');
+      } else {
+        setState(() {
+          loggedIn = false;
+        });
+      }
+    });
+
     _phnController.addListener(getButtonText);
   }
 
@@ -73,11 +88,14 @@ class _LoginPageState extends State<LoginPage> {
       controller: _phnController,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-          hintText: "Mobile Number",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(20.0))),
+        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
+        hintText: "Mobile Number",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+      ),
     );
+
     final loginButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
@@ -102,39 +120,42 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     return Scaffold(
-        backgroundColor: Colors.grey[200],
-        body: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              child: Padding(
-                padding: const EdgeInsets.all(36.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 130.0,
-                      child: Image.asset(
-                        "assets/logo.png",
-                        fit: BoxFit.contain,
-                      ),
+      backgroundColor: Colors.grey[200],
+      body: loggedIn
+          ? Container()
+          : SingleChildScrollView(
+              child: Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: Padding(
+                    padding: const EdgeInsets.all(36.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 130.0,
+                          child: Image.asset(
+                            "assets/logo.png",
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        SizedBox(height: 45.0),
+                        phnField,
+                        SizedBox(
+                          height: 35.0,
+                        ),
+                        loginButton,
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 45.0),
-                    phnField,
-                    SizedBox(
-                      height: 35.0,
-                    ),
-                    loginButton,
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ));
+    );
   }
 
   Future<http.Response> createPost(LoginPost post) async {
@@ -155,7 +176,6 @@ class _LoginPageState extends State<LoginPage> {
     createPost(post).then((response) {
       if (response.statusCode == 201) {
         print(response.body);
-        Navigator.of(context).pop();
         showOTPBottomSheet(context, _phnController.text, true);
         Fluttertoast.showToast(
           msg: "OTP has been sent to your registered email.",
@@ -168,7 +188,6 @@ class _LoginPageState extends State<LoginPage> {
         // OTP requesting not allowed
         var json = JSON.jsonDecode(response.body);
         assert(json is Map);
-        Navigator.of(context).pop();
         Fluttertoast.showToast(
           msg: json['detail'],
           fontSize: 13.0,

@@ -29,7 +29,7 @@ class _OrderPageState extends State<OrderPage> {
   void initState() {
     super.initState();
     _orderController = StreamController();
-    Timer.periodic(Duration(seconds: 1), (_) => loadOrders());
+    Timer.periodic(Duration(seconds: 3), (_) => loadOrders());
   }
 
   @override
@@ -49,9 +49,8 @@ class _OrderPageState extends State<OrderPage> {
             } else {
               return Center(
                 child: Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
                     child: Text(
-                      'No ${widget.status} Orders Yet',
+                      'No ${ConstantVariables.codeOrder[widget.status]} Orders Yet',
                       style: TextStyle(fontSize: 30.0),
                     )),
               );

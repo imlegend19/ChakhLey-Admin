@@ -59,7 +59,6 @@ class _ViewDetailsState extends State<ViewDetails> {
             TransactionPage(
               transaction: fetchTransactions(widget.order.id.toString()),
               order: widget.order,
-              employees: fetchEmployee(),
             )
           ],
         ),
@@ -85,7 +84,7 @@ class _ViewDetailsState extends State<ViewDetails> {
   }
 
   Widget checkToCancel() {
-    if (widget.order.status == "Pending") {
+    if (widget.order.status == "New" || widget.order.status == "Accepted") {
       return Column(
         children: <Widget>[
           Container(child: basicDetailsCard(widget.order)),
