@@ -155,7 +155,9 @@ Widget orderCard(BuildContext context, Order order) {
                             (ConstantVariables.order.indexOf(order.status) == 4)
                                 ? Colors.green
                                 : Colors.redAccent,
-                        onPressed: () {orderStatusButton(context,order);},
+                        onPressed: () {
+                          orderStatusButton(context, order);
+                        },
                         child: Text(
                           checkStatusText(order),
                           style: TextStyle(color: Colors.white),

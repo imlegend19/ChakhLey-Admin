@@ -14,7 +14,6 @@ class DrawerItem {
 }
 
 class HomePage extends StatefulWidget {
-
   final Order order;
 
   HomePage({@required this.order});
@@ -102,7 +101,9 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            IconButton(icon: Icon(Icons.dehaze), onPressed: () => _scaffoldKey.currentState.openDrawer()),
+            IconButton(
+                icon: Icon(Icons.dehaze),
+                onPressed: () => _scaffoldKey.currentState.openDrawer()),
             Text(widget.drawerItems[_selectedDrawerIndex].title),
           ],
         ),
@@ -113,9 +114,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.grey[200],
-              ),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.grey[200],
+                ),
                 accountName: Text(ConstantVariables.user['name']),
                 accountEmail: Text(ConstantVariables.user['email'])),
             Column(children: drawerOptions)

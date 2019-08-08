@@ -7,7 +7,6 @@ import 'package:chakh_le_admin/pages/transaction_post_page.dart';
 import 'package:chakh_le_admin/utils/transaction_saved_card.dart';
 import 'package:flutter/material.dart';
 
-
 class TransactionPage extends StatefulWidget {
   @override
   _TransactionPageState createState() => _TransactionPageState();
@@ -15,22 +14,19 @@ class TransactionPage extends StatefulWidget {
   final Order order;
   final Future<GetTransactions> transaction;
 
-
-  TransactionPage(
-      {@required this.transaction,
-      @required this.order,
-      });
+  TransactionPage({
+    @required this.transaction,
+    @required this.order,
+  });
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-
   bool isVisible = false;
 
   @override
   void initState() {
     super.initState();
     paymentDoneCheck();
-
   }
 
   @override
@@ -42,7 +38,7 @@ class _TransactionPageState extends State<TransactionPage> {
           onPressed: () => Navigator.of(context).push(PageRouteBuilder(
               opaque: false,
               pageBuilder: (BuildContext context, _, __) =>
-              TransactionPostPage(order: widget.order))),
+                  TransactionPostPage(order: widget.order))),
           child: Icon(Icons.add),
         ),
       ),
@@ -71,6 +67,4 @@ class _TransactionPageState extends State<TransactionPage> {
       isVisible = true;
     }
   }
-
-
 }

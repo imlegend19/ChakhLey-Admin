@@ -50,9 +50,9 @@ class _OrderPageState extends State<OrderPage> {
               return Center(
                 child: Container(
                     child: Text(
-                      'No ${ConstantVariables.codeOrder[widget.status]} Orders Yet',
-                      style: TextStyle(fontSize: 30.0),
-                    )),
+                  'No ${ConstantVariables.codeOrder[widget.status]} Orders Yet',
+                  style: TextStyle(fontSize: 30.0),
+                )),
               );
             }
           } else {

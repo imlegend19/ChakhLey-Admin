@@ -205,8 +205,7 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
         Navigator.popAndPushNamed(context, '/homepage');
       } else {
         Fluttertoast.showToast(
-          msg:
-              "You are not a valid business owner!",
+          msg: "You are not a valid business owner!",
           fontSize: 13.0,
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIos: 2,

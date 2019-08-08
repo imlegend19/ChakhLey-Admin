@@ -31,9 +31,11 @@ class _TransactionPostPageState extends State<TransactionPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text('Transaction Post') ,
+        title: Text('Transaction Post'),
         leading: new IconButton(
-          icon: new Icon(Icons.close,),
+          icon: new Icon(
+            Icons.close,
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -158,7 +160,7 @@ class _TransactionPostPageState extends State<TransactionPostPage> {
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: SizedBox(
-                width: MediaQuery.of(context).size.width*0.4,
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: RaisedButton(
                   disabledColor: Colors.red.shade200,
                   color: Colors.red,

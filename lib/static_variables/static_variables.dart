@@ -41,7 +41,6 @@ class ConstantVariables {
     "Cancelled"
   ];
 
-
   static Map<String, String> codeOrder = {
     "N": "New",
     "Ac": "Accepted",

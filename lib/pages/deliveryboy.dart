@@ -102,38 +102,42 @@ class _DeliveryBoyPageState extends State<DeliveryBoyPage> {
             ),
           ],
         ),
-        fetchNow ? Container(
-          child: FutureBuilder<GetOrders>(
-            future: fetchOrderDeliveryBoy(selectedStatus, selectedDeliveryBoy),
-            builder: (context, response) {
-              if (response.hasData) {
-                if (response.data.count != 0) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: ListView.builder(
-                      itemCount: response.data.count,
-                      itemBuilder: (BuildContext context, int index) {
-                        return deliveryBoyCard(response.data.orders[index]);
-                      },
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: Container(
-                        child: Text(
-                      'No ${ConstantVariables.codeOrder[selectedStatus]} Orders Yet',
-                      style: TextStyle(fontSize: 30.0),
-                    )),
-                  );
-                }
-              } else {
-                return Container(
-                  child: Center(child: ColorLoader()),
-                );
-              }
-            },
-          ),
-        ) : Container()
+        fetchNow
+            ? Container(
+                child: FutureBuilder<GetOrders>(
+                  future: fetchOrderDeliveryBoy(
+                      selectedStatus, selectedDeliveryBoy),
+                  builder: (context, response) {
+                    if (response.hasData) {
+                      if (response.data.count != 0) {
+                        return Container(
+                          height: MediaQuery.of(context).size.height * 0.8,
+                          child: ListView.builder(
+                            itemCount: response.data.count,
+                            itemBuilder: (BuildContext context, int index) {
+                              return deliveryBoyCard(
+                                  response.data.orders[index]);
+                            },
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: Container(
+                              child: Text(
+                            'No ${ConstantVariables.codeOrder[selectedStatus]} Orders Yet',
+                            style: TextStyle(fontSize: 30.0),
+                          )),
+                        );
+                      }
+                    } else {
+                      return Container(
+                        child: Center(child: ColorLoader()),
+                      );
+                    }
+                  },
+                ),
+              )
+            : Container()
       ],
     );
   }

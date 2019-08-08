@@ -99,12 +99,14 @@ Future<GetOrders> fetchOrder(String status) async {
   } else {
     print(response.body);
     throw Exception('Failed to load get');
-
   }
 }
 
-Future<GetOrders> fetchOrderDeliveryBoy(String status,int deliveryBoy) async {
-  final response = await http.get(OrderStatic.keyOrderListURL + status + OrderStatic.keyDeliveryBoyAddUrL + '$deliveryBoy');
+Future<GetOrders> fetchOrderDeliveryBoy(String status, int deliveryBoy) async {
+  final response = await http.get(OrderStatic.keyOrderListURL +
+      status +
+      OrderStatic.keyDeliveryBoyAddUrL +
+      '$deliveryBoy');
 
   if (response.statusCode == 200) {
     int count = jsonDecode(response.body)[APIStatic.keyCount];
@@ -161,10 +163,8 @@ patchOrder(int id, String status) async {
   }
 }
 
-patchOrderDeliveryBoy(int id, String status,int deliveryBoy) async {
-  var json = {"status": "$status",
-    "delivery_boy": deliveryBoy
-  };
+patchOrderDeliveryBoy(int id, String status, int deliveryBoy) async {
+  var json = {"status": "$status", "delivery_boy": deliveryBoy};
 
   http.Response response = await http.patch(
     OrderStatic.keyOrderDetailURL + id.toString() + '/',
