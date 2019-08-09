@@ -21,6 +21,7 @@ class ConstantVariables {
   static String buildNumber;
 
   static List deliveryBoyList;
+  static List<String> deliveryBoyName;
   static int deliveryBoyCount;
 
   static Map<String, String> orderCode = {

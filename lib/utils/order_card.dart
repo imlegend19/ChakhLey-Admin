@@ -1,6 +1,6 @@
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/fragments/view_details.dart';
-import 'package:chakh_le_admin/pages/assign_delivery_boy.dart';
+import 'package:chakh_le_admin/pages/select_delivery_boy.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -192,9 +192,8 @@ void orderStatusButton(BuildContext context, Order order) {
   if ((ConstantVariables.order.indexOf(order.status) == 4 ||
       ConstantVariables.order.indexOf(order.status) == 5)) {
     return null;
-  } else if ((ConstantVariables.order.indexOf(order.status) == 1)) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => AssignDeliveryBoyPage()));
+  } else if (ConstantVariables.order.indexOf(order.status) == 1) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectDeliveryBoyPage(order: order)));
   } else {
     checkStatusOnPressed(order);
   }
@@ -206,3 +205,5 @@ void checkStatusOnPressed(Order order) {
       ConstantVariables.orderCode[ConstantVariables
           .order[ConstantVariables.order.indexOf(order.status) + 1]]);
 }
+
+
