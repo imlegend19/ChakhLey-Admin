@@ -61,6 +61,11 @@ abstract class ProductStatic {
   static const keyPrice = "price";
   static const keyProductCount = "product_count";
   static const keyRestaurant = "restaurant";
+  static const keyDisplayPrice = "display_price";
+  static const keyRecommendedProduct = "recommended_product";
+  static const keyActive = "active";
+  static const keyDiscount = "discount";
+  static const keyInflation = "inflation";
 }
 
 abstract class RestaurantStatic {

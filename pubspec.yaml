@@ -30,6 +30,7 @@ dependencies:
   rounded_modal:
   connectivity:
   dropdown_menu:
+  auto_size_text: ^1.1.2
 
 dev_dependencies:
   flutter_test:

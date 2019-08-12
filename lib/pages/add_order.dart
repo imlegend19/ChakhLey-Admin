@@ -1,4 +1,7 @@
+import 'package:chakh_le_admin/entity/product.dart';
+import 'package:chakh_le_admin/pages/select_product.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
 
 class AddOrderPage extends StatefulWidget {
@@ -12,7 +15,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _phnController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
-  List<DropdownMenuItem<int>> _restaurantList = [];
+  List _restaurantList = [];
 
   bool _isButtonEnabled = false;
 
@@ -20,13 +23,12 @@ class _AddOrderPageState extends State<AddOrderPage> {
   void initState() {
     super.initState();
     for (final i in ConstantVariables.restaurantList) {
-      _restaurantList.add(
-        DropdownMenuItem(
-          child: Text(i.name),
-          value: i.id,
-        ),
-      );
+      _restaurantList.add({
+        "display": i.name,
+        "value": i.id,
+      });
     }
+
     _isButtonEnabled = false;
     _nameController.addListener(validate);
     _phnController.addListener(validate);
@@ -51,44 +53,79 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    final nameField = TextField(
-      style: style,
-      controller: _nameController,
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        hintText: "Name",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
+    final nameField = Padding(
+      padding:
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 12.0, right: 12.0),
+      child: Theme(
+        data: ThemeData(cursorColor: Colors.red),
+        child: TextFormField(
+          controller: _nameController,
+          style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+              fontFamily: 'Avenir'),
+          decoration: InputDecoration(
+            labelText: "NAME",
+            icon: Icon(Icons.person),
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13.0,
+                fontFamily: 'Avenir'),
+          ),
         ),
       ),
     );
 
-    final phnField = TextField(
-      style: style,
-      controller: _phnController,
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        hintText: "Mobile Number",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
+    final phnField = Padding(
+      padding:
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 12.0, right: 12.0),
+      child: Theme(
+        data: ThemeData(cursorColor: Colors.red),
+        child: TextFormField(
+          keyboardType: TextInputType.number,
+          controller: _phnController,
+          style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+              fontFamily: 'Avenir'),
+          decoration: InputDecoration(
+            labelText: "PHONE NUMBER",
+            icon: Icon(Icons.phone_iphone),
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13.0,
+                fontFamily: 'Avenir'),
+          ),
         ),
       ),
     );
 
-    final emailField = TextField(
-      style: style,
-      controller: _emailController,
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-        hintText: "Email",
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
+    final emailField = Padding(
+      padding:
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 12.0, right: 12.0),
+      child: Theme(
+        data: ThemeData(cursorColor: Colors.red),
+        child: TextFormField(
+          controller: _emailController,
+          style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+              fontFamily: 'Avenir'),
+          decoration: InputDecoration(
+            labelText: "EMAIL",
+            icon: Icon(Icons.mail),
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 13.0,
+                fontFamily: 'Avenir'),
+          ),
         ),
       ),
     );
+
     return Scaffold(
       appBar: AppBar(title: Text('Add Order')),
       body: SingleChildScrollView(
@@ -98,40 +135,57 @@ class _AddOrderPageState extends State<AddOrderPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SizedBox(height: 30.0),
               nameField,
-              SizedBox(height: 30.0),
               phnField,
-              SizedBox(height: 30.0),
               emailField,
-              SizedBox(height: 30.0),
-              DropdownButton(
-                hint: Text(
-                  "Select Restaurant",
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 8.0, bottom: 8.0, left: 12.0, right: 12.0),
+                child: DropDownFormField(
+                  titleText: 'Restaurant',
+                  hintText: 'Please choose one',
+                  value: selectedRestaurant,
+                  onSaved: (value) {
+                    setState(() {
+                      selectedRestaurant = value;
+                    });
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      selectedRestaurant = value;
+                      _isButtonEnabled = true;
+                    });
+                  },
+                  dataSource: _restaurantList,
+                  textField: 'display',
+                  valueField: 'value',
                 ),
-                value: selectedRestaurant,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedRestaurant = newValue;
-                    validate();
-                  });
-                },
-                items: _restaurantList,
               ),
               Padding(
-                padding: const EdgeInsets.only(top:8.0),
-                child: RaisedButton(
-                  color: Colors.deepPurpleAccent,
-                  disabledColor: Colors.redAccent,
-                  onPressed: _isButtonEnabled ? () {} : null,
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+                padding: const EdgeInsets.only(top: 40.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: 50,
+                  child: RaisedButton(
+                    color: Colors.redAccent,
+                    disabledColor: Colors.red.shade200,
+                    onPressed: _isButtonEnabled
+                        ? () {
+                            SelectProductPage.restaurantID = selectedRestaurant;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SelectProductPage(),
+                                ));
+                          }
+                        : null,
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
                   ),
                 ),
               )
