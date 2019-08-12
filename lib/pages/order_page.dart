@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chakh_le_admin/entity/order.dart';
+import 'package:chakh_le_admin/pages/add_order.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/color_loader.dart';
 import 'package:chakh_le_admin/utils/order_card.dart';
@@ -35,6 +36,12 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: (widget.status == "N")
+          ? FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => AddOrderPage()));}
+            )
+          : null,
       body: StreamBuilder(
         stream: _orderController.stream,
         builder: (context, response) {

@@ -1,6 +1,8 @@
+import 'package:chakh_le_admin/entity/restaurant.dart';
 import 'package:chakh_le_admin/fragments/order_station.dart';
 import 'package:chakh_le_admin/models/user_pref.dart';
 import 'package:chakh_le_admin/pages/deliveryboy.dart';
+import 'package:chakh_le_admin/pages/restaurant_analysis.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +23,7 @@ class HomePage extends StatefulWidget {
   final drawerItems = [
     DrawerItem("Order Station", Icons.local_dining),
     DrawerItem("Delivery Boys", Icons.motorcycle),
+    DrawerItem("Restaurant Analysis",Icons.assessment),
     DrawerItem("Logout", Icons.power_settings_new)
   ];
 
@@ -41,6 +44,11 @@ class _HomePageState extends State<HomePage> {
         ConstantVariables.deliveryBoyCount = value.count;
       });
     });
+    fetchRestaurant(ConstantVariables.businessID).then((val) {
+      setState(() {
+        ConstantVariables.restaurantList = val.restaurants;
+      });
+    });
   }
 
   _getDrawerItemWidget(int pos) {
@@ -52,6 +60,8 @@ class _HomePageState extends State<HomePage> {
           child: DeliveryBoyPage(),
         );
       case 2:
+        return RestaurantAnalysis();
+      case 3:
         logoutUser().then((val) {
           Navigator.pushReplacementNamed(context, '/loginpage');
         });

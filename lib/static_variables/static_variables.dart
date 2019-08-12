@@ -21,8 +21,12 @@ class ConstantVariables {
   static String buildNumber;
 
   static List deliveryBoyList;
+  static List restaurantList;
   static List<String> deliveryBoyName;
   static int deliveryBoyCount;
+
+  static List<dynamic> cuisines;
+  static int businessID = 1;
 
   static Map<String, String> orderCode = {
     "New": "N",

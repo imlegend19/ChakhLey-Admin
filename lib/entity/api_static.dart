@@ -101,6 +101,8 @@ abstract class RestaurantStatic {
   static const keyLatitude = "latitude";
   static const keyLongitude = "longitude";
   static const keyImages = "images";
+  static const keyCuisines = "cuisines";
+  static var keyCommission = "commission";
 }
 
 abstract class UserStatic {
