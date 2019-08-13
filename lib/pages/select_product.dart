@@ -1,14 +1,21 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chakh_le_admin/entity/api_static.dart';
+import 'package:chakh_le_admin/entity/order_post.dart';
 import 'package:chakh_le_admin/entity/product.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class SelectProductPage extends StatefulWidget {
   static int restaurantID;
+  String name;
+  String email;
+  String phoneNumber;
 
+  SelectProductPage(name, email, phoneNumber);
   @override
   _SelectProductPageState createState() => _SelectProductPageState();
 }
@@ -24,6 +31,9 @@ class _SelectProductPageState extends State<SelectProductPage> {
       '${SelectProductPage.restaurantID}';
   ScrollController _scrollController = ScrollController();
   bool isLoading = false;
+
+  Future<PostOrder> postOrder;
+  List<Map<String, int>> suborderSet = List();
 
   @override
   void initState() {
@@ -136,7 +146,8 @@ class _SelectProductPageState extends State<SelectProductPage> {
                                   ),
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.8,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.8,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -170,17 +181,8 @@ class _SelectProductPageState extends State<SelectProductPage> {
                                               fontSize: 11,
                                               fontWeight: FontWeight.w500,
                                             ),
-                                          )
+                                          ),
                                         ],
-                                      ),
-                                      Checkbox(
-                                        checkColor: Colors.black,
-                                        value: productsVal[index],
-                                        onChanged: (bool value) {
-                                          setState(() {
-                                            productsVal[index] = value;
-                                          });
-                                        },
                                       ),
                                     ],
                                   ),
@@ -195,7 +197,83 @@ class _SelectProductPageState extends State<SelectProductPage> {
                 ),
               ),
             ),
+            Center(
+              child: RaisedButton(
+                color: Colors.redAccent,
+                disabledColor: Colors.red.shade200,
+                onPressed: () {},
+                child: Text(
+                  'Confirm',
+                  style: TextStyle(color: Colors.white, fontSize: 17),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+              ),
+            ),
           ],
         ));
   }
+
+  Future<http.Response> createPost(PostOrder post) async {
+    final response = await http.post(TransactionStatic.transactionCreateURL,
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: postOrderToJson(post));
+
+    return response;
+  }
+
+//  List<Map<String, int>> convertToMap(List<Product> product) {
+//    List<Map<String, int>> suborderList = List();
+//
+//    for(final i in products){
+//      Map<String, int> suborder = Map();
+//      suborder["item"] = i.id;
+//      suborder["quantity"] = i.quantity;
+//      suborderList.add(suborder);
+//    }
+//
+//    return suborderList;
+//  }
+
+//  checkoutOrder() {
+//    PostOrder post = PostOrder(
+//        name: widget.name,
+//        mobile: widget.phoneNumber,
+//        email: widget.email,
+//        restaurant: SelectProductPage.restaurantID,
+//        business: 1,
+//        preparationTime: ,
+//        delivery: ,
+//        subOrderSet: suborderSet);
+//
+//    createPost(post).then((response) {
+//      if (response.statusCode == 201) {
+//
+//        Fluttertoast.showToast(
+//          msg: "Order Placed Sucessfully",
+//          fontSize: 13.0,
+//          toastLength: Toast.LENGTH_LONG,
+//          timeInSecForIos: 2,
+//        );
+//      } else if (response.statusCode == 400) {
+//        // print(response.body);
+//      }
+//    }).catchError((Object error) {
+//      Fluttertoast.showToast(
+//        msg: "Please check your internet!",
+//        fontSize: 13.0,
+//        toastLength: Toast.LENGTH_LONG,
+//        timeInSecForIos: 2,
+//      );
+//    }).catchError((error) {
+//      Fluttertoast.showToast(
+//        msg: error.toString(),
+//        fontSize: 13.0,
+//        toastLength: Toast.LENGTH_LONG,
+//        timeInSecForIos: 2,
+//      );
+//    });
+//  }
+
 }

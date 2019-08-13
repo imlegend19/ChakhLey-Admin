@@ -1,13 +1,16 @@
+import 'dart:async';
+
 import 'package:chakh_le_admin/entity/restaurant.dart';
 import 'package:chakh_le_admin/fragments/order_station.dart';
 import 'package:chakh_le_admin/models/user_pref.dart';
 import 'package:chakh_le_admin/pages/deliveryboy.dart';
 import 'package:chakh_le_admin/pages/restaurant_analysis.dart';
+import 'package:chakh_le_admin/static_variables/no_internet.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 import 'entity/employee.dart';
-import 'entity/order.dart';
 
 class DrawerItem {
   String title;
@@ -16,14 +19,10 @@ class DrawerItem {
 }
 
 class HomePage extends StatefulWidget {
-  final Order order;
-
-  HomePage({@required this.order});
-
   final drawerItems = [
     DrawerItem("Order Station", Icons.local_dining),
     DrawerItem("Delivery Boys", Icons.motorcycle),
-    DrawerItem("Restaurant Analysis",Icons.assessment),
+    DrawerItem("Restaurant Analysis", Icons.assessment),
     DrawerItem("Logout", Icons.power_settings_new)
   ];
 
@@ -34,20 +33,35 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  Connectivity connectivity;
+  StreamSubscription<ConnectivityResult> subscription;
 
   @override
   void initState() {
     super.initState();
-    fetchEmployee().then((value) {
-      setState(() {
-        ConstantVariables.deliveryBoyList = value.employees;
-        ConstantVariables.deliveryBoyCount = value.count;
-      });
-    });
-    fetchRestaurant(ConstantVariables.businessID).then((val) {
-      setState(() {
-        ConstantVariables.restaurantList = val.restaurants;
-      });
+
+    connectivity = Connectivity();
+    subscription =
+        connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      ConstantVariables.connectionStatus = result;
+      if (result == ConnectivityResult.none) {
+        setState(() {});
+      } else if ((result == ConnectivityResult.mobile) ||
+          (result == ConnectivityResult.wifi)) {
+        setState(() {
+          fetchEmployee().then((value) {
+            setState(() {
+              ConstantVariables.deliveryBoyList = value.employees;
+              ConstantVariables.deliveryBoyCount = value.count;
+            });
+          });
+          fetchRestaurant(ConstantVariables.businessID).then((val) {
+            setState(() {
+              ConstantVariables.restaurantList = val.restaurants;
+            });
+          });
+        });
+      }
     });
   }
 
@@ -74,6 +88,12 @@ class _HomePageState extends State<HomePage> {
   _onSelectItem(int index) {
     setState(() => _selectedDrawerIndex = index);
     Navigator.of(context).pop(); // close the drawer
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -133,7 +153,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: _getDrawerItemWidget(_selectedDrawerIndex),
+      body: ConstantVariables.connectionStatus == ConnectivityResult.none
+          ? buildNoInternet(context)
+          : _getDrawerItemWidget(_selectedDrawerIndex),
     );
   }
 }

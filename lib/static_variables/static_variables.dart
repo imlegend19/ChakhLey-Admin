@@ -25,6 +25,8 @@ class ConstantVariables {
   static List<String> deliveryBoyName;
   static int deliveryBoyCount;
 
+  static var connectionStatus;
+
   static List<dynamic> cuisines;
   static int businessID = 1;
 

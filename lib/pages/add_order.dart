@@ -1,4 +1,3 @@
-import 'package:chakh_le_admin/entity/product.dart';
 import 'package:chakh_le_admin/pages/select_product.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
@@ -22,11 +21,13 @@ class _AddOrderPageState extends State<AddOrderPage> {
   @override
   void initState() {
     super.initState();
-    for (final i in ConstantVariables.restaurantList) {
-      _restaurantList.add({
-        "display": i.name,
-        "value": i.id,
-      });
+    if(ConstantVariables.restaurantList!= null){
+      for (final i in ConstantVariables.restaurantList) {
+        _restaurantList.add({
+          "display": i.name,
+          "value": i.id,
+        });
+    }
     }
 
     _isButtonEnabled = false;
@@ -125,7 +126,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
         ),
       ),
     );
-
     return Scaffold(
       appBar: AppBar(title: Text('Add Order')),
       body: SingleChildScrollView(
@@ -148,12 +148,13 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   onSaved: (value) {
                     setState(() {
                       selectedRestaurant = value;
+                      validate();
                     });
                   },
                   onChanged: (value) {
                     setState(() {
                       selectedRestaurant = value;
-                      _isButtonEnabled = true;
+                      validate();
                     });
                   },
                   dataSource: _restaurantList,
@@ -175,7 +176,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SelectProductPage(),
+                                  builder: (context) => SelectProductPage(_nameController.text.trim(),_emailController.text.trim(),_phnController.text.trim()),
                                 ));
                           }
                         : null,

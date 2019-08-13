@@ -8,7 +8,6 @@ import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-
 import 'models/user_post.dart';
 import 'models/user_pref.dart';
 
@@ -43,7 +42,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextStyle style = TextStyle(fontFamily: 'Avenir - Bold', fontSize: 15.0);
   TextEditingController _phnController = TextEditingController();
-
   bool loggedIn = true;
 
   @override
