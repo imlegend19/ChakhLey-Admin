@@ -16,20 +16,26 @@ Widget subOrderCard(BuildContext context, Order order, int index) {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Text(
-                  '${order.suborderSet[index][SuborderSetStatic.keyProduct][APIStatic.keyName]}',
-                  style: TextStyle(
-                    fontFamily: 'Avenir-Bold',
-                    fontSize: 16.0,
-                    color: Colors.black87,
+                Container(
+                  width:MediaQuery.of(context).size.width*0.6,
+                  child: Text(
+                    '${order.suborderSet[index][SuborderSetStatic.keyProduct][APIStatic.keyName]}',
+                    style: TextStyle(
+                      fontFamily: 'Avenir-Bold',
+                      fontSize: 16.0,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
-                Text(
-                  '${order.suborderSet[index][SuborderSetStatic.keyProduct][SuborderSetStatic.keyPrice]}',
-                  style: TextStyle(
-                      fontFamily: 'Avenir-Black',
-                      fontSize: 15.0,
-                      color: Colors.grey.shade600),
+                Padding(
+                  padding: const EdgeInsets.only(right:8.0),
+                  child: Text(
+                    '${order.suborderSet[index][SuborderSetStatic.keyProduct][SuborderSetStatic.keyPrice]}',
+                    style: TextStyle(
+                        fontFamily: 'Avenir-Black',
+                        fontSize: 15.0,
+                        color: Colors.grey.shade600),
+                  ),
                 )
               ],
             ),

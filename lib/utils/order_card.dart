@@ -111,12 +111,12 @@ Widget orderCard(BuildContext context, Order order) {
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(
-                    (order.paymentDone == null) ? "Unpaid" : "Paid",
+                    (order.paymentDone == false) ? "Unpaid" : "Paid",
                     style: TextStyle(
                       fontFamily: 'Avenir-Bold',
                       fontSize: 16.0,
                       fontWeight: FontWeight.w500,
-                      color: (order.paymentDone == null)
+                      color: (order.paymentDone == false)
                           ? Colors.red
                           : Colors.green.shade500,
                     ),

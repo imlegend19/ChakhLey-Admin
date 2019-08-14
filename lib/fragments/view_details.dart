@@ -2,6 +2,7 @@ import 'package:chakh_le_admin/entity/employee.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:chakh_le_admin/pages/transaction_page.dart';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/basic_details_card.dart';
 import 'package:chakh_le_admin/utils/suborder.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,14 @@ class ViewDetails extends StatefulWidget {
 
 class _ViewDetailsState extends State<ViewDetails> {
   TextEditingController _cancelMessage = TextEditingController();
+  List<String> _deliveryBoyNameList = [];
+
+  @override
+  void initState() {
+    for (final i in ConstantVariables.deliveryBoyList) {
+      _deliveryBoyNameList.add( i.name);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

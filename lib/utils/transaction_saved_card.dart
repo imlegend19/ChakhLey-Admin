@@ -77,7 +77,7 @@ Widget transactionCard(BuildContext context, Transaction transaction) {
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: '${ConstantVariables.deliveryBoyList[transaction.acceptedBy]}',
+                  text: '${transaction.acceptedBy}',
                   style: TextStyle(
                     fontSize: 15.0,
                     fontFamily: 'Avenir-Black',

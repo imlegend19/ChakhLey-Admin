@@ -44,101 +44,109 @@ class _DeliveryBoyPageState extends State<DeliveryBoyPage> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          _deliveryBoy(),
+          Container(
+              width: MediaQuery.of(context).size.width, child: _deliveryBoy()),
         ],
       ),
     );
   }
 
   Widget _deliveryBoy() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            DropdownButton(
-              hint: Text(
-                "Select Delivery Boy",
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-              ),
-              value: selectedDeliveryBoy,
-              onChanged: (newValue) {
-                setState(() {
-                  selectedDeliveryBoy = newValue;
-                  if (selectedDeliveryBoy != null) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                DropdownButton(
+                  hint: Text(
+                    "Delivery Boy",
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  value: selectedDeliveryBoy,
+                  onChanged: (newValue) {
                     setState(() {
-                      disableStatusDropdown = false;
-                    });
-                  } else {
-                    setState(() {
-                      disableStatusDropdown = true;
-                    });
-                  }
-                });
-              },
-              items: deliveryBoys,
-            ),
-            DropdownButton(
-              hint: Text(
-                "Select Status",
-                textAlign: TextAlign.center,
-              ),
-              value: selectedStatus,
-              onChanged: disableStatusDropdown
-                  ? null
-                  : (newValue) {
-                      setState(() {
-                        selectedStatus = newValue;
-                        fetchNow = true;
-                      });
-                    },
-              items: orderStatusList,
-            ),
-          ],
-        ),
-        fetchNow
-            ? Container(
-                child: FutureBuilder<GetOrders>(
-                  future: fetchOrderDeliveryBoy(
-                      selectedStatus, selectedDeliveryBoy),
-                  builder: (context, response) {
-                    if (response.hasData) {
-                      if (response.data.count != 0) {
-                        return Container(
-                          height: MediaQuery.of(context).size.height * 0.8,
-                          child: ListView.builder(
-                            itemCount: response.data.count,
-                            itemBuilder: (BuildContext context, int index) {
-                              return deliveryBoyCard(
-                                  response.data.orders[index]);
-                            },
-                          ),
-                        );
+                      selectedDeliveryBoy = newValue;
+                      ConstantVariables.deliveryBoy = selectedDeliveryBoy;
+                      if (selectedDeliveryBoy != null) {
+                        setState(() {
+                          disableStatusDropdown = false;
+                        });
                       } else {
-                        return Center(
-                          child: Container(
-                              child: Text(
-                            'No ${ConstantVariables.codeOrder[selectedStatus]} Orders Yet',
-                            style: TextStyle(fontSize: 30.0),
-                          )),
+                        setState(() {
+                          disableStatusDropdown = true;
+                        });
+                      }
+                    });
+                  },
+                  items: deliveryBoys,
+                ),
+                DropdownButton(
+                  hint: Text(
+                    "Status",
+                    textAlign: TextAlign.center,
+                  ),
+                  value: selectedStatus,
+                  onChanged: disableStatusDropdown
+                      ? null
+                      : (newValue) {
+                          setState(() {
+                            selectedStatus = newValue;
+                            fetchNow = true;
+                          });
+                        },
+                  items: orderStatusList,
+                ),
+              ],
+            ),
+          ),
+          fetchNow
+              ? Container(
+                  child: FutureBuilder<GetOrders>(
+                    future: fetchOrderDeliveryBoy(
+                        selectedStatus, selectedDeliveryBoy),
+                    builder: (context, response) {
+                      if (response.hasData) {
+                        if (response.data.count != 0) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.8,
+                            child: ListView.builder(
+                              itemCount: response.data.count,
+                              itemBuilder: (BuildContext context, int index) {
+                                return deliveryBoyCard(
+                                    response.data.orders[index]);
+                              },
+                            ),
+                          );
+                        } else {
+                          return Center(
+                            child: Container(
+                                child: Text(
+                              'No ${ConstantVariables.codeOrder[selectedStatus]} Orders Yet',
+                              style: TextStyle(fontSize: 30.0),
+                            )),
+                          );
+                        }
+                      } else {
+                        return Container(
+                          child: Center(child: ColorLoader()),
                         );
                       }
-                    } else {
-                      return Container(
-                        child: Center(child: ColorLoader()),
-                      );
-                    }
-                  },
-                ),
-              )
-            : Container()
-      ],
+                    },
+                  ),
+                )
+              : Container()
+        ],
+      ),
     );
   }
 }

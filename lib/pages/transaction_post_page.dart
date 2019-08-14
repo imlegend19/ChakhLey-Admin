@@ -206,14 +206,11 @@ class _TransactionPostPageState extends State<TransactionPostPage> {
         isCredit: true,
         paymentType: selectedType,
         paymentMode: selectedMode,
-        acceptedBy: widget.order.deliveryBoy["delivery_boy"]);
+        acceptedBy: widget.order.deliveryBoy['id']);
 
     createPost(post).then((response) {
       if (response.statusCode == 201) {
-        patchOrder(
-            widget.order.id,
-            ConstantVariables.orderCode[ConstantVariables.order[
-                ConstantVariables.order.indexOf(widget.order.status) + 1]]);
+       
         Fluttertoast.showToast(
           msg: "Transaction Completed",
           fontSize: 13.0,

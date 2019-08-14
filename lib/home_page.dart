@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage> {
               ConstantVariables.deliveryBoyCount = value.count;
             });
           });
+
           fetchRestaurant(ConstantVariables.businessID).then((val) {
             setState(() {
               ConstantVariables.restaurantList = val.restaurants;
