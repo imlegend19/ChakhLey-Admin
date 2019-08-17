@@ -4,6 +4,7 @@ import 'package:chakh_le_admin/entity/restaurant.dart';
 import 'package:chakh_le_admin/fragments/order_station.dart';
 import 'package:chakh_le_admin/models/user_pref.dart';
 import 'package:chakh_le_admin/pages/deliveryboy.dart';
+import 'package:chakh_le_admin/pages/restaurant.dart';
 import 'package:chakh_le_admin/static_variables/no_internet.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:connectivity/connectivity.dart';
@@ -21,6 +22,7 @@ class HomePage extends StatefulWidget {
   final drawerItems = [
     DrawerItem("Order Station", Icons.local_dining),
     DrawerItem("Delivery Boys", Icons.motorcycle),
+    DrawerItem("Restaurant", Icons.restaurant),
     DrawerItem("Logout", Icons.power_settings_new)
   ];
 
@@ -73,6 +75,8 @@ class _HomePageState extends State<HomePage> {
           child: DeliveryBoyPage(),
         );
       case 2:
+        return RestaurantPage();
+      case 3:
         logoutUser().then((val) {
           Navigator.pushReplacementNamed(context, '/loginpage');
         });
