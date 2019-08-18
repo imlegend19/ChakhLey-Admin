@@ -132,3 +132,37 @@ Future<GetRestaurant> fetchRestaurantData(int id) async {
     return null;
   }
 }
+patchRestaurantOpen(bool isActive,int id) async {
+  var json = {"is_active": isActive};
+
+  http.Response response = await http.patch(
+    RestaurantStatic.keyRestaurantURL + id.toString() + '/',
+    headers: {"Content-Type": "application/json"},
+    body: jsonEncode(json),
+  );
+
+  if (response.statusCode == 200) {
+    Fluttertoast.showToast(
+      msg: "Restaurant Closed",
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  } else if (response.statusCode == 503) {
+    Fluttertoast.showToast(
+      msg: "Please check your internet!",
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  } else {
+    Fluttertoast.showToast(
+      msg: 'Error!!',
+      fontSize: 13.0,
+      toastLength: Toast.LENGTH_LONG,
+      timeInSecForIos: 2,
+    );
+  }
+}
+
+
