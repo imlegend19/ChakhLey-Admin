@@ -4,9 +4,9 @@ import 'api_static.dart';
 
 class Employee {
   final int id;
-  final String name;
   final String designation;
-  final int business;
+  final Map<String, dynamic> user;
+  final Map<String, dynamic> business;
   final bool isActive;
   final String joinedOn;
   final String leftOn;
@@ -14,8 +14,8 @@ class Employee {
 
   Employee(
       {this.id,
-      this.name,
       this.designation,
+        this.user,
       this.business,
       this.isActive,
       this.joinedOn,
@@ -40,7 +40,6 @@ class GetEmployees {
       employees.add(
         Employee(
             id: jsonOrder[APIStatic.keyID],
-            name: jsonOrder[APIStatic.keyName],
             designation: jsonOrder[EmployeeStatic.keyDesignation],
             business: jsonOrder[APIStatic.keyBusiness],
             isActive: jsonOrder[EmployeeStatic.keyIsActive],

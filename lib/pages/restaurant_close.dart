@@ -8,15 +8,18 @@ class RestaurantPage extends StatefulWidget {
 }
 
 class _RestaurantPageState extends State<RestaurantPage> {
-  List<String> restaurantNameList = [];
-  List<bool> _value = List<bool>.filled(15, true, growable: true);
+  List<Restaurant> restaurantList = [];
+  List<bool> _value = List<bool>.filled(15, false, growable: true);
 
   @override
   void initState() {
     super.initState();
     if (ConstantVariables.restaurantList != null) {
+      int it = 0;
       for (final i in ConstantVariables.restaurantList) {
-        restaurantNameList.add(i.name);
+        restaurantList.add(i);
+        _value[it] = i.isActive;
+        it += 1;
       }
     }
   }
@@ -25,10 +28,10 @@ class _RestaurantPageState extends State<RestaurantPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-        itemCount: restaurantNameList.length,
+        itemCount: restaurantList.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('${restaurantNameList[index]}'),
+            title: Text('${restaurantList[index].name}'),
             leading: Switch(
               inactiveThumbColor: Colors.red,
                 activeColor: Colors.green,
@@ -36,7 +39,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
                 onChanged: (value) {
                   setState(() {
                     _value[index] = value;
-                    patchRestaurantOpen(_value[index], index + 1);
+                    patchRestaurantOpen(_value[index], restaurantList[index].id);
                   });
                 }),
           );

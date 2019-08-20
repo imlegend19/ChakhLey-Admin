@@ -18,6 +18,7 @@ class Restaurant {
   final double longitude;
   final int commission;
   final bool isVeg;
+  final bool isActive;
   final List<dynamic> images;
   final List<dynamic> cuisines;
 
@@ -33,6 +34,7 @@ class Restaurant {
     this.longitude,
     this.commission,
     this.isVeg,
+    this.isActive,
     this.images,
     this.cuisines,
   });
@@ -67,9 +69,9 @@ class GetRestaurant {
               double.parse(jsonRestaurant[RestaurantStatic.keyLongitude]),
           commission: jsonRestaurant[RestaurantStatic.keyCommission],
           isVeg: jsonRestaurant[RestaurantStatic.keyIsVeg],
+          isActive: jsonRestaurant[RestaurantStatic.keyIsActive],
           images: jsonRestaurant[RestaurantStatic.keyImages],
           cuisines: jsonRestaurant[RestaurantStatic.keyCuisine],
-
         ),
       );
     }
@@ -132,7 +134,7 @@ Future<GetRestaurant> fetchRestaurantData(int id) async {
     return null;
   }
 }
-patchRestaurantOpen(bool isActive,int id) async {
+patchRestaurantOpen(bool isActive, int id) async {
   var json = {"is_active": isActive};
 
   http.Response response = await http.patch(
@@ -143,23 +145,23 @@ patchRestaurantOpen(bool isActive,int id) async {
 
   if (response.statusCode == 200) {
     Fluttertoast.showToast(
-      msg: "Restaurant Closed",
+      msg: "Restaurant ${isActive ? "Open" : "Closed"}",
       fontSize: 13.0,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 2,
     );
   } else if (response.statusCode == 503) {
     Fluttertoast.showToast(
       msg: "Please check your internet!",
       fontSize: 13.0,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 2,
     );
   } else {
     Fluttertoast.showToast(
       msg: 'Error!!',
       fontSize: 13.0,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 2,
     );
   }

@@ -50,6 +50,7 @@ abstract class EmployeeStatic {
   static const keyJoinedOn = "joined_on";
   static const keyLeftOn = "left_on";
   static const keySalary = "salary";
+  static const keyUser = "user";
 }
 
 abstract class ProductStatic {

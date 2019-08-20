@@ -46,6 +46,7 @@ flutter:
     - assets/not_found.png
     - assets/veg.png
     - assets/no_internet_connection.gif
+    - assets/error.png
 
   fonts:
     - family: Avenir
