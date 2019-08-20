@@ -19,6 +19,7 @@ class Restaurant {
   final int commission;
   final bool isVeg;
   final bool isActive;
+  final bool gst;
   final List<dynamic> images;
   final List<dynamic> cuisines;
 
@@ -35,6 +36,7 @@ class Restaurant {
     this.commission,
     this.isVeg,
     this.isActive,
+    this.gst,
     this.images,
     this.cuisines,
   });
@@ -70,6 +72,7 @@ class GetRestaurant {
           commission: jsonRestaurant[RestaurantStatic.keyCommission],
           isVeg: jsonRestaurant[RestaurantStatic.keyIsVeg],
           isActive: jsonRestaurant[RestaurantStatic.keyIsActive],
+          gst: jsonRestaurant[RestaurantStatic.keyGST],
           images: jsonRestaurant[RestaurantStatic.keyImages],
           cuisines: jsonRestaurant[RestaurantStatic.keyCuisine],
         ),

@@ -21,26 +21,19 @@ class _AddOrderPageState extends State<AddOrderPage> {
   @override
   void initState() {
     super.initState();
-    if(ConstantVariables.restaurantList!= null){
+    if (ConstantVariables.restaurantList != null) {
       for (final i in ConstantVariables.restaurantList) {
         _restaurantList.add({
           "display": i.name,
           "value": i.id,
         });
-    }
+      }
     }
 
     _isButtonEnabled = false;
     _nameController.addListener(validate);
     _phnController.addListener(validate);
   }
-
-//  loadRestaurants() async {
-//    fetchRestaurant(ConstantVariables.businessID).then((val) async {
-//      _restaurantController.add(val);
-//      return val;
-//    });
-//  }
 
   validate() {
     if (_nameController != null &&
@@ -61,6 +54,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
         data: ThemeData(cursorColor: Colors.red),
         child: TextFormField(
           controller: _nameController,
+          cursorColor: Colors.red,
           style: TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
@@ -68,11 +62,15 @@ class _AddOrderPageState extends State<AddOrderPage> {
               fontFamily: 'Avenir'),
           decoration: InputDecoration(
             labelText: "NAME",
-            icon: Icon(Icons.person),
+            icon: Icon(
+              Icons.person,
+              color: Colors.red,
+            ),
             labelStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 13.0,
-                fontFamily: 'Avenir'),
+              fontWeight: FontWeight.bold,
+              fontSize: 13.0,
+              fontFamily: 'Avenir',
+            ),
           ),
         ),
       ),
@@ -119,9 +117,10 @@ class _AddOrderPageState extends State<AddOrderPage> {
             labelText: "EMAIL",
             icon: Icon(Icons.mail),
             labelStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 13.0,
-                fontFamily: 'Avenir'),
+              fontWeight: FontWeight.bold,
+              fontSize: 13.0,
+              fontFamily: 'Avenir',
+            ),
           ),
         ),
       ),
@@ -170,14 +169,19 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   child: RaisedButton(
                     color: Colors.redAccent,
                     disabledColor: Colors.red.shade200,
-                    onPressed: _isButtonEnabled
+                    onPressed: true
                         ? () {
                             SelectProductPage.restaurantID = selectedRestaurant;
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SelectProductPage(_nameController.text.trim(),_emailController.text.trim(),_phnController.text.trim()),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SelectProductPage(
+                                  name: _nameController.text.trim(),
+                                  email: _emailController.text.trim(),
+                                  phoneNumber: _phnController.text.trim(),
+                                ),
+                              ),
+                            );
                           }
                         : null,
                     child: Text(

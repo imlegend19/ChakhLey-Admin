@@ -95,9 +95,9 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final loginButton = Material(
-      elevation: 5.0,
+      elevation: enableLogin ? 5.0 : 0.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Colors.redAccent,
+      color: enableLogin ? Colors.redAccent : Colors.red.shade200,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -173,7 +173,10 @@ class _LoginPageState extends State<LoginPage> {
     // ignore: missing_return
     createPost(post).then((response) {
       if (response.statusCode == 201) {
-        print(response.body);
+        // print(response.body);
+        setState(() {
+          enableLogin = false;
+        });
         showOTPBottomSheet(context, _phnController.text, true);
         Fluttertoast.showToast(
           msg: "OTP has been sent to your registered email.",

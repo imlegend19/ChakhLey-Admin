@@ -53,22 +53,32 @@ class GetProducts {
 }
 
 Future<GetProducts> fetchProducts(int restaurantId) async {
-  final response = await http.get(ProductStatic.keyProductURL +
+  String keyNext = ProductStatic.keyProductURL +
       "?category__restaurant__id=" +
-      '$restaurantId');
+      '$restaurantId';
+
+  final response = await http.get(keyNext);
 
   if (response.statusCode == 200) {
     int count = jsonDecode(response.body)[APIStatic.keyCount];
     int execute = count ~/ 10 + 1;
 
+    keyNext = jsonDecode(response.body)[APIStatic.keyNext];
+
     GetProducts product = GetProducts.fromJson(jsonDecode(response.body));
     execute--;
 
+    int pg = 3;
     while (execute != 0) {
-      GetProducts tempProduct = GetProducts.fromJson(jsonDecode(
-          (await http.get(jsonDecode(response.body)[APIStatic.keyNext])).body));
+      GetProducts tempProduct =
+          GetProducts.fromJson(jsonDecode((await http.get(keyNext)).body));
+      keyNext =
+          "http://adminbeta.chakhley.co.in/api/product/product/?category__restaurant__id=$restaurantId&page=" +
+              pg.toString();
       product.products += tempProduct.products;
       product.count += tempProduct.count;
+
+      pg += 1;
       execute--;
     }
 
