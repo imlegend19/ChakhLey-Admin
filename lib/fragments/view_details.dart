@@ -1,3 +1,4 @@
+import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/entity/employee.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
@@ -24,7 +25,7 @@ class _ViewDetailsState extends State<ViewDetails> {
   @override
   void initState() {
     for (final i in ConstantVariables.deliveryBoyList) {
-      _deliveryBoyNameList.add( i.name);
+      _deliveryBoyNameList.add( i.user[APIStatic.keyName]);
     }
   }
 

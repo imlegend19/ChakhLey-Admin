@@ -1,3 +1,4 @@
+import 'package:chakh_le_admin/entity/employee.dart';
 import 'package:chakh_le_admin/entity/restaurant.dart';
 
 class ConstantVariables {
@@ -22,7 +23,7 @@ class ConstantVariables {
   static String version;
   static String buildNumber;
 
-  static List deliveryBoyList;
+  static List<Employee> deliveryBoyList;
   static List<Restaurant> restaurantList;
   static List<String> deliveryBoyName;
   static int deliveryBoyCount;

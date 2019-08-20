@@ -15,7 +15,7 @@ class Employee {
   Employee(
       {this.id,
       this.designation,
-        this.user,
+      this.user,
       this.business,
       this.isActive,
       this.joinedOn,
@@ -41,6 +41,7 @@ class GetEmployees {
         Employee(
             id: jsonOrder[APIStatic.keyID],
             designation: jsonOrder[EmployeeStatic.keyDesignation],
+            user: jsonOrder[EmployeeStatic.keyUser],
             business: jsonOrder[APIStatic.keyBusiness],
             isActive: jsonOrder[EmployeeStatic.keyIsActive],
             joinedOn: jsonOrder[EmployeeStatic.keyJoinedOn],

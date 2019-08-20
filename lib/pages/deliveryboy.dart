@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/color_loader.dart';
@@ -24,9 +25,10 @@ class _DeliveryBoyPageState extends State<DeliveryBoyPage> {
   void initState() {
     super.initState();
     for (final i in ConstantVariables.deliveryBoyList) {
+      print(i.user);
       deliveryBoys.add(DropdownMenuItem(
         value: i.id,
-        child: Text(i.name),
+        child: Text(i.user[APIStatic.keyName]),
       ));
     }
     orderStatusList.add(DropdownMenuItem(

@@ -65,8 +65,6 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    ConstantVariables.user['name'] = "Jatin";
-    ConstantVariables.user['email']= "jatink.jain@st.niituniversity.in";
   }
 
   _getDrawerItemWidget(int pos) {
