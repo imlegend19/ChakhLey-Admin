@@ -33,6 +33,7 @@ class _SelectProductPageState extends State<SelectProductPage> {
   Restaurant restaurant;
   double subTotal = 0;
   double tax = 0;
+  double deliveryFee = 0;
 
   final TextEditingController _filter = TextEditingController();
 
@@ -346,6 +347,33 @@ class _SelectProductPageState extends State<SelectProductPage> {
                       ),
                     ),
                     Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0,top: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            "Delivery Fee",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13.0,
+                              fontFamily: "Avenir",
+                              color: Colors.black87,
+                            ),
+                          ),
+                          Text(
+                              "Rs. " + getDeliveryFee(subTotal).toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13.0,
+                              fontFamily: "Avenir",
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.only(
                           left: 15.0, right: 15.0, top: 5.0),
                       child: Row(
@@ -610,6 +638,19 @@ class _SelectProductPageState extends State<SelectProductPage> {
       mainAxisSize: MainAxisSize.max,
       children: prods,
     );
+  }
+
+  double getDeliveryFee( double subTotal) {
+    if (subTotal <= 200) {
+      deliveryFee = 30;
+      return 30;
+    } else if (subTotal > 200 && subTotal <= 1000) {
+      deliveryFee = 25;
+      return 25;
+    } else {
+      deliveryFee = 15;
+      return 15;
+    }
   }
 
 //  List<Map<String, int>> convertToMap(List<Product> product) {

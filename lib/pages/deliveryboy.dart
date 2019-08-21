@@ -25,7 +25,6 @@ class _DeliveryBoyPageState extends State<DeliveryBoyPage> {
   void initState() {
     super.initState();
     for (final i in ConstantVariables.deliveryBoyList) {
-      print(i.user);
       deliveryBoys.add(DropdownMenuItem(
         value: i.id,
         child: Text(i.user[APIStatic.keyName]),

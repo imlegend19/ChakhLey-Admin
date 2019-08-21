@@ -8,7 +8,7 @@ class PostTransaction {
   final bool isCredit;
   final String paymentType;
   final String paymentMode;
-  final int acceptedBy;
+  final Map<String,dynamic> acceptedBy;
 
   PostTransaction(
       {this.order,

@@ -10,7 +10,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Chakh Ley-Admin"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/ic_launcher"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"

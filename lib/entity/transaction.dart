@@ -10,7 +10,7 @@ class Transaction {
   final bool isCredit;
   final String paymentType;
   final String paymentMode;
-  final int acceptedBy;
+  final Map<String,dynamic> acceptedBy;
 
   Transaction(
       {this.id,

@@ -149,8 +149,8 @@ class _HomePageState extends State<HomePage> {
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.grey[200],
                 ),
-                accountName:Text(ConstantVariables.user['name']),
-                accountEmail: Text(ConstantVariables.user['email'])),
+                accountName:ConstantVariables.user['name']!=null ?Text(ConstantVariables.user['name']): Text(' No name'),
+                accountEmail: ConstantVariables.user['email']!=null ?Text(ConstantVariables.user['email']): Text('--No email--')),
             Column(children: drawerOptions)
           ],
         ),
