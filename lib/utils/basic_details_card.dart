@@ -117,15 +117,15 @@ Widget basicDetailsCard(Order order) {
                 color: Colors.black,
               ),
               children: <TextSpan>[
-                TextSpan(
-                  text: '${order.deliveryBoy["user"]["name"]}',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontFamily: 'Avenir-Bold',
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[700],
-                  ),
-                ),
+//                TextSpan(
+//                  text: '${order.deliveryBoy.user["name"]}',
+//                  style: TextStyle(
+//                    fontSize: 18.0,
+//                    fontFamily: 'Avenir-Bold',
+//                    fontWeight: FontWeight.w500,
+//                    color: Colors.grey[700],
+//                  ),
+//                ),
               ],
             ),
           ),

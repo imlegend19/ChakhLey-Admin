@@ -151,7 +151,10 @@ class _OTPBottomSheetState extends State<OTPBottomSheet> {
   }
 
   void saveUserCredentials(int id, String email, String mobile, String name) {
-    ConstantVariables.user['email'] = email;
+    if (email != null)
+      ConstantVariables.user['email'] = email;
+    else
+      ConstantVariables.user['email'] = "null";
     ConstantVariables.user['mobile'] = mobile;
     ConstantVariables.user['name'] = name;
     ConstantVariables.user['id'] = "$id";

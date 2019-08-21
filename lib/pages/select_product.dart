@@ -31,7 +31,7 @@ class _SelectProductPageState extends State<SelectProductPage> {
   List<bool> productsVal = [];
   bool disableApply = true;
   Restaurant restaurant;
-  double total = 0;
+  double subTotal = 0;
   double tax = 0;
 
   final TextEditingController _filter = TextEditingController();
@@ -108,6 +108,56 @@ class _SelectProductPageState extends State<SelectProductPage> {
     }
   }
 
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Place Order ?"),
+          content: RichText(
+            text: TextSpan(
+              // Note: Styles for TextSpans must be explicitly defined.
+              // Child text spans will inherit styles from parent
+              style: TextStyle(
+                fontSize: 17.0,
+                color: Colors.black,
+              ),
+              children: <TextSpan>[
+                TextSpan(text: 'Would you like to confirm your order?'),
+                TextSpan(
+                    text: ' Total Bill: ',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                TextSpan(text: '${subTotal + tax}')
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: FlatButton(
+                    child: Text("Close"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                FlatButton(
+                  child: Text(
+                    "Accept",
+                    style: TextStyle(color: Colors.green),
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -164,13 +214,30 @@ class _SelectProductPageState extends State<SelectProductPage> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(
-            Icons.check,
-            color: Colors.white,
+        floatingActionButton: Theme(
+          data: Theme.of(context).copyWith(
+            highlightColor: Colors.red.shade200,
           ),
-          backgroundColor: Colors.redAccent,
+          child: FloatingActionButton(
+            onPressed: ConstantVariables.quantityList == null
+                ? null
+                : ConstantVariables.quantityList.reduce((a, b) => a + b) == 0
+                    ? null
+                    : () {
+                        _showDialog();
+                      },
+            child: Icon(
+              Icons.check,
+              color: Colors.white,
+            ),
+            backgroundColor: ConstantVariables.quantityList == null
+                ? Colors.red.shade200
+                : ConstantVariables.quantityList.reduce((a, b) => a + b) == 0
+                    ? Colors.red.shade200
+                    : Colors.red,
+            disabledElevation: 0,
+            tooltip: "Post Order",
+          ),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -238,8 +305,36 @@ class _SelectProductPageState extends State<SelectProductPage> {
                             restaurant == null
                                 ? "Rs. --"
                                 : restaurant.gst
-                                    ? "Rs. ${total * 0.05}"
+                                    ? "Rs. ${subTotal * 0.05}"
                                     : "None",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13.0,
+                              fontFamily: "Avenir",
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            "Sub-Total",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13.0,
+                              fontFamily: "Avenir",
+                              color: Colors.black87,
+                            ),
+                          ),
+                          Text(
+                            "Rs. $subTotal",
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 13.0,
@@ -261,20 +356,20 @@ class _SelectProductPageState extends State<SelectProductPage> {
                             "Total",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
-                              fontSize: 15.0,
+                              fontSize: 16.0,
                               fontFamily: "Avenir",
                               color: Colors.black87,
                             ),
                           ),
                           Text(
-                            "Rs. $total",
+                            "Rs. ${subTotal + tax}",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: 14.0,
+                              fontSize: 15.0,
                               fontFamily: "Avenir",
                               color: Colors.black54,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     )
@@ -293,130 +388,143 @@ class _SelectProductPageState extends State<SelectProductPage> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: ListView.builder(
-                        itemCount: _displayProducts.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          AssetImage image;
-                          if (ConstantVariables
-                              .productList[ConstantVariables.productList
-                                  .indexOf(_displayProducts[index])]
-                              .isVeg) {
-                            image = AssetImage('assets/veg.png');
-                          } else {
-                            image = AssetImage('assets/non_veg.png');
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5.0, bottom: 5.0, right: 8.0),
-                                    child: Image(
-                                      image: image,
-                                      fit: BoxFit.contain,
-                                      height: 23.0,
-                                      width: 23.0,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.85,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.5,
-                                              child: AutoSizeText(
-                                                _displayProducts[index].name,
-                                                style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontFamily: 'Avenir-Bold',
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w800,
-                                                ),
-                                                maxLines: 3,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 2.0,
-                                            ),
-                                            Text(
-                                              "₹ " +
-                                                  '${_displayProducts[index].displayPrice}',
-                                              style: TextStyle(
-                                                color: Colors.black54,
-                                                fontFamily: 'Avenir-Black',
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ],
+                          itemCount: _displayProducts.length + 1,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index == _displayProducts.length) {
+                              return SizedBox(
+                                height: 100,
+                              );
+                            } else {
+                              AssetImage image;
+                              if (ConstantVariables
+                                  .productList[ConstantVariables.productList
+                                      .indexOf(_displayProducts[index])]
+                                  .isVeg) {
+                                image = AssetImage('assets/veg.png');
+                              } else {
+                                image = AssetImage('assets/non_veg.png');
+                              }
+                              return Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 5.0, bottom: 5.0, right: 8.0),
+                                        child: Image(
+                                          image: image,
+                                          fit: BoxFit.contain,
+                                          height: 23.0,
+                                          width: 23.0,
                                         ),
-                                        Row(
+                                      ),
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.85,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: <Widget>[
-                                            _displayQuantities[index] != 0
-                                                ? IconButton(
-                                                    icon: Icon(Icons.remove),
-                                                    onPressed: () => setState(
-                                                      () => _subtract(
-                                                          ConstantVariables
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: <Widget>[
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.5,
+                                                  child: AutoSizeText(
+                                                    _displayProducts[index]
+                                                        .name,
+                                                    style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontFamily: 'Avenir-Bold',
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    ),
+                                                    maxLines: 3,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 2.0,
+                                                ),
+                                                Text(
+                                                  "₹ " +
+                                                      '${_displayProducts[index].displayPrice}',
+                                                  style: TextStyle(
+                                                    color: Colors.black54,
+                                                    fontFamily: 'Avenir-Black',
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                _displayQuantities[index] != 0
+                                                    ? IconButton(
+                                                        icon:
+                                                            Icon(Icons.remove),
+                                                        onPressed: () =>
+                                                            setState(
+                                                          () => _subtract(
+                                                              ConstantVariables
+                                                                  .productList
+                                                                  .indexOf(
+                                                                      _displayProducts[
+                                                                          index])),
+                                                        ),
+                                                      )
+                                                    : Container(),
+                                                Text(_displayQuantities[index]
+                                                    .toString()),
+                                                _displayQuantities[index] != 50
+                                                    ? IconButton(
+                                                        icon: Icon(Icons.add),
+                                                        onPressed: () =>
+                                                            setState(
+                                                          () => _add(ConstantVariables
                                                               .productList
                                                               .indexOf(
                                                                   _displayProducts[
                                                                       index])),
-                                                    ),
-                                                  )
-                                                : Container(),
-                                            Text(_displayQuantities[index]
-                                                .toString()),
-                                            _displayQuantities[index] != 50
-                                                ? IconButton(
-                                                    icon: Icon(Icons.add),
-                                                    onPressed: () => setState(
-                                                      () => _add(ConstantVariables
-                                                          .productList
-                                                          .indexOf(
-                                                              _displayProducts[
-                                                                  index])),
-                                                    ),
-                                                  )
-                                                : IconButton(
-                                                    icon: Icon(
-                                                      Icons.add,
-                                                      color: Colors.transparent,
-                                                    ),
-                                                    onPressed: null,
-                                                  ),
+                                                        ),
+                                                      )
+                                                    : IconButton(
+                                                        icon: Icon(
+                                                          Icons.add,
+                                                          color: Colors
+                                                              .transparent,
+                                                        ),
+                                                        onPressed: null,
+                                                      ),
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                                ),
+                              );
+                            }
+                          }),
                     ),
                   ),
           ],
@@ -489,7 +597,7 @@ class _SelectProductPageState extends State<SelectProductPage> {
       }
     }
 
-    total = xTotal;
+    subTotal = xTotal;
     if (restaurant != null) {
       if (restaurant.gst) {
         tax = xTotal * 0.05;
