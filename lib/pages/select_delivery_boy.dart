@@ -1,4 +1,5 @@
 import 'package:chakh_le_admin/entity/api_static.dart';
+import 'package:chakh_le_admin/entity/group_model.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:flutter/material.dart';
@@ -87,8 +88,4 @@ class _SelectDeliveryBoyPageState extends State<SelectDeliveryBoyPage> {
   }
 }
 
-class GroupModel {
-  String text;
-  int index;
-  GroupModel({this.text, this.index});
-}
+

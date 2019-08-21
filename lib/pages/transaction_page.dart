@@ -1,9 +1,11 @@
 import 'dart:io';
 
-import 'package:chakh_le_admin/entity/employee.dart';
+import 'package:chakh_le_admin/entity/api_static.dart';
+import 'package:chakh_le_admin/entity/group_model.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:chakh_le_admin/pages/transaction_post_page.dart';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/transaction_saved_card.dart';
 import 'package:flutter/material.dart';
 
@@ -22,11 +24,15 @@ class TransactionPage extends StatefulWidget {
 
 class _TransactionPageState extends State<TransactionPage> {
   bool isVisible = false;
+  List<GroupModel> _deliveryBoyNameList = [];
 
   @override
   void initState() {
     super.initState();
     paymentDoneCheck();
+    for (final i in ConstantVariables.deliveryBoyList) {
+      _deliveryBoyNameList.add(GroupModel(text: i.user[APIStatic.keyName], index: i.id));
+    }
   }
 
   @override

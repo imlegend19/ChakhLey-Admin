@@ -106,6 +106,30 @@ Widget basicDetailsCard(Order order) {
             ),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: RichText(
+            text: TextSpan(
+              text: 'DeliveryBoy: ',
+              style: TextStyle(
+                fontFamily: 'Avenir-Black',
+                fontSize: 20.0,
+                color: Colors.black,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: '${order.deliveryBoy["user"]["name"]}',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontFamily: 'Avenir-Bold',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     ),
   );
