@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Chakh Le - Admin',
+      title: 'Chakh Ley - Admin',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.red, appBarTheme: AppBarTheme(elevation: 0)),
-      home: HomePage(),
+      home: LoginPage(),
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => HomePage(),
         '/loginpage': (BuildContext context) => LoginPage(),

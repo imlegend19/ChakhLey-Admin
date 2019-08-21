@@ -390,7 +390,7 @@ class _SelectProductPageState extends State<SelectProductPage> {
                             ),
                           ),
                           Text(
-                            "Rs. ${subTotal + tax}",
+                            "Rs. ${subTotal + tax + deliveryFee}",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 15.0,
