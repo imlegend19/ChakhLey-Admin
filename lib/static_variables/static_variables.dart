@@ -30,6 +30,7 @@ class ConstantVariables {
   static int deliveryBoyCount;
 
   static List<Product> productList;
+  static List<int> quantityList;
 
   static var connectionStatus;
 

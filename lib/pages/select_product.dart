@@ -5,7 +5,10 @@ import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/entity/order_post.dart';
 import 'package:chakh_le_admin/entity/product.dart';
 import 'package:chakh_le_admin/entity/restaurant.dart';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
+import 'package:chakh_le_admin/utils/color_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class SelectProductPage extends StatefulWidget {
@@ -31,10 +34,15 @@ class _SelectProductPageState extends State<SelectProductPage> {
   double total = 0;
   double tax = 0;
 
+  final TextEditingController _filter = TextEditingController();
+
+  String _searchText = "";
+
   List<Product> _displayProducts = List();
-  List<int> _quantities = List();
+  List<int> _displayQuantities = List();
 
   bool isLoading = false;
+  bool _convertAppbar = false;
 
   Future<PostOrder> postOrder;
   List<Map<String, int>> suborderSet = List();
@@ -43,10 +51,12 @@ class _SelectProductPageState extends State<SelectProductPage> {
   void initState() {
     fetchProducts(SelectProductPage.restaurantID).then((val) {
       setState(() {
-        _displayProducts = val.products;
-        for (int i = 0; i < _displayProducts.length; i++) {
-          _quantities.add(0);
+        ConstantVariables.productList = val.products;
+        for (int i = 0; i < ConstantVariables.productList.length; i++) {
+          _displayQuantities.add(0);
         }
+        _displayProducts = ConstantVariables.productList;
+        ConstantVariables.quantityList = _displayQuantities;
       });
     });
 
@@ -54,6 +64,21 @@ class _SelectProductPageState extends State<SelectProductPage> {
       setState(() {
         restaurant = val.restaurants[0];
       });
+    });
+
+    _filter.addListener(() {
+      if (_filter.text.isEmpty) {
+        setState(() {
+          _searchText = "";
+          _displayProducts = ConstantVariables.productList;
+          _displayQuantities = ConstantVariables.quantityList;
+        });
+      } else {
+        setState(() {
+          _searchText = _filter.text;
+          filterResults(_searchText);
+        });
+      }
     });
 
     super.initState();
@@ -64,248 +89,338 @@ class _SelectProductPageState extends State<SelectProductPage> {
     super.dispose();
   }
 
-  Widget _buildProgressIndicator() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: Opacity(
-          opacity: isLoading ? 1.0 : 00,
-          child: CircularProgressIndicator(),
-        ),
-      ),
-    );
+  filterResults(String query) {
+    if (_displayProducts != null) {
+      setState(() {
+        _displayProducts = ConstantVariables.productList.where((val) {
+          var name = val.name.toLowerCase();
+          return name.contains(query);
+        }).toList();
+
+        List<int> tempQuantities = List();
+        for (int i = 0; i < _displayProducts.length; i++) {
+          tempQuantities.add(ConstantVariables.quantityList[
+              ConstantVariables.productList.indexOf(_displayProducts[i])]);
+        }
+
+        _displayQuantities = tempQuantities;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Select Products'),
+    return MaterialApp(
+      theme: ThemeData(
+        cursorColor: Colors.white,
+        highlightColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          color: Colors.redAccent,
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Order Summary",
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: "AvenirBold",
-                      color: Colors.black,
-                      fontWeight: FontWeight.w800),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 5.0, bottom: 14.0, left: 8.0, right: 8.0),
-                child: SizedBox(
-                  height: 3.0,
-                  child: Container(
-                    color: Colors.black54,
-                  ),
-                ),
-              ),
-              _generateSummary(),
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 14.0, bottom: 14.0, left: 8.0, right: 8.0),
-                child: SizedBox(
-                  height: 3.0,
-                  child: Container(
-                    color: Colors.black54,
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Text(
-                          "Taxes",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13.0,
-                            fontFamily: "Avenir",
-                            color: Colors.black87,
-                          ),
-                        ),
-                        Text(
-                          restaurant == null
-                              ? "Rs. --"
-                              : restaurant.gst ? "Rs. ${total * 0.05}" : "None",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w300,
-                            fontSize: 13.0,
-                            fontFamily: "Avenir",
-                            color: Colors.black54,
-                          ),
-                        )
-                      ],
+      home: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: _convertAppbar
+              ? TextField(
+                  controller: _filter,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                    hintText: 'Search...',
+                    fillColor: Colors.white,
+                    labelStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    hoverColor: Colors.white70,
+                    focusColor: Colors.white70,
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 5.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Text(
-                          "Total",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 15.0,
-                            fontFamily: "Avenir",
-                            color: Colors.black87,
+                )
+              : Text('Select Products'),
+          actions: <Widget>[
+            //Adding the search widget in AppBar
+            IconButton(
+              tooltip: 'Search',
+              icon: _convertAppbar
+                  ? const Icon(Icons.close)
+                  : const Icon(Icons.search),
+              //Don't block the main thread
+              onPressed: () {
+                _convertAppbar
+                    ? setState(() {
+                        _convertAppbar = false;
+                      })
+                    : setState(() {
+                        _searchText = "";
+                        _filter.clear();
+                        _convertAppbar = true;
+                      });
+              },
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(
+            Icons.check,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.redAccent,
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Order Summary",
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: "AvenirBold",
+                        color: Colors.black,
+                        fontWeight: FontWeight.w800),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5.0, bottom: 14.0, left: 8.0, right: 8.0),
+                  child: SizedBox(
+                    height: 3.0,
+                    child: Container(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+                ConstantVariables.productList == null
+                    ? Container()
+                    : _generateSummary(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 14.0, bottom: 14.0, left: 8.0, right: 8.0),
+                  child: SizedBox(
+                    height: 3.0,
+                    child: Container(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            "Taxes",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13.0,
+                              fontFamily: "Avenir",
+                              color: Colors.black87,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "Rs. $total",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0,
-                            fontFamily: "Avenir",
-                            color: Colors.black54,
+                          Text(
+                            restaurant == null
+                                ? "Rs. --"
+                                : restaurant.gst
+                                    ? "Rs. ${total * 0.05}"
+                                    : "None",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 13.0,
+                              fontFamily: "Avenir",
+                              color: Colors.black54,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text(
+                            "Total",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 15.0,
+                              fontFamily: "Avenir",
+                              color: Colors.black87,
+                            ),
                           ),
-                        )
-                      ],
+                          Text(
+                            "Rs. $total",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.0,
+                              fontFamily: "Avenir",
+                              color: Colors.black54,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            ConstantVariables.productList == null
+                ? Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      child: ColorLoader(),
                     ),
                   )
-                ],
-              )
-            ],
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: ListView.builder(
-                itemCount: _displayProducts.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  AssetImage image;
-                  if (index == _displayProducts.length) {
-                    return _buildProgressIndicator();
-                  } else {
-                    if (_displayProducts[index].isVeg) {
-                      image = AssetImage('assets/veg.png');
-                    } else {
-                      image = AssetImage('assets/non_veg.png');
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5.0, bottom: 5.0, right: 8.0),
-                              child: Image(
-                                image: image,
-                                fit: BoxFit.contain,
-                                height: 23.0,
-                                width: 23.0,
-                              ),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.85,
+                : Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: ListView.builder(
+                        itemCount: _displayProducts.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          AssetImage image;
+                          if (ConstantVariables
+                              .productList[ConstantVariables.productList
+                                  .indexOf(_displayProducts[index])]
+                              .isVeg) {
+                            image = AssetImage('assets/veg.png');
+                          } else {
+                            image = AssetImage('assets/non_veg.png');
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.5,
-                                        child: AutoSizeText(
-                                          _displayProducts[index].name,
-                                          style: TextStyle(
-                                            color: Colors.black87,
-                                            fontFamily: 'Avenir-Bold',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w800,
-                                          ),
-                                          maxLines: 3,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 2.0,
-                                      ),
-                                      Text(
-                                        "₹ " +
-                                            '${_displayProducts[index].displayPrice}',
-                                        style: TextStyle(
-                                          color: Colors.black54,
-                                          fontFamily: 'Avenir-Black',
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5.0, bottom: 5.0, right: 8.0),
+                                    child: Image(
+                                      image: image,
+                                      fit: BoxFit.contain,
+                                      height: 23.0,
+                                      width: 23.0,
+                                    ),
                                   ),
-                                  Row(
-                                    children: <Widget>[
-                                      _quantities[index] != 0
-                                          ? IconButton(
-                                              icon: Icon(Icons.remove),
-                                              onPressed: () => setState(
-                                                () => _subtract(index),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.85,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                              child: AutoSizeText(
+                                                _displayProducts[index].name,
+                                                style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontFamily: 'Avenir-Bold',
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w800,
+                                                ),
+                                                maxLines: 3,
                                               ),
-                                            )
-                                          : Container(),
-                                      Text(_quantities[index].toString()),
-                                      _quantities[index] != 50
-                                          ? IconButton(
-                                              icon: Icon(Icons.add),
-                                              onPressed: () => setState(
-                                                () => _add(index),
-                                              ),
-                                            )
-                                          : IconButton(
-                                              icon: Icon(
-                                                Icons.add,
-                                                color: Colors.transparent,
-                                              ),
-                                              onPressed: null,
                                             ),
-                                    ],
+                                            SizedBox(
+                                              height: 2.0,
+                                            ),
+                                            Text(
+                                              "₹ " +
+                                                  '${_displayProducts[index].displayPrice}',
+                                              style: TextStyle(
+                                                color: Colors.black54,
+                                                fontFamily: 'Avenir-Black',
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            _displayQuantities[index] != 0
+                                                ? IconButton(
+                                                    icon: Icon(Icons.remove),
+                                                    onPressed: () => setState(
+                                                      () => _subtract(
+                                                          ConstantVariables
+                                                              .productList
+                                                              .indexOf(
+                                                                  _displayProducts[
+                                                                      index])),
+                                                    ),
+                                                  )
+                                                : Container(),
+                                            Text(_displayQuantities[index]
+                                                .toString()),
+                                            _displayQuantities[index] != 50
+                                                ? IconButton(
+                                                    icon: Icon(Icons.add),
+                                                    onPressed: () => setState(
+                                                      () => _add(ConstantVariables
+                                                          .productList
+                                                          .indexOf(
+                                                              _displayProducts[
+                                                                  index])),
+                                                    ),
+                                                  )
+                                                : IconButton(
+                                                    icon: Icon(
+                                                      Icons.add,
+                                                      color: Colors.transparent,
+                                                    ),
+                                                    onPressed: null,
+                                                  ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-        ],
+                    ),
+                  ),
+          ],
+        ),
       ),
     );
   }
@@ -318,22 +433,22 @@ class _SelectProductPageState extends State<SelectProductPage> {
     return response;
   }
 
-  void _add(int index) {
-    _quantities[index] += 1;
+  void _add(int displayIndex) {
+    ConstantVariables.quantityList[displayIndex] += 1;
   }
 
-  void _subtract(int index) {
-    _quantities[index] -= 1;
+  void _subtract(int displayIndex) {
+    ConstantVariables.quantityList[displayIndex] -= 1;
   }
 
   Widget _generateSummary() {
     List<Widget> prods = List();
-    double xtotal = 0;
-    double xtax = 0;
+    double xTotal = 0;
 
-    for (int i = 0; i < _displayProducts.length; i++) {
-      if (_quantities[i] > 0) {
-        xtotal += _displayProducts[i].displayPrice * _quantities[i];
+    for (int i = 0; i < ConstantVariables.productList.length; i++) {
+      if (ConstantVariables.quantityList[i] > 0) {
+        xTotal += ConstantVariables.productList[i].displayPrice *
+            ConstantVariables.quantityList[i];
         prods.add(Container(
           child: Row(
             mainAxisSize: MainAxisSize.max,
@@ -344,7 +459,7 @@ class _SelectProductPageState extends State<SelectProductPage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   child: Text(
-                    _displayProducts[i].name,
+                    ConstantVariables.productList[i].name,
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w500,
@@ -358,7 +473,7 @@ class _SelectProductPageState extends State<SelectProductPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 10.0),
                 child: Text(
-                  " x " + _quantities[i].toString(),
+                  " x " + ConstantVariables.quantityList[i].toString(),
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
@@ -374,10 +489,10 @@ class _SelectProductPageState extends State<SelectProductPage> {
       }
     }
 
-    total = xtotal;
+    total = xTotal;
     if (restaurant != null) {
       if (restaurant.gst) {
-        tax = xtotal * 0.05;
+        tax = xTotal * 0.05;
       }
     }
 
@@ -401,12 +516,12 @@ class _SelectProductPageState extends State<SelectProductPage> {
 //
 //    return suborderList;
 //  }
-
+//
 //  checkoutOrder() {
 //    PostOrder post = PostOrder(
 //        name: widget.name,
 //        mobile: widget.phoneNumber,
-//        email: widget.email,
+//        email: widget.email != null ? widget.email : "",
 //        restaurant: SelectProductPage.restaurantID,
 //        business: 1,
 //        preparationTime: ,
