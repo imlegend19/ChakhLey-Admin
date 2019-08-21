@@ -82,10 +82,10 @@ Future<GetOrders> fetchOrder(String status) async {
 
   if (response.statusCode == 200) {
     int count = jsonDecode(response.body)[APIStatic.keyCount];
-    int execute = count ~/ 10 + 1;
+    int execute = count != 0 ? count ~/ 10 + 1 : 0;
 
     GetOrders order = GetOrders.fromJson(jsonDecode(response.body));
-    execute--;
+    execute == 0 ? execute = 0 : execute--;
 
     while (execute != 0) {
       GetOrders tempOrder = GetOrders.fromJson(jsonDecode(
@@ -97,7 +97,6 @@ Future<GetOrders> fetchOrder(String status) async {
 
     return order;
   } else {
-    print(response.body);
     throw Exception('Failed to load get');
   }
 }

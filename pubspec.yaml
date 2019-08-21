@@ -31,17 +31,11 @@ dependencies:
   connectivity:
   dropdown_menu:
   auto_size_text: ^1.1.2
-  flutter_launcher_icons:
+  sentry:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-flutter_icons:
-  image_path: "assets/logo.png"
-  android: true
-  ios: true
-
 
 flutter:
   uses-material-design: true
@@ -54,9 +48,6 @@ flutter:
     - assets/veg.png
     - assets/no_internet_connection.gif
     - assets/error.png
-    - assets/banner.png
-
-
 
   fonts:
     - family: Avenir

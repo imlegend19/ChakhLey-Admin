@@ -20,9 +20,14 @@ class _OrderPageState extends State<OrderPage> {
   StreamController _orderController;
 
   loadOrders() async {
-    fetchOrder(widget.status).then((res) async {
-      _orderController.add(res);
-      return res;
+    Future.sync(() {
+      fetchOrder(widget.status).then((res) async {
+        _orderController.add(res);
+        return res;
+      });
+    }).catchError((error) {
+      _orderController = StreamController();
+      loadOrders();
     });
   }
 

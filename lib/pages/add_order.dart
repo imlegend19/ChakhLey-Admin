@@ -39,9 +39,13 @@ class _AddOrderPageState extends State<AddOrderPage> {
     if (_nameController != null &&
         _phnController.text.length == 10 &&
         selectedRestaurant != null) {
-      _isButtonEnabled = true;
+      setState(() {
+        _isButtonEnabled = true;
+      });
     } else {
-      _isButtonEnabled = false;
+      setState(() {
+        _isButtonEnabled = false;
+      });
     }
   }
 
@@ -169,7 +173,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   child: RaisedButton(
                     color: Colors.redAccent,
                     disabledColor: Colors.red.shade200,
-                    onPressed: true
+                    onPressed: _isButtonEnabled
                         ? () {
                             SelectProductPage.restaurantID = selectedRestaurant;
                             Navigator.push(

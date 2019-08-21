@@ -5,6 +5,7 @@ import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/entity/order_post.dart';
 import 'package:chakh_le_admin/entity/product.dart';
 import 'package:chakh_le_admin/entity/restaurant.dart';
+import 'package:chakh_le_admin/pages/checkout_page.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/color_loader.dart';
 import 'package:flutter/material.dart';
@@ -117,8 +118,6 @@ class _SelectProductPageState extends State<SelectProductPage> {
           title: Text("Place Order ?"),
           content: RichText(
             text: TextSpan(
-              // Note: Styles for TextSpans must be explicitly defined.
-              // Child text spans will inherit styles from parent
               style: TextStyle(
                 fontSize: 17.0,
                 color: Colors.black,
@@ -149,7 +148,17 @@ class _SelectProductPageState extends State<SelectProductPage> {
                     "Accept",
                     style: TextStyle(color: Colors.green),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CheckoutPage(
+                              deliveryFee: deliveryFee,
+                              total: subTotal + deliveryFee + tax,
+                              name: widget.name,
+                              email: widget.email,
+                              phone: widget.phoneNumber,
+                              restaurant: restaurant.id,
+                            )));
+                  },
                 ),
               ],
             ),
@@ -245,165 +254,171 @@ class _SelectProductPageState extends State<SelectProductPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Order Summary",
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: "AvenirBold",
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5.0, bottom: 14.0, left: 8.0, right: 8.0),
-                  child: SizedBox(
-                    height: 3.0,
-                    child: Container(
-                      color: Colors.black54,
-                    ),
-                  ),
-                ),
-                ConstantVariables.productList == null
-                    ? Container()
-                    : _generateSummary(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 14.0, bottom: 14.0, left: 8.0, right: 8.0),
-                  child: SizedBox(
-                    height: 3.0,
-                    child: Container(
-                      color: Colors.black54,
-                    ),
-                  ),
-                ),
-                Column(
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: SingleChildScrollView(
+                child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Text(
-                            "Taxes",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13.0,
-                              fontFamily: "Avenir",
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Text(
-                            restaurant == null
-                                ? "Rs. --"
-                                : restaurant.gst
-                                    ? "Rs. ${subTotal * 0.05}"
-                                    : "None",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13.0,
-                              fontFamily: "Avenir",
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Order Summary",
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: "AvenirBold",
+                            color: Colors.black,
+                            fontWeight: FontWeight.w800),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, top: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Text(
-                            "Sub-Total",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13.0,
-                              fontFamily: "Avenir",
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Text(
-                            "Rs. $subTotal",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13.0,
-                              fontFamily: "Avenir",
-                              color: Colors.black54,
-                            ),
-                          )
-                        ],
+                          top: 5.0, bottom: 14.0, left: 8.0, right: 8.0),
+                      child: SizedBox(
+                        height: 3.0,
+                        child: Container(
+                          color: Colors.black54,
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15.0, right: 15.0,top: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Text(
-                            "Delivery Fee",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13.0,
-                              fontFamily: "Avenir",
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Text(
-                              "Rs. " + getDeliveryFee(subTotal).toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13.0,
-                              fontFamily: "Avenir",
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ConstantVariables.productList == null
+                        ? Container()
+                        : _generateSummary(),
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, top: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          Text(
-                            "Total",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 16.0,
-                              fontFamily: "Avenir",
-                              color: Colors.black87,
-                            ),
-                          ),
-                          Text(
-                            "Rs. ${subTotal + tax + deliveryFee}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15.0,
-                              fontFamily: "Avenir",
-                              color: Colors.black54,
-                            ),
-                          ),
-                        ],
+                          top: 14.0, bottom: 14.0, left: 8.0, right: 8.0),
+                      child: SizedBox(
+                        height: 3.0,
+                        child: Container(
+                          color: Colors.black54,
+                        ),
                       ),
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(
+                                "Taxes",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13.0,
+                                  fontFamily: "Avenir",
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text(
+                                restaurant == null
+                                    ? "Rs. --"
+                                    : restaurant.gst
+                                        ? "Rs. ${subTotal * 0.05}"
+                                        : "None",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13.0,
+                                  fontFamily: "Avenir",
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 5.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(
+                                "Sub-Total",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13.0,
+                                  fontFamily: "Avenir",
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text(
+                                "Rs. $subTotal",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13.0,
+                                  fontFamily: "Avenir",
+                                  color: Colors.black54,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 5.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(
+                                "Delivery Fee",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13.0,
+                                  fontFamily: "Avenir",
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text(
+                                "Rs. " + getDeliveryFee(subTotal).toString(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 13.0,
+                                  fontFamily: "Avenir",
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, top: 5.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(
+                                "Total",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 16.0,
+                                  fontFamily: "Avenir",
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text(
+                                "Rs. ${subTotal + tax + deliveryFee}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15.0,
+                                  fontFamily: "Avenir",
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
             ConstantVariables.productList == null
                 ? Expanded(
@@ -415,144 +430,7 @@ class _SelectProductPageState extends State<SelectProductPage> {
                 : Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: ListView.builder(
-                          itemCount: _displayProducts.length + 1,
-                          itemBuilder: (BuildContext context, int index) {
-                            if (index == _displayProducts.length) {
-                              return SizedBox(
-                                height: 100,
-                              );
-                            } else {
-                              AssetImage image;
-                              if (ConstantVariables
-                                  .productList[ConstantVariables.productList
-                                      .indexOf(_displayProducts[index])]
-                                  .isVeg) {
-                                image = AssetImage('assets/veg.png');
-                              } else {
-                                image = AssetImage('assets/non_veg.png');
-                              }
-                              return Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 5.0, bottom: 5.0, right: 8.0),
-                                        child: Image(
-                                          image: image,
-                                          fit: BoxFit.contain,
-                                          height: 23.0,
-                                          width: 23.0,
-                                        ),
-                                      ),
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.85,
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: <Widget>[
-                                                Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.5,
-                                                  child: AutoSizeText(
-                                                    _displayProducts[index]
-                                                        .name,
-                                                    style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontFamily: 'Avenir-Bold',
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                    ),
-                                                    maxLines: 3,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 2.0,
-                                                ),
-                                                Text(
-                                                  "₹ " +
-                                                      '${_displayProducts[index].displayPrice}',
-                                                  style: TextStyle(
-                                                    color: Colors.black54,
-                                                    fontFamily: 'Avenir-Black',
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: <Widget>[
-                                                _displayQuantities[index] != 0
-                                                    ? IconButton(
-                                                        icon:
-                                                            Icon(Icons.remove),
-                                                        onPressed: () =>
-                                                            setState(
-                                                          () => _subtract(
-                                                              ConstantVariables
-                                                                  .productList
-                                                                  .indexOf(
-                                                                      _displayProducts[
-                                                                          index])),
-                                                        ),
-                                                      )
-                                                    : Container(),
-                                                Text(_displayQuantities[index]
-                                                    .toString()),
-                                                _displayQuantities[index] != 50
-                                                    ? IconButton(
-                                                        icon: Icon(Icons.add),
-                                                        onPressed: () =>
-                                                            setState(
-                                                          () => _add(ConstantVariables
-                                                              .productList
-                                                              .indexOf(
-                                                                  _displayProducts[
-                                                                      index])),
-                                                        ),
-                                                      )
-                                                    : IconButton(
-                                                        icon: Icon(
-                                                          Icons.add,
-                                                          color: Colors
-                                                              .transparent,
-                                                        ),
-                                                        onPressed: null,
-                                                      ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
-                          }),
+                      child: _buildProducts(),
                     ),
                   ),
           ],
@@ -640,8 +518,11 @@ class _SelectProductPageState extends State<SelectProductPage> {
     );
   }
 
-  double getDeliveryFee( double subTotal) {
-    if (subTotal <= 200) {
+  double getDeliveryFee(double subTotal) {
+    if (subTotal == 0) {
+      deliveryFee = 0;
+      return 0;
+    } else if (subTotal <= 200) {
       deliveryFee = 30;
       return 30;
     } else if (subTotal > 200 && subTotal <= 1000) {
@@ -651,6 +532,134 @@ class _SelectProductPageState extends State<SelectProductPage> {
       deliveryFee = 15;
       return 15;
     }
+  }
+
+  Widget _buildProducts() {
+    return ListView.builder(
+        itemCount: _displayProducts.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == _displayProducts.length) {
+            return SizedBox(
+              height: 100,
+            );
+          } else {
+            AssetImage image;
+            if (ConstantVariables
+                .productList[ConstantVariables.productList
+                    .indexOf(_displayProducts[index])]
+                .isVeg) {
+              image = AssetImage('assets/veg.png');
+            } else {
+              image = AssetImage('assets/non_veg.png');
+            }
+            return Container(
+              color: Colors.grey[200],
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, right: 8.0),
+                      child: Image(
+                        image: image,
+                        fit: BoxFit.contain,
+                        height: 23.0,
+                        width: 23.0,
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                child: AutoSizeText(
+                                  _displayProducts[index].name,
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontFamily: 'Avenir-Bold',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                  maxLines: 3,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 2.0,
+                              ),
+                              Text(
+                                "₹ " +
+                                    '${_displayProducts[index].displayPrice}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontFamily: 'Avenir-Black',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              ConstantVariables.quantityList[ConstantVariables
+                                          .productList
+                                          .indexOf(_displayProducts[index])] !=
+                                      0
+                                  ? IconButton(
+                                      icon: Icon(Icons.remove),
+                                      onPressed: () => setState(
+                                        () => _subtract(ConstantVariables
+                                            .productList
+                                            .indexOf(_displayProducts[index])),
+                                      ),
+                                    )
+                                  : Container(),
+                              Text(ConstantVariables.quantityList[
+                                      ConstantVariables.productList
+                                          .indexOf(_displayProducts[index])]
+                                  .toString()),
+                              ConstantVariables.quantityList[ConstantVariables
+                                          .productList
+                                          .indexOf(_displayProducts[index])] !=
+                                      50
+                                  ? IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: () => setState(
+                                        () => _add(ConstantVariables.productList
+                                            .indexOf(_displayProducts[index])),
+                                      ),
+                                    )
+                                  : IconButton(
+                                      icon: Icon(
+                                        Icons.add,
+                                        color: Colors.transparent,
+                                      ),
+                                      onPressed: null,
+                                    ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        });
   }
 
 //  List<Map<String, int>> convertToMap(List<Product> product) {

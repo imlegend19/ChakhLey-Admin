@@ -77,8 +77,6 @@ abstract class RestaurantStatic {
   static const keyRestaurantDetailURL =
       APIStatic.baseURL + restaurant_suffix + "?id=";
 
-  static const keyCreateOrderURL = APIStatic.baseURL + "order/create/";
-
   static const keyUnit = "unit";
   static const keyPhone = "phone";
   static const keyMobile = "mobile";
@@ -142,6 +140,8 @@ abstract class OrderStatic {
   static const keyOrderListURL = APIStatic.baseURL + "order/list/?status=";
   static const keyDeliveryBoyAddUrL = "&delivery_boy=";
   static const keyOrderDetailURL = APIStatic.baseURL + "order/";
+
+  static const keyCreateOrderURL = APIStatic.baseURL + "order/create/";
 
   static const keyPreparationTime = "preparation_time";
   static const keySuborderSet = "suborder_set";
