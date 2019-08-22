@@ -325,13 +325,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
         );
         await ConstantVariables.sentryClient.captureException(
           exception: Exception("Order Post Failure"),
-          stackTrace: [post, response.body, response.headers, response],
+          stackTrace: '[post: $post, respanse.body: ${response.body}, '
+              'response.headers: ${response.headers}, response: $response]',
         );
       }
     }).catchError((error) async {
       await ConstantVariables.sentryClient.captureException(
         exception: Exception("Order Post Failure Error"),
-        stackTrace: [post, error.toString()],
+        stackTrace: '[post: $post, error: ${error.toString()}]',
       );
     });
   }
@@ -341,8 +342,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
     delivery["location"] = _controller.text.trim();
     delivery["unit_no"] = _unitNoController.text.trim().toUpperCase();
     String addressLine = _landmarkController.text.trim();
-    delivery["address_line_2"] =
-        addressLine != '' ? '${addressLine[0].toUpperCase()}${addressLine.substring(1)}' : "";
+    delivery["address_line_2"] = addressLine != ''
+        ? '${addressLine[0].toUpperCase()}${addressLine.substring(1)}'
+        : "";
     delivery["amount"] = widget.deliveryFee;
     delivery["latitude"] = ConstantVariables.userLatitude;
     delivery["longitude"] = ConstantVariables.userLongitude;

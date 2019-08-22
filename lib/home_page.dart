@@ -9,7 +9,6 @@ import 'package:chakh_le_admin/static_variables/no_internet.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-
 import 'entity/employee.dart';
 
 class DrawerItem {
@@ -64,7 +63,6 @@ class _HomePageState extends State<HomePage> {
         });
       }
     });
-
   }
 
   _getDrawerItemWidget(int pos) {
@@ -149,8 +147,12 @@ class _HomePageState extends State<HomePage> {
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.grey[200],
                 ),
-                accountName:ConstantVariables.user['name']!=null ?Text(ConstantVariables.user['name']): Text(' No name'),
-                accountEmail: ConstantVariables.user['email']!=null ?Text(ConstantVariables.user['email']): Text('--No email--')),
+                accountName: ConstantVariables.user['name'] != null
+                    ? Text(ConstantVariables.user['name'])
+                    : Text(' No name'),
+                accountEmail: ConstantVariables.user['email'] != null
+                    ? Text(ConstantVariables.user['email'])
+                    : Text('--No email--')),
             Column(children: drawerOptions)
           ],
         ),
