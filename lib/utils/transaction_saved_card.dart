@@ -1,6 +1,4 @@
-import 'package:chakh_le_admin/entity/group_model.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
-import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:flutter/material.dart';
 
 Widget transactionCard(BuildContext context, Transaction transaction) {
