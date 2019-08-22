@@ -144,8 +144,11 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: <Widget>[
             UserAccountsDrawerHeader(
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.grey[200],
+                currentAccountPicture: Container(
+                  width: 75,
+                  height: 75,
+                  color: Colors.white,
+                  child: Image.asset("assets/logo.png"),
                 ),
                 accountName: ConstantVariables.user['name'] != null
                     ? Text(ConstantVariables.user['name'])
