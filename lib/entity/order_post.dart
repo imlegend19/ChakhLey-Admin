@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:chakh_le_admin/entity/api_static.dart';
 
-
 class PostOrder {
   final String name;
   final String mobile;

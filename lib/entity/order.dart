@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'api_static.dart';
@@ -99,7 +100,13 @@ Future<GetOrders> fetchOrder(String status) async {
 
     return order;
   } else {
-    throw Exception('Failed to load get');
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Order Post Failure"),
+      stackTrace: '[response.body: ${response.body}, '
+          'response.headers: ${response.headers}, response: $response]',
+    );
+
+    return null;
   }
 }
 
@@ -126,8 +133,13 @@ Future<GetOrders> fetchOrderDeliveryBoy(String status, int deliveryBoy) async {
 
     return order;
   } else {
-    print(response.body);
-    throw Exception('Failed to load get');
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Order Post Failure"),
+      stackTrace: '[response.body: ${response.body}, '
+          'response.headers: ${response.headers}, response: $response]',
+    );
+
+    return null;
   }
 }
 
@@ -149,10 +161,18 @@ patchOrder(int id, String status) async {
     );
   } else if (response.statusCode == 503) {
     Fluttertoast.showToast(
-      msg: "Please check your internet!",
+      msg: "Some error occurred!",
       fontSize: 13.0,
       toastLength: Toast.LENGTH_LONG,
       timeInSecForIos: 2,
+    );
+
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Order Patch Failure"),
+      stackTrace:
+          '[patch: [id: $id, status: $status], response.body: ${jsonEncode(json)}, '
+          'response.headers: ${response.headers}, response: $response, '
+          'status code: ${response.statusCode}]',
     );
   } else {
     Fluttertoast.showToast(
@@ -160,6 +180,14 @@ patchOrder(int id, String status) async {
       fontSize: 13.0,
       toastLength: Toast.LENGTH_LONG,
       timeInSecForIos: 2,
+    );
+
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Order Patch Failure"),
+      stackTrace:
+          '[patch: [id: $id, status: $status], response.body:${jsonEncode(json)}, '
+          'response.headers: ${response.headers}, response: $response, '
+          'status code: ${response.statusCode}]',
     );
   }
 }

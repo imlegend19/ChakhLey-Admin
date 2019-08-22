@@ -193,7 +193,10 @@ void orderStatusButton(BuildContext context, Order order) {
       ConstantVariables.order.indexOf(order.status) == 5)) {
     return null;
   } else if (ConstantVariables.order.indexOf(order.status) == 1) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectDeliveryBoyPage(order: order)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SelectDeliveryBoyPage(order: order)));
   } else {
     checkStatusOnPressed(order);
   }
@@ -205,5 +208,3 @@ void checkStatusOnPressed(Order order) {
       ConstantVariables.orderCode[ConstantVariables
           .order[ConstantVariables.order.indexOf(order.status) + 1]]);
 }
-
-

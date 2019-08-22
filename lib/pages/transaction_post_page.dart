@@ -210,7 +210,6 @@ class _TransactionPostPageState extends State<TransactionPostPage> {
 
     createPost(post).then((response) {
       if (response.statusCode == 201) {
-       
         Fluttertoast.showToast(
           msg: "Transaction Completed",
           fontSize: 13.0,

@@ -15,7 +15,7 @@ Widget buildNoInternet(BuildContext context) {
           height: MediaQuery.of(context).size.height * 0.4,
           child: Transform.translate(
             child:
-            Image(image: AssetImage('assets/no_internet_connection.gif')),
+                Image(image: AssetImage('assets/no_internet_connection.gif')),
             offset: Offset(0, -50),
           ),
         ),

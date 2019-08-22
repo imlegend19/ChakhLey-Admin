@@ -31,7 +31,8 @@ class _TransactionPageState extends State<TransactionPage> {
     super.initState();
     paymentDoneCheck();
     for (final i in ConstantVariables.deliveryBoyList) {
-      _deliveryBoyNameList.add(GroupModel(text: i.user[APIStatic.keyName], index: i.id));
+      _deliveryBoyNameList
+          .add(GroupModel(text: i.user[APIStatic.keyName], index: i.id));
     }
   }
 

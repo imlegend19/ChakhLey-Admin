@@ -33,13 +33,14 @@ class _RestaurantPageState extends State<RestaurantPage> {
           return ListTile(
             title: Text('${restaurantList[index].name}'),
             leading: Switch(
-              inactiveThumbColor: Colors.red,
+                inactiveThumbColor: Colors.red,
                 activeColor: Colors.green,
                 value: _value[index],
                 onChanged: (value) {
                   setState(() {
                     _value[index] = value;
-                    patchRestaurantOpen(_value[index], restaurantList[index].id);
+                    patchRestaurantOpen(
+                        _value[index], restaurantList[index].id);
                   });
                 }),
           );

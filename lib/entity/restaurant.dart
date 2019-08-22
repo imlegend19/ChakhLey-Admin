@@ -113,7 +113,14 @@ Future<GetRestaurant> fetchRestaurant(int businessID) async {
 
     return restaurant;
   } else {
-    throw Exception('Failed to load get');
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Restaurant Get Failure"),
+      stackTrace: '[response.body: ${response.body}, '
+          'response.headers: ${response.headers}, response: $response,'
+          'status code: ${response.statusCode}]',
+    );
+
+    return null;
   }
 }
 
@@ -128,15 +135,23 @@ Future<GetRestaurant> fetchRestaurantData(int id) async {
     return restaurant;
   } else {
     Fluttertoast.showToast(
-      msg: "Check your Internet Connection",
+      msg: "Some error occurred!",
       fontSize: 13.0,
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 1,
     );
 
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Restaurant Retrieve Failure"),
+      stackTrace: '[id: $id, response.body: ${response.body}, '
+          'response.headers: ${response.headers}, response: $response,'
+          'status code: ${response.statusCode}]',
+    );
+
     return null;
   }
 }
+
 patchRestaurantOpen(bool isActive, int id) async {
   var json = {"is_active": isActive};
 
@@ -160,6 +175,16 @@ patchRestaurantOpen(bool isActive, int id) async {
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 2,
     );
+
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Restaurant Patch Failure"),
+      stackTrace:
+          '[id: $id, active: $isActive, response.body: ${response.body}, '
+          'response.headers: ${response.headers}, response: $response,'
+          'status code: ${response.statusCode}]',
+    );
+
+    return null;
   } else {
     Fluttertoast.showToast(
       msg: 'Error!!',
@@ -167,7 +192,15 @@ patchRestaurantOpen(bool isActive, int id) async {
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 2,
     );
+
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Restaurant Patch Failure"),
+      stackTrace:
+          '[id: $id, active: $isActive, response.body: ${response.body}, '
+          'response.headers: ${response.headers}, response: $response,'
+          'status code: ${response.statusCode}]',
+    );
+
+    return null;
   }
 }
-
-

@@ -42,7 +42,7 @@ packages:
       name: connectivity
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3+6"
+    version: "0.4.3+7"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -143,7 +143,7 @@ packages:
       name: rounded_modal
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   sentry:
     dependency: "direct main"
     description:
@@ -218,7 +218,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.0"
+    version: "5.1.2"
   usage:
     dependency: transitive
     description:

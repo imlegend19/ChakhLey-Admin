@@ -17,7 +17,7 @@ Widget subOrderCard(BuildContext context, Order order, int index) {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Container(
-                  width:MediaQuery.of(context).size.width*0.6,
+                  width: MediaQuery.of(context).size.width * 0.6,
                   child: Text(
                     '${order.suborderSet[index][SuborderSetStatic.keyProduct][APIStatic.keyName]}',
                     style: TextStyle(
@@ -28,7 +28,7 @@ Widget subOrderCard(BuildContext context, Order order, int index) {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right:8.0),
+                  padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
                     '${order.suborderSet[index][SuborderSetStatic.keyProduct][SuborderSetStatic.keyPrice]}',
                     style: TextStyle(

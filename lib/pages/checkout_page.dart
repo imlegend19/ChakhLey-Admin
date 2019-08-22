@@ -325,7 +325,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         );
         await ConstantVariables.sentryClient.captureException(
           exception: Exception("Order Post Failure"),
-          stackTrace: '[post: $post, respanse.body: ${response.body}, '
+          stackTrace: '[post: $post, response.body: ${response.body}, '
               'response.headers: ${response.headers}, response: $response]',
         );
       }

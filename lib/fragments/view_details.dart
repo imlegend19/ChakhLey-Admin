@@ -1,5 +1,4 @@
 import 'package:chakh_le_admin/entity/api_static.dart';
-import 'package:chakh_le_admin/entity/employee.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:chakh_le_admin/pages/transaction_page.dart';
@@ -24,8 +23,9 @@ class _ViewDetailsState extends State<ViewDetails> {
 
   @override
   void initState() {
+    super.initState();
     for (final i in ConstantVariables.deliveryBoyList) {
-      _deliveryBoyNameList.add( i.user[APIStatic.keyName]);
+      _deliveryBoyNameList.add(i.user[APIStatic.keyName]);
     }
   }
 

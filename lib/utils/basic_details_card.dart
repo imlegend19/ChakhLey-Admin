@@ -118,7 +118,9 @@ Widget basicDetailsCard(Order order) {
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: order.deliveryBoy !=null ? '${order.deliveryBoy["user"]["name"]}': 'Not Assigned',
+                  text: order.deliveryBoy != null
+                      ? '${order.deliveryBoy["user"]["name"]}'
+                      : 'Not Assigned',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontFamily: 'Avenir-Bold',

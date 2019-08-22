@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:http/http.dart' as http;
 import 'api_static.dart';
 
@@ -84,7 +85,13 @@ Future<GetProducts> fetchProducts(int restaurantId) async {
 
     return product;
   } else {
-    print(response.body);
-    throw Exception('Failed to load get');
+    await ConstantVariables.sentryClient.captureException(
+      exception: Exception("Product Get Failure"),
+      stackTrace: '[response.body: ${response.body}, '
+          'response.headers: ${response.headers}, response: $response,'
+          'status code: ${response.statusCode}]',
+    );
+
+    return null;
   }
 }

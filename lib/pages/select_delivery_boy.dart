@@ -20,7 +20,8 @@ class _SelectDeliveryBoyPageState extends State<SelectDeliveryBoyPage> {
   void initState() {
     super.initState();
     for (final i in ConstantVariables.deliveryBoyList) {
-      _deliveryBoyNameList.add(GroupModel(text: i.user[APIStatic.keyName], index: i.id));
+      _deliveryBoyNameList
+          .add(GroupModel(text: i.user[APIStatic.keyName], index: i.id));
     }
   }
 
@@ -66,8 +67,12 @@ class _SelectDeliveryBoyPageState extends State<SelectDeliveryBoyPage> {
                         ? null
                         : () {
                             patchOrderDeliveryBoy(
-                                widget.order.id, ConstantVariables.orderCode[ConstantVariables
-                                .order[ConstantVariables.order.indexOf(widget.order.status) + 1]], _currentIndex);
+                                widget.order.id,
+                                ConstantVariables.orderCode[ConstantVariables
+                                    .order[ConstantVariables.order
+                                        .indexOf(widget.order.status) +
+                                    1]],
+                                _currentIndex);
                             Navigator.pop(context);
                           },
                     child: Text(
@@ -87,5 +92,3 @@ class _SelectDeliveryBoyPageState extends State<SelectDeliveryBoyPage> {
     );
   }
 }
-
-

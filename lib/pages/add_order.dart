@@ -70,9 +70,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
               Icons.person,
               color: Colors.red,
             ),
-            border: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.red)
-            ),
+            border:
+                UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
             labelStyle: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 13.0,
@@ -102,9 +101,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
               Icons.phone_iphone,
               color: Colors.red,
             ),
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.red)
-            ),
+            border:
+                UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
             labelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 13.0,
@@ -132,9 +130,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
               Icons.mail,
               color: Colors.red,
             ),
-            border: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.red)
-            ),
+            border:
+                UnderlineInputBorder(borderSide: BorderSide(color: Colors.red)),
             labelStyle: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 13.0,
