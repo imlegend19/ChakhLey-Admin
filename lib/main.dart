@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
 
         return widget;
       },
+      debugShowMaterialGrid: false,
       routes: <String, WidgetBuilder>{
         '/homepage': (BuildContext context) => HomePage(),
         '/loginpage': (BuildContext context) => LoginPage(),
