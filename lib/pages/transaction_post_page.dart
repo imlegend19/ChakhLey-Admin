@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction_post.dart';
-import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

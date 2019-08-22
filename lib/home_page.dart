@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:chakh_le_admin/entity/restaurant.dart';
 import 'package:chakh_le_admin/fragments/order_station.dart';
 import 'package:chakh_le_admin/models/user_pref.dart';
-import 'package:chakh_le_admin/pages/deliveryboy.dart';
+import 'package:chakh_le_admin/pages/delivery_boy.dart';
 import 'package:chakh_le_admin/pages/restaurant_close.dart';
 import 'package:chakh_le_admin/static_variables/no_internet.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';

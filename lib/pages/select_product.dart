@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/entity/order_post.dart';
@@ -9,7 +8,6 @@ import 'package:chakh_le_admin/pages/checkout_page.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/color_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class SelectProductPage extends StatefulWidget {

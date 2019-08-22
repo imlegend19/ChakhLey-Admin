@@ -2,7 +2,6 @@ import 'package:chakh_le_admin/entity/employee.dart';
 import 'package:chakh_le_admin/entity/product.dart';
 import 'package:chakh_le_admin/entity/restaurant.dart';
 import 'package:sentry/sentry.dart';
-import 'package:sentry/sentry.dart';
 
 class ConstantVariables {
   static int openRestaurantsCount;
