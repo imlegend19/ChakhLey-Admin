@@ -243,6 +243,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                   onPressed: enableProceed
                       ? () {
+                          setState(() {
+                            enableProceed = false;
+                          });
                           checkoutOrder();
                         }
                       : null,
@@ -297,8 +300,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
       name: widget.name,
       mobile: widget.phone,
       email: widget.email,
-      businessId: ConstantVariables.businessID,
-      restaurant: widget.restaurant,
+      business: ConstantVariables.businessID,
+      restaurantId: widget.restaurant,
       preparationTime:
           _ptController.text.trim() != '' ? int.parse(_ptController.text) : 35,
       delivery: convertAddressToMap(),
@@ -323,18 +326,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIos: 2,
         );
-        await ConstantVariables.sentryClient.captureException(
-          exception: Exception("Order Post Failure"),
-          stackTrace: '[post: $post, response.body: ${response.body}, '
-              'response.headers: ${response.headers}, response: $response]',
-        );
       }
-    }).catchError((error) async {
-      await ConstantVariables.sentryClient.captureException(
-        exception: Exception("Order Post Failure Error"),
-        stackTrace: '[post: $post, error: ${error.toString()}]',
-      );
-    });
+    }).catchError((error) async {});
   }
 
   Map<String, dynamic> convertAddressToMap() {

@@ -227,18 +227,8 @@ class _TransactionPostPageState extends State<TransactionPostPage> {
           toastLength: Toast.LENGTH_LONG,
           timeInSecForIos: 2,
         );
-
-        await ConstantVariables.sentryClient.captureException(
-          exception: Exception("Transaction Post Failure"),
-          stackTrace: '[post: $post, respanse.body: ${response.body}, '
-              'response.headers: ${response.headers}, response: $response]',
-        );
       }
-    }).catchError((error) async {
-      await ConstantVariables.sentryClient.captureException(
-        exception: Exception("Transaction Post Failure Error"),
-        stackTrace: '[post: $post, error: ${error.toString()}]',
-      );
+    }).catchError((error) {
     });
   }
 }

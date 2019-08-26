@@ -6,8 +6,8 @@ class PostOrder {
   final String name;
   final String mobile;
   final String email;
-  final int restaurant;
-  final int businessId;
+  final int restaurantId;
+  final int business;
   final int preparationTime;
   final Map<String, dynamic> delivery;
   final List<Map<String, int>> subOrderSet;
@@ -16,8 +16,8 @@ class PostOrder {
     this.name,
     this.mobile,
     this.email,
-    this.businessId,
-    this.restaurant,
+    this.business,
+    this.restaurantId,
     this.preparationTime,
     this.delivery,
     this.subOrderSet,
@@ -26,25 +26,25 @@ class PostOrder {
   factory PostOrder.fromJson(Map<String, dynamic> json) {
     return PostOrder(
       name: json[APIStatic.keyName],
-      mobile: json[RestaurantStatic.keyMobile],
-      email: json[RestaurantStatic.keyEmail],
-      businessId: json[OrderStatic.keyBusinessId],
-      preparationTime: json[RestaurantStatic.keyPreparationTime],
-      restaurant: json[RestaurantStatic.keyRestaurant],
-      delivery: json[RestaurantStatic.keyDelivery],
-      subOrderSet: json[RestaurantStatic.keySubOrderSet],
+      mobile: json[APIStatic.keyMobile],
+      email: json[APIStatic.keyEmail],
+      business: json[APIStatic.keyBusiness],
+      preparationTime: json[OrderStatic.keyPreparationTime],
+      restaurantId: json[OrderStatic.keyRestaurantId],
+      delivery: json[OrderStatic.keyDelivery],
+      subOrderSet: json[OrderStatic.keySubOrderSet],
     );
   }
 
   Map<String, dynamic> toJson() => {
         APIStatic.keyName: name,
-        RestaurantStatic.keyMobile: mobile,
-        RestaurantStatic.keyEmail: email,
-        APIStatic.keyBusiness: businessId,
-        RestaurantStatic.keyPreparationTime: preparationTime,
-        RestaurantStatic.keyRestaurant: restaurant,
-        RestaurantStatic.keyDelivery: delivery,
-        RestaurantStatic.keySubOrderSet: subOrderSet,
+        APIStatic.keyMobile: mobile,
+        APIStatic.keyEmail: email,
+        APIStatic.keyBusiness: business,
+        OrderStatic.keyPreparationTime: preparationTime,
+        OrderStatic.keyRestaurantId: restaurantId,
+        OrderStatic.keyDelivery: delivery,
+        OrderStatic.keySubOrderSet: subOrderSet,
       };
 }
 

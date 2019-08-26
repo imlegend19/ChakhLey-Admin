@@ -81,8 +81,8 @@ class GetRestaurant {
 }
 
 Future<GetRestaurant> fetchRestaurant(int businessID) async {
-  final response =
-      await http.get(RestaurantStatic.keyRestaurantURL + '?business=$businessID');
+  final response = await http
+      .get(RestaurantStatic.keyRestaurantURL + '?business=$businessID');
 
   if (response.statusCode == 200) {
     int count = jsonDecode(response.body)[APIStatic.keyCount];
@@ -103,13 +103,6 @@ Future<GetRestaurant> fetchRestaurant(int businessID) async {
 
     return restaurant;
   } else {
-    await ConstantVariables.sentryClient.captureException(
-      exception: Exception("Restaurant Get Failure"),
-      stackTrace: '[response.body: ${response.body}, '
-          'response.headers: ${response.headers}, response: $response,'
-          'status code: ${response.statusCode}]',
-    );
-
     return null;
   }
 }
@@ -129,13 +122,6 @@ Future<GetRestaurant> fetchRestaurantData(int id) async {
       fontSize: 13.0,
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 1,
-    );
-
-    await ConstantVariables.sentryClient.captureException(
-      exception: Exception("Restaurant Retrieve Failure"),
-      stackTrace: '[id: $id, response.body: ${response.body}, '
-          'response.headers: ${response.headers}, response: $response,'
-          'status code: ${response.statusCode}]',
     );
 
     return null;
@@ -165,15 +151,6 @@ patchRestaurantOpen(bool isActive, int id) async {
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 2,
     );
-
-    await ConstantVariables.sentryClient.captureException(
-      exception: Exception("Restaurant Patch Failure"),
-      stackTrace:
-          '[id: $id, active: $isActive, response.body: ${response.body}, '
-          'response.headers: ${response.headers}, response: $response,'
-          'status code: ${response.statusCode}]',
-    );
-
     return null;
   } else {
     Fluttertoast.showToast(
@@ -182,15 +159,6 @@ patchRestaurantOpen(bool isActive, int id) async {
       toastLength: Toast.LENGTH_SHORT,
       timeInSecForIos: 2,
     );
-
-    await ConstantVariables.sentryClient.captureException(
-      exception: Exception("Restaurant Patch Failure"),
-      stackTrace:
-          '[id: $id, active: $isActive, response.body: ${response.body}, '
-          'response.headers: ${response.headers}, response: $response,'
-          'status code: ${response.statusCode}]',
-    );
-
     return null;
   }
 }

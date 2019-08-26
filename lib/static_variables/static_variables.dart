@@ -66,8 +66,6 @@ class ConstantVariables {
     "C": "Cancelled"
   };
 
-  static SentryClient sentryClient;
-
   static var sentryDSN =
       "https://00ba7f023d974c3da7a4c13c594e6162:c4fe2855a00442779608078db6d617f0@sentry.io/1537721";
 }

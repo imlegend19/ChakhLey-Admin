@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:chakh_le_admin/static_variables/static_variables.dart';
+
 import 'package:http/http.dart' as http;
+
 import 'api_static.dart';
 
 class Employee {
@@ -10,11 +11,14 @@ class Employee {
   final String userMobile;
   final int businessId;
   final bool isActive;
-  Employee(
-      {this.id,
-       this.userId,this.userName,this.userMobile,
-      this.businessId,
-      this.isActive});
+  Employee({
+    this.id,
+    this.userId,
+    this.userName,
+    this.userMobile,
+    this.businessId,
+    this.isActive,
+  });
 }
 
 class GetEmployees {
@@ -31,15 +35,13 @@ class GetEmployees {
 
     for (int i = 0; i < results.length; i++) {
       Map<String, dynamic> jsonOrder = results[i];
-      employees.add(
-        Employee(
-            id: jsonOrder[APIStatic.keyID],
-            userId: jsonOrder[EmployeeStatic.keyUserID],
-            userName: jsonOrder[EmployeeStatic.keyUserName],
-            userMobile: jsonOrder[EmployeeStatic.keyUserMobile],
-            businessId: jsonOrder[EmployeeStatic.keyBusinessId],
-            isActive: jsonOrder[EmployeeStatic.keyIsActive])
-      );
+      employees.add(Employee(
+          id: jsonOrder[APIStatic.keyID],
+          userId: jsonOrder[EmployeeStatic.keyUserID],
+          userName: jsonOrder[EmployeeStatic.keyUserName],
+          userMobile: jsonOrder[EmployeeStatic.keyUserMobile],
+          businessId: jsonOrder[EmployeeStatic.keyBusinessId],
+          isActive: jsonOrder[EmployeeStatic.keyIsActive]));
     }
 
     count = employees.length;
@@ -69,13 +71,6 @@ Future<GetEmployees> fetchEmployee() async {
 
     return employee;
   } else {
-    await ConstantVariables.sentryClient.captureException(
-      exception: Exception("Employee Get Failure"),
-      stackTrace: '[response.body: ${response.body}, '
-          'response.headers: ${response.headers}, response: $response,'
-          'status code: ${response.statusCode}]',
-    );
-
     return null;
   }
 }

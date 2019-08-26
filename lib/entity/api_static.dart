@@ -13,6 +13,9 @@ abstract class APIStatic {
   static const keyMessage = "message";
   static const keyDetail = "detail";
 
+  static const keyMobile = "mobile";
+  static const keyEmail = "email";
+
   static const keyBusiness = "business";
 
   static const dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ss";
@@ -168,7 +171,7 @@ abstract class OrderStatic {
   static const keyMobile = "mobile";
   static const keyEmail = "email";
   static const keyPreparationTime = "preparation_time";
-  static const keyRestaurantId = "restaurant_id";
+  static const keyRestaurantId = "restaurant";
   static const keyRestaurantName = "restaurant_name";
   static const keyPackagingCharge = "packaging_charge";
   static const keySubOrderSet = "suborder_set";
@@ -180,7 +183,6 @@ abstract class OrderStatic {
   static const keyHasDeliveryBoy = "has_delivery_boy";
   static const keyDeliveryBoy = "delivery_boy";
 }
-
 
 abstract class TransactionStatic {
   static const transactionURL = APIStatic.baseURL + "transactions/list/?order=";

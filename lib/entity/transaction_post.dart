@@ -31,13 +31,13 @@ class PostTransaction {
   }
 
   Map<String, dynamic> toJson() => {
-    TransactionStatic.keyOrder: order,
-    TransactionStatic.keyAmount: amount,
-    TransactionStatic.keyIsCredit: isCredit,
-    TransactionStatic.keyPaymentType: paymentType,
-    TransactionStatic.keyPaymentMode: paymentMode,
-    TransactionStatic.keyAcceptedBy: acceptedBy
-  };
+        TransactionStatic.keyOrder: order,
+        TransactionStatic.keyAmount: amount,
+        TransactionStatic.keyIsCredit: isCredit,
+        TransactionStatic.keyPaymentType: paymentType,
+        TransactionStatic.keyPaymentMode: paymentMode,
+        TransactionStatic.keyAcceptedBy: acceptedBy
+      };
 }
 
 String postTransactionToJson(PostTransaction data) {

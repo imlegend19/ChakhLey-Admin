@@ -40,8 +40,7 @@ Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
   );
 }
 
-
-void main() async{
+void main() async {
   FlutterError.onError = (FlutterErrorDetails details) async {
     if (isInDebugMode) {
       FlutterError.dumpErrorToConsole(details);
@@ -159,6 +158,9 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: enableLogin
             ? () {
+                setState(() {
+                  enableLogin = false;
+                });
                 loginUserPost();
               }
             : null,
@@ -252,9 +254,19 @@ class _LoginPageState extends State<LoginPage> {
           timeInSecForIos: 2,
         );
       } else if (response.statusCode == 400) {
-        print(response.statusCode);
+        Fluttertoast.showToast(
+          msg: "Not a valid admin!",
+          fontSize: 13.0,
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIos: 2,
+        );
       } else {
-        print(response.statusCode);
+        Fluttertoast.showToast(
+          msg: "Not a valid admin!",
+          fontSize: 13.0,
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIos: 2,
+        );
       }
     }).catchError((error) {
       print('error : $error');
