@@ -30,7 +30,7 @@ class _TransactionPageState extends State<TransactionPage> {
     paymentDoneCheck();
     for (final i in ConstantVariables.deliveryBoyList) {
       _deliveryBoyNameList
-          .add(GroupModel(text: i.user[APIStatic.keyName], index: i.id));
+          .add(GroupModel(text: i.userName, index: i.id));
     }
   }
 

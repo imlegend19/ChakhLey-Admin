@@ -9,7 +9,7 @@ class Order {
   final String name;
   final String mobile;
   final String email;
-  final Map<String, dynamic> restaurant;
+  final String restaurantName;
   final String preparationTime;
   final String status;
   final String orderDate;
@@ -25,7 +25,7 @@ class Order {
     this.name,
     this.mobile,
     this.email,
-    this.restaurant,
+    this.restaurantName,
     this.preparationTime,
     this.status,
     this.orderDate,
@@ -58,13 +58,13 @@ class GetOrders {
           name: jsonOrder[APIStatic.keyName],
           mobile: jsonOrder[RestaurantStatic.keyMobile],
           email: jsonOrder[RestaurantStatic.keyEmail],
-          restaurant: jsonOrder[RestaurantStatic.keyRestaurant],
+          restaurantName: jsonOrder[OrderStatic.keyRestaurantName],
           preparationTime: jsonOrder[OrderStatic.keyPreparationTime],
           status: jsonOrder[OrderStatic.keyStatus],
           orderDate: jsonOrder[OrderStatic.keyOrderDate],
           total: jsonOrder[OrderStatic.keyTotal],
           paymentDone: jsonOrder[OrderStatic.keyPaymentDone],
-          suborderSet: jsonOrder[OrderStatic.keySuborderSet],
+          suborderSet: jsonOrder[OrderStatic.keySubOrderSet],
           delivery: jsonOrder[OrderStatic.keyDelivery],
           deliveryBoy: jsonOrder[OrderStatic.keyDeliveryBoy],
           hasDeliveryBoy: jsonOrder[OrderStatic.keyHasDeliveryBoy],
@@ -113,7 +113,7 @@ Future<GetOrders> fetchOrder(String status) async {
 Future<GetOrders> fetchOrderDeliveryBoy(String status, int deliveryBoy) async {
   final response = await http.get(OrderStatic.keyOrderListURL +
       status +
-      OrderStatic.keyDeliveryBoyAddUrL +
+      OrderStatic.keyDeliveryBoyUserAddUrL +
       '$deliveryBoy');
 
   if (response.statusCode == 200) {

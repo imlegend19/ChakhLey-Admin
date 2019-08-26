@@ -70,7 +70,7 @@ Widget basicDetailsCard(Order order) {
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: '${order.restaurant[APIStatic.keyName]}',
+                  text: '${order.restaurantName}',
                   style: TextStyle(
                     fontSize: 18.0,
                     fontFamily: 'Avenir-Bold',
@@ -119,7 +119,7 @@ Widget basicDetailsCard(Order order) {
               children: <TextSpan>[
                 TextSpan(
                   text: order.deliveryBoy != null
-                      ? '${order.deliveryBoy["user"]["name"]}'
+                      ? '${order.deliveryBoy["user_name"]}'
                       : 'Not Assigned',
                   style: TextStyle(
                     fontSize: 18.0,

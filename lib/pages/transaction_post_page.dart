@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'dart:convert' as JSON;
+
 import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction_post.dart';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -204,9 +207,9 @@ class _TransactionPostPageState extends State<TransactionPostPage> {
         isCredit: true,
         paymentType: selectedType,
         paymentMode: selectedMode,
-        acceptedBy: widget.order.deliveryBoy);
+        acceptedBy: widget.order.deliveryBoy !=null ? widget.order.deliveryBoy["id"]: null);
 
-    createPost(post).then((response) {
+    createPost(post).then((response) async {
       if (response.statusCode == 201) {
         Fluttertoast.showToast(
           msg: "Transaction Completed",
@@ -215,22 +218,28 @@ class _TransactionPostPageState extends State<TransactionPostPage> {
           timeInSecForIos: 2,
         );
       } else if (response.statusCode == 400) {
-        // print(response.body);
+        var json = JSON.jsonDecode(response.body);
+        assert(json is Map);
+
+        Fluttertoast.showToast(
+          msg: json['detail'],
+          fontSize: 13.0,
+          toastLength: Toast.LENGTH_LONG,
+          timeInSecForIos: 2,
+        );
+
+        await ConstantVariables.sentryClient.captureException(
+          exception: Exception("Transaction Post Failure"),
+          stackTrace: '[post: $post, respanse.body: ${response.body}, '
+              'response.headers: ${response.headers}, response: $response]',
+        );
       }
-    }).catchError((Object error) {
-      Fluttertoast.showToast(
-        msg: "Please check your internet!",
-        fontSize: 13.0,
-        toastLength: Toast.LENGTH_LONG,
-        timeInSecForIos: 2,
-      );
-    }).catchError((error) {
-      Fluttertoast.showToast(
-        msg: error.toString(),
-        fontSize: 13.0,
-        toastLength: Toast.LENGTH_LONG,
-        timeInSecForIos: 2,
+    }).catchError((error) async {
+      await ConstantVariables.sentryClient.captureException(
+        exception: Exception("Transaction Post Failure Error"),
+        stackTrace: '[post: $post, error: ${error.toString()}]',
       );
     });
   }
 }
+

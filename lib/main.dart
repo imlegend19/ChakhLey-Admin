@@ -13,18 +13,47 @@ import 'package:sentry/sentry.dart';
 import 'models/user_post.dart';
 import 'models/user_pref.dart';
 
-void main() {
-  ConstantVariables.sentryClient =
-      SentryClient(dsn: ConstantVariables.sentryDSN);
+final SentryClient _sentry = SentryClient(dsn: ConstantVariables.sentryDSN);
+
+bool get isInDebugMode {
+  bool inDebugMode = false;
+  assert(inDebugMode = true);
+  return inDebugMode;
+}
+
+Future<Null> _reportError(dynamic error, dynamic stackTrace) async {
+  // print('Caught error: $error');
+
+  // Errors thrown in development mode are unlikely to be interesting. You can
+  // check if you are running in dev mode using an assertion and omit sending
+  // the report.
+  if (isInDebugMode) {
+    print(stackTrace);
+    print('In dev mode. Not sending report to Sentry.io.');
+    return;
+  }
+
+  // print('Reporting to Sentry.io...');
+  await _sentry.captureException(
+    exception: error,
+    stackTrace: stackTrace,
+  );
+}
+
+
+void main() async{
+  FlutterError.onError = (FlutterErrorDetails details) async {
+    if (isInDebugMode) {
+      FlutterError.dumpErrorToConsole(details);
+    } else {
+      Zone.current.handleUncaughtError(details.exception, details.stack);
+    }
+  };
 
   runZoned(() async {
     runApp(MyApp());
   }, onError: (error, stackTrace) async {
-    // print(error);
-    await ConstantVariables.sentryClient.captureException(
-      exception: error,
-      stackTrace: stackTrace,
-    );
+    await _reportError(error, stackTrace);
   });
 }
 

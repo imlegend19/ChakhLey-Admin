@@ -1,5 +1,5 @@
 abstract class APIStatic {
-  static const baseURL = "http://admin.chakhley.co.in/api/";
+  static const baseURL = "http://adminbeta.chakhley.co.in/api/";
 
   static const keyID = "id";
   static const keyName = "name";
@@ -45,12 +45,11 @@ abstract class LocationStatic {
 abstract class EmployeeStatic {
   static const keyEmployeeURL = APIStatic.baseURL + "employee/";
 
-  static const keyDesignation = "designation";
   static const keyIsActive = "is_active";
-  static const keyJoinedOn = "joined_on";
-  static const keyLeftOn = "left_on";
-  static const keySalary = "salary";
-  static const keyUser = "user";
+  static const keyUserID = "user_id";
+  static const keyUserName = "user_name";
+  static const keyUserMobile = "user_mobile";
+  static const keyBusinessId = "business_id";
 }
 
 abstract class ProductStatic {
@@ -77,6 +76,7 @@ abstract class RestaurantStatic {
   static const keyRestaurantDetailURL =
       APIStatic.baseURL + restaurant_suffix + "?id=";
 
+  static const keyBusinessId = "business_id";
   static const keyUnit = "unit";
   static const keyPhone = "phone";
   static const keyMobile = "mobile";
@@ -137,22 +137,50 @@ abstract class SuborderSetStatic {
 }
 
 abstract class OrderStatic {
+  ///
+  /// {
+  ///      "id": 2,
+  ///      "name": "John Doe",
+  ///      "mobile": "9245671324",
+  ///      "email": "john.doe@gmail.com",
+  ///      "business": 1,
+  ///      "restaurant_id": 1,
+  ///      "restaurant_name": "Hot Oven Delivery (HOD)",
+  ///      "preparation_time": "00:00:40",
+  ///      "status": "Delivered",
+  ///      "order_date": "2019-08-21T00:51:51.411893+05:30",
+  ///      "total": 250,
+  ///      "packaging_charge": 0,
+  ///      "payment_done": true,
+  ///      "delivery": <DeliveryObject>,
+  ///      "suborder_set": [<SubOrderSetObject>],
+  ///      "delivery_boy": <EmployeeObject>,
+  ///      "has_delivery_boy": true
+  ///    }
+  ///
+
+  static const keyOrderCreateURL = APIStatic.baseURL + "order/create/";
   static const keyOrderListURL = APIStatic.baseURL + "order/list/?status=";
-  static const keyDeliveryBoyAddUrL = "&delivery_boy=";
+  static const keyDeliveryBoyUserAddUrL = "&delivery_boy__user__id=";
   static const keyOrderDetailURL = APIStatic.baseURL + "order/";
 
-  static const keyCreateOrderURL = APIStatic.baseURL + "order/create/";
-
+  static const keyBusinessId = "business";
+  static const keyMobile = "mobile";
+  static const keyEmail = "email";
   static const keyPreparationTime = "preparation_time";
-  static const keySuborderSet = "suborder_set";
+  static const keyRestaurantId = "restaurant_id";
+  static const keyRestaurantName = "restaurant_name";
+  static const keyPackagingCharge = "packaging_charge";
+  static const keySubOrderSet = "suborder_set";
   static const keyDelivery = "delivery";
   static const keyPaymentDone = "payment_done";
   static const keyTotal = "total";
   static const keyOrderDate = "order_date";
   static const keyStatus = "status";
-  static const keyDeliveryBoy = "delivery_boy";
   static const keyHasDeliveryBoy = "has_delivery_boy";
+  static const keyDeliveryBoy = "delivery_boy";
 }
+
 
 abstract class TransactionStatic {
   static const transactionURL = APIStatic.baseURL + "transactions/list/?order=";

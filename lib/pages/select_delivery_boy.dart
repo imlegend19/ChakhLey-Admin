@@ -21,7 +21,7 @@ class _SelectDeliveryBoyPageState extends State<SelectDeliveryBoyPage> {
     super.initState();
     for (final i in ConstantVariables.deliveryBoyList) {
       _deliveryBoyNameList
-          .add(GroupModel(text: i.user[APIStatic.keyName], index: i.id));
+          .add(GroupModel(text: i.userName, index: i.id));
     }
   }
 

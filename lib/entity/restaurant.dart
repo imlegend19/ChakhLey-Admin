@@ -9,36 +9,30 @@ import 'api_static.dart';
 class Restaurant {
   final int id;
   final String name;
+  final int businessId;
   final int deliveryTime;
   final String fullAddress;
   final bool openStatus;
   final String costForTwo;
   final int categoryCount;
-  final double latitude;
-  final double longitude;
   final int commission;
   final bool isVeg;
   final bool isActive;
   final bool gst;
-  final List<dynamic> images;
-  final List<dynamic> cuisines;
 
   Restaurant({
     this.id,
     this.name,
+    this.businessId,
     this.deliveryTime,
     this.fullAddress,
     this.openStatus,
     this.costForTwo,
     this.categoryCount,
-    this.latitude,
-    this.longitude,
     this.commission,
     this.isVeg,
     this.isActive,
     this.gst,
-    this.images,
-    this.cuisines,
   });
 }
 
@@ -61,20 +55,16 @@ class GetRestaurant {
         Restaurant(
           id: jsonRestaurant[APIStatic.keyID],
           name: jsonRestaurant[APIStatic.keyName],
+          businessId: jsonRestaurant[RestaurantStatic.keyBusinessId],
           deliveryTime: jsonRestaurant[RestaurantStatic.keyDeliveryTime],
           fullAddress: jsonRestaurant[RestaurantStatic.keyFullAddress],
           openStatus: jsonRestaurant[RestaurantStatic.keyOpen],
           costForTwo: jsonRestaurant[RestaurantStatic.keyCostForTwo],
           categoryCount: jsonRestaurant[RestaurantStatic.keyCategoryCount],
-          latitude: double.parse(jsonRestaurant[RestaurantStatic.keyLatitude]),
-          longitude:
-              double.parse(jsonRestaurant[RestaurantStatic.keyLongitude]),
           commission: jsonRestaurant[RestaurantStatic.keyCommission],
           isVeg: jsonRestaurant[RestaurantStatic.keyIsVeg],
           isActive: jsonRestaurant[RestaurantStatic.keyIsActive],
           gst: jsonRestaurant[RestaurantStatic.keyGST],
-          images: jsonRestaurant[RestaurantStatic.keyImages],
-          cuisines: jsonRestaurant[RestaurantStatic.keyCuisine],
         ),
       );
     }
@@ -92,7 +82,7 @@ class GetRestaurant {
 
 Future<GetRestaurant> fetchRestaurant(int businessID) async {
   final response =
-      await http.get(RestaurantStatic.keyRestaurantURL + '?$businessID');
+      await http.get(RestaurantStatic.keyRestaurantURL + '?business=$businessID');
 
   if (response.statusCode == 200) {
     int count = jsonDecode(response.body)[APIStatic.keyCount];

@@ -285,7 +285,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   Future<http.Response> createPost(PostOrder post) async {
-    final response = await http.post(OrderStatic.keyCreateOrderURL,
+    final response = await http.post(OrderStatic.keyOrderCreateURL,
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
         body: postOrderToJson(post));
 
@@ -297,7 +297,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       name: widget.name,
       mobile: widget.phone,
       email: widget.email,
-      business: ConstantVariables.businessID,
+      businessId: ConstantVariables.businessID,
       restaurant: widget.restaurant,
       preparationTime:
           _ptController.text.trim() != '' ? int.parse(_ptController.text) : 35,

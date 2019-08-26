@@ -25,7 +25,7 @@ class _ViewDetailsState extends State<ViewDetails> {
   void initState() {
     super.initState();
     for (final i in ConstantVariables.deliveryBoyList) {
-      _deliveryBoyNameList.add(i.user[APIStatic.keyName]);
+      _deliveryBoyNameList.add(i.userName);
     }
   }
 

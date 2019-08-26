@@ -76,9 +76,9 @@ Widget transactionCard(BuildContext context, Transaction transaction) {
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: transaction.acceptedBy != null
-                      ? '${transaction.acceptedBy["user"]["name"]}'
-                      : 'Not Assigned',
+                  text: (transaction.acceptedBy != null)
+                      ? '${transaction.acceptedBy["user_name"]}'
+                      : 'No DeliveryBoy',
                   style: TextStyle(
                     fontSize: 15.0,
                     fontFamily: 'Avenir-Black',

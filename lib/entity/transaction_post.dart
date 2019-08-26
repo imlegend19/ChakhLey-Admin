@@ -8,15 +8,16 @@ class PostTransaction {
   final bool isCredit;
   final String paymentType;
   final String paymentMode;
-  final Map<String, dynamic> acceptedBy;
+  final int acceptedBy;
 
-  PostTransaction(
-      {this.order,
-      this.amount,
-      this.isCredit,
-      this.paymentType,
-      this.paymentMode,
-      this.acceptedBy});
+  PostTransaction({
+    this.order,
+    this.amount,
+    this.isCredit,
+    this.paymentType,
+    this.paymentMode,
+    this.acceptedBy,
+  });
 
   factory PostTransaction.fromJson(Map<String, dynamic> json) {
     return PostTransaction(
@@ -28,14 +29,15 @@ class PostTransaction {
       acceptedBy: json[TransactionStatic.keyAcceptedBy],
     );
   }
+
   Map<String, dynamic> toJson() => {
-        TransactionStatic.keyOrder: order,
-        TransactionStatic.keyAmount: amount,
-        TransactionStatic.keyIsCredit: isCredit,
-        TransactionStatic.keyPaymentType: paymentType,
-        TransactionStatic.keyPaymentMode: paymentMode,
-        TransactionStatic.keyAcceptedBy: acceptedBy
-      };
+    TransactionStatic.keyOrder: order,
+    TransactionStatic.keyAmount: amount,
+    TransactionStatic.keyIsCredit: isCredit,
+    TransactionStatic.keyPaymentType: paymentType,
+    TransactionStatic.keyPaymentMode: paymentMode,
+    TransactionStatic.keyAcceptedBy: acceptedBy
+  };
 }
 
 String postTransactionToJson(PostTransaction data) {

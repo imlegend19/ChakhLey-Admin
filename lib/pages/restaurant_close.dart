@@ -9,7 +9,7 @@ class RestaurantPage extends StatefulWidget {
 
 class _RestaurantPageState extends State<RestaurantPage> {
   List<Restaurant> restaurantList = [];
-  List<bool> _value = List<bool>.filled(15, false, growable: true);
+  List<bool> _value = List<bool>.filled(16, false, growable: true);
 
   @override
   void initState() {

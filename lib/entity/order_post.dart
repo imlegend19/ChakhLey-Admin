@@ -7,7 +7,7 @@ class PostOrder {
   final String mobile;
   final String email;
   final int restaurant;
-  final int business;
+  final int businessId;
   final int preparationTime;
   final Map<String, dynamic> delivery;
   final List<Map<String, int>> subOrderSet;
@@ -16,7 +16,7 @@ class PostOrder {
     this.name,
     this.mobile,
     this.email,
-    this.business,
+    this.businessId,
     this.restaurant,
     this.preparationTime,
     this.delivery,
@@ -28,7 +28,7 @@ class PostOrder {
       name: json[APIStatic.keyName],
       mobile: json[RestaurantStatic.keyMobile],
       email: json[RestaurantStatic.keyEmail],
-      business: json[APIStatic.keyBusiness],
+      businessId: json[OrderStatic.keyBusinessId],
       preparationTime: json[RestaurantStatic.keyPreparationTime],
       restaurant: json[RestaurantStatic.keyRestaurant],
       delivery: json[RestaurantStatic.keyDelivery],
@@ -40,7 +40,7 @@ class PostOrder {
         APIStatic.keyName: name,
         RestaurantStatic.keyMobile: mobile,
         RestaurantStatic.keyEmail: email,
-        APIStatic.keyBusiness: business,
+        APIStatic.keyBusiness: businessId,
         RestaurantStatic.keyPreparationTime: preparationTime,
         RestaurantStatic.keyRestaurant: restaurant,
         RestaurantStatic.keyDelivery: delivery,
