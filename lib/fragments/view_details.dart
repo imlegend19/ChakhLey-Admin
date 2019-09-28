@@ -1,4 +1,3 @@
-import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/entity/transaction.dart';
 import 'package:chakh_le_admin/pages/transaction_page.dart';

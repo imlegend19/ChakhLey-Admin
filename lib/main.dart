@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:convert' as JSON;
-import 'utils/error_widget.dart';
+import 'dart:io';
 import 'package:chakh_le_admin/entity/api_static.dart';
 import 'package:chakh_le_admin/home_page.dart';
 import 'package:chakh_le_admin/pages/otp.dart';
@@ -12,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:sentry/sentry.dart';
 import 'models/user_post.dart';
 import 'models/user_pref.dart';
+import 'utils/error_widget.dart';
 
 final SentryClient _sentry = SentryClient(dsn: ConstantVariables.sentryDSN);
 
