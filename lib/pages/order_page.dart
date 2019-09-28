@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:chakh_le_admin/entity/order.dart';
+import 'package:chakh_le_admin/models/notification_helper.dart';
 import 'package:chakh_le_admin/pages/add_order.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/color_loader.dart';
 import 'package:chakh_le_admin/utils/order_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class OrderPage extends StatefulWidget {
   @override
@@ -18,6 +20,7 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   StreamController _orderController;
+  final notifications = FlutterLocalNotificationsPlugin();
 
   loadOrders() async {
     Future.sync(() {
@@ -40,6 +43,12 @@ class _OrderPageState extends State<OrderPage> {
     super.initState();
     _orderController = StreamController();
     Timer.periodic(Duration(seconds: 3), (_) => loadOrders());
+
+    final settingsAndroid = AndroidInitializationSettings('app_icon');
+    final settingIOS = IOSInitializationSettings();
+
+    notifications
+        .initialize(InitializationSettings(settingsAndroid, settingIOS));
   }
 
   @override
@@ -59,6 +68,19 @@ class _OrderPageState extends State<OrderPage> {
             if (response.data != null) {
               if (response.hasData) {
                 if (response.data.count != 0) {
+                  for (int i = 0; i < response.data.orders.length; i++) {
+                    if (!ConstantVariables.newOrders
+                        .contains(response.data.orders[i].id)) {
+                      ConstantVariables.newOrders
+                          .add(response.data.orders[i].id);
+
+                      // TODO: Send Notification
+                      showOngoingNotification(notifications,
+                          title: 'Order Id: ${response.data.orders[i].id}',
+                          body: 'You have received a new order.');
+                    }
+                  }
+
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
