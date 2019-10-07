@@ -21,6 +21,7 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
   StreamController _orderController;
   final notifications = FlutterLocalNotificationsPlugin();
+  Timer timer;
 
   loadOrders() async {
     Future.sync(() {
@@ -59,24 +60,39 @@ class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
     super.dispose();
   }
 
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
 
     switch (state) {
       case AppLifecycleState.paused:
-        // TODO: Keep fetching new orders
+        timer =
+            Timer.periodic(Duration(seconds: 10), (Timer t) => fetchNewOrders());
         print('Paused');
         break;
       case AppLifecycleState.resumed:
-        print('Resumed');
+        timer?.cancel();
+        print('Resumed - Timer terminated');
         break;
       case AppLifecycleState.inactive:
         break;
       case AppLifecycleState.suspending:
         break;
     }
+  }
+
+  void fetchNewOrders() {
+    print('not terminated');
+    fetchOrder(widget.status).then((res) async {
+      if (res.orders.length > 0) {
+        String suffix = res.orders.length == 1 ? 'order' : 'orders';
+        showOngoingNotification(notifications,
+            title: 'New Orders',
+            body: 'You have received ${res.orders.length} new $suffix.');
+      }
+
+      return res;
+    });
   }
 
   @override
