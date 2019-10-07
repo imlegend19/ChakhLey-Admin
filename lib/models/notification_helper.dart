@@ -6,11 +6,10 @@ NotificationDetails get _ongoing {
     'ADMIN',
     'Chakh Ley',
     'Food Ordering & Delivery Service',
-    importance: Importance.Max,
-    priority: Priority.High,
-    ongoing: true,
-    autoCancel: false,
+    importance: Importance.Default,
+    priority: Priority.Default,
   );
+
   final iOSChannelSpecifics = IOSNotificationDetails();
   return NotificationDetails(androidChannelSpecifics, iOSChannelSpecifics);
 }

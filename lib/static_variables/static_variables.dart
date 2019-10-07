@@ -56,7 +56,7 @@ class ConstantVariables {
     "Cancelled"
   ];
 
-  static List<int> newOrders;
+  static List<int> newOrders = [];
 
   static Map<String, String> codeOrder = {
     "N": "New",
