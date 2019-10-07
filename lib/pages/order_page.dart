@@ -18,7 +18,7 @@ class OrderPage extends StatefulWidget {
   OrderPage({@required this.status});
 }
 
-class _OrderPageState extends State<OrderPage> {
+class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
   StreamController _orderController;
   final notifications = FlutterLocalNotificationsPlugin();
 
@@ -49,6 +49,34 @@ class _OrderPageState extends State<OrderPage> {
 
     notifications
         .initialize(InitializationSettings(settingsAndroid, settingIOS));
+
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.paused:
+        // TODO: Keep fetching new orders
+        print('Paused');
+        break;
+      case AppLifecycleState.resumed:
+        print('Resumed');
+        break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.suspending:
+        break;
+    }
   }
 
   @override
@@ -74,7 +102,6 @@ class _OrderPageState extends State<OrderPage> {
                       ConstantVariables.newOrders
                           .add(response.data.orders[i].id);
 
-                      // TODO: Send Notification
                       showOngoingNotification(notifications,
                           title: 'Order Id: ${response.data.orders[i].id}',
                           body: 'You have received a new order.');
