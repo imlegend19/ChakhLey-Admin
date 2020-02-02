@@ -109,9 +109,10 @@ class _LoginPageState extends State<LoginPage> {
 
     isLoggedIn().then((val) {
       if (val) {
-        Navigator.pushReplacementNamed(context, '/homepage');
+        // Navigator.pushReplacementNamed(context, '/homepage');
       } else {
         setState(() {
+          Navigator.pushReplacementNamed(context, '/homepage'); 
           loggedIn = false;
         });
       }

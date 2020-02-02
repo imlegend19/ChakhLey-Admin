@@ -76,7 +76,7 @@ class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.inactive:
         break;
-      case AppLifecycleState.suspending:
+      case AppLifecycleState.detached:
         break;
     }
   }
