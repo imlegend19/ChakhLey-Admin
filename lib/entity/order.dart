@@ -80,6 +80,7 @@ class GetOrders {
 }
 
 Future<GetOrders> fetchOrder(String status) async {
+  print(status);
   final response = await http
       .get(OrderStatic.keyOrderListURL + status)
       .catchError((error) {});

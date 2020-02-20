@@ -1,7 +1,7 @@
 import 'package:chakh_le_admin/pages/order_page.dart';
+import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/color_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class OrderStation extends StatefulWidget {
   @override
@@ -21,9 +21,7 @@ class _OrderStationState extends State<OrderStation> {
           OrderPage(status: "N"),
           OrderPage(status: "Ac"),
           OrderPage(status: "Pr"),
-          OrderPage(status: "O"),
-          OrderPage(status: "D"),
-          OrderPage(status: "C"),
+          OrderPage(status: "O")
         ],
       );
     });
@@ -32,23 +30,23 @@ class _OrderStationState extends State<OrderStation> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 0,
           automaticallyImplyLeading: false,
           actions: <Widget>[],
-          title: TabBar(
-            tabs: [
-              Tab(text: 'New'),
-              Tab(text: 'Accepted'),
-              Tab(text: 'Preparing'),
-              Tab(text: "On It's Way"),
-              Tab(text: 'Delivered'),
-              Tab(text: 'Cancelled'),
-            ],
-            indicatorColor: Colors.white,
-            isScrollable: true,
+          title: Center(
+            child: TabBar(
+              tabs: [
+                Tab(text: 'New'),
+                Tab(text: 'Accepted'),
+                Tab(text: 'Preparing'),
+                Tab(text: "On It's Way"),
+              ],
+              indicatorColor: Colors.white,
+              isScrollable: true,
+            ),
           ),
         ),
         body: body,

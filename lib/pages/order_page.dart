@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/models/notification_helper.dart';
 import 'package:chakh_le_admin/pages/add_order.dart';
@@ -14,7 +13,6 @@ class OrderPage extends StatefulWidget {
   _OrderPageState createState() => _OrderPageState();
 
   final String status;
-
   OrderPage({@required this.status});
 }
 
@@ -42,10 +40,13 @@ class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _orderController = StreamController();
-    Timer.periodic(Duration(seconds: 3), (_) => loadOrders());
 
-    final settingsAndroid = AndroidInitializationSettings('app_icon');
+    _orderController = StreamController();
+    if (widget.status == 'N')
+      Timer.periodic(Duration(seconds: 3), (_) => loadOrders());
+    else
+      loadOrders();
+      final settingsAndroid = AndroidInitializationSettings('app_icon');
     final settingIOS = IOSInitializationSettings();
 
     notifications
@@ -66,8 +67,8 @@ class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
 
     switch (state) {
       case AppLifecycleState.paused:
-        timer =
-            Timer.periodic(Duration(seconds: 10), (Timer t) => fetchNewOrders());
+        timer = Timer.periodic(
+            Duration(seconds: 10), (Timer t) => fetchNewOrders());
         print('Paused');
         break;
       case AppLifecycleState.resumed:
@@ -118,9 +119,11 @@ class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
                       ConstantVariables.newOrders
                           .add(response.data.orders[i].id);
 
-                      showOngoingNotification(notifications,
+                      if (widget.status == 'N') {
+                        showOngoingNotification(notifications,
                           title: 'Order Id: ${response.data.orders[i].id}',
                           body: 'You have received a new order.');
+                      }
                     }
                   }
 
