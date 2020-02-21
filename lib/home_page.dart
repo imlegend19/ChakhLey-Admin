@@ -6,6 +6,7 @@ import 'package:chakh_le_admin/models/user_pref.dart';
 import 'package:chakh_le_admin/pages/delivery_boy.dart';
 import 'package:chakh_le_admin/pages/order_page.dart';
 import 'package:chakh_le_admin/pages/restaurant_close.dart';
+import 'package:chakh_le_admin/pages/services_page.dart';
 import 'package:chakh_le_admin/static_variables/no_internet.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:connectivity/connectivity.dart';
@@ -24,8 +25,8 @@ class HomePage extends StatefulWidget {
     DrawerItem("Order Station", Icons.local_dining),
     DrawerItem("Delivered", Icons.assistant_photo),
     DrawerItem("Cancelled", Icons.cancel),
-    DrawerItem("Delivery Boys", Icons.motorcycle),
-    DrawerItem("Restaurant", Icons.restaurant),
+    DrawerItem("Track Order", Icons.motorcycle),
+    DrawerItem("Services", Icons.settings),
     DrawerItem("Logout", Icons.power_settings_new)
   ];
 
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
           child: DeliveryBoyPage(),
         );
       case 4:
-        return RestaurantPage();
+        return ServicesPage();
       case 5:
         logoutUser().then((val) {
           Navigator.pushReplacementNamed(context, '/loginpage');
