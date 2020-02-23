@@ -166,8 +166,19 @@ patchOrder(int id, String status) async {
   }
 }
 
-patchOrderDeliveryBoy(int id, String status, int deliveryBoy) async {
-  var json = {"status": "$status", "delivery_boy": deliveryBoy};
+patchOrderDeliveryBoy(int id, int deliveryBoy, bool isActive,
+    [String status]) async {
+  var json;
+
+  if (status == null) {
+    json = {"delivery_boy": deliveryBoy, "is_active": isActive};
+  } else {
+    json = {
+      "status": "$status",
+      "delivery_boy": deliveryBoy,
+      "is_active": isActive
+    };
+  }
 
   http.Response response = await http.patch(
     OrderStatic.keyOrderDetailURL + id.toString() + '/',
@@ -177,7 +188,7 @@ patchOrderDeliveryBoy(int id, String status, int deliveryBoy) async {
 
   if (response.statusCode == 200) {
     Fluttertoast.showToast(
-      msg: "Status Updated",
+      msg: "DeliverBoy ${isActive ? "Available" : "Not Available"}",
       fontSize: 13.0,
       toastLength: Toast.LENGTH_LONG,
       timeInSecForIos: 2,

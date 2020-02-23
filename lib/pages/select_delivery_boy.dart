@@ -1,3 +1,4 @@
+import 'package:chakh_le_admin/entity/employee.dart';
 import 'package:chakh_le_admin/entity/group_model.dart';
 import 'package:chakh_le_admin/entity/order.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
@@ -19,8 +20,7 @@ class _SelectDeliveryBoyPageState extends State<SelectDeliveryBoyPage> {
   void initState() {
     super.initState();
     for (final i in ConstantVariables.deliveryBoyList) {
-      _deliveryBoyNameList
-          .add(GroupModel(text: i.userName, index: i.id));
+      _deliveryBoyNameList.add(GroupModel(text: i.userName, index: i.id));
     }
   }
 
@@ -67,11 +67,13 @@ class _SelectDeliveryBoyPageState extends State<SelectDeliveryBoyPage> {
                         : () {
                             patchOrderDeliveryBoy(
                                 widget.order.id,
+                                _currentIndex,
+                                ConstantVariables
+                                    .deliveryBoyList[_currentIndex].isActive,
                                 ConstantVariables.orderCode[ConstantVariables
                                     .order[ConstantVariables.order
                                         .indexOf(widget.order.status) +
-                                    1]],
-                                _currentIndex);
+                                    1]]);
                             Navigator.pop(context);
                           },
                     child: Text(

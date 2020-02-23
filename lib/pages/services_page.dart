@@ -16,7 +16,10 @@ class _ServicesPageState extends State<ServicesPage> {
   void initState() {
     super.initState();
     setState(() {
-      body = TabBarView(children: [RestaurantPage(), DeliveryServicePage()]);
+      body = TabBarView(children: [
+        RestaurantPage(),
+        DeliveryServicePage(),
+      ]);
     });
   }
 
@@ -27,22 +30,24 @@ class _ServicesPageState extends State<ServicesPage> {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: TabBar(
-              tabs: [
-                Tab(
-                  text: 'Restaurant',
-                ),
-                Tab(
-                  text: 'Delivery Boys',
-                )
-              ],
-              isScrollable: true,
-              indicatorColor: Colors.white,
+            title: Center(
+              child: TabBar(
+                tabs: [
+                  Tab(
+                    text: 'Restaurant',
+                  ),
+                  Tab(
+                    text: 'Delivery Boys',
+                  )
+                ],
+                indicatorColor: Colors.white,
+              ),
             ),
           ),
           body: body,
         ));
   }
+
   static Widget _buildLoadingScreen() {
     return Container(
       child: Center(
@@ -51,5 +56,3 @@ class _ServicesPageState extends State<ServicesPage> {
     );
   }
 }
-
-
