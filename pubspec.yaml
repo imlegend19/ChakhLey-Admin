@@ -19,6 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_messaging:
   intl: ^0.16.1    
   cupertino_icons: ^0.1.2
   http:

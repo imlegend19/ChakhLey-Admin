@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "25661999213",
+    "firebase_url": "https://chakh-ley-44951.firebaseio.com",
+    "project_id": "chakh-ley-44951",
+    "storage_bucket": "chakh-ley-44951.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25661999213:android:564a7e5072ad3ce5505764",
+        "android_client_info": {
+          "package_name": "in.chakhle.chakh_le_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25661999213-e03pdcotf2k8i4avjlj0k5ge5n835995.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.chakhle.chakh_le_admin",
+            "certificate_hash": "aa15f1503838e271ef02c9e8a8106135c4091b8d"
+          }
+        },
+        {
+          "client_id": "25661999213-s2nvtdqfs70mblfvggj0dqlua7fd6d53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3yDYLpI8gb91DnUgcy4yKF75j6quuqvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25661999213-s2nvtdqfs70mblfvggj0dqlua7fd6d53.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
