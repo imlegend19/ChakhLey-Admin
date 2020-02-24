@@ -5,6 +5,7 @@ import 'package:chakh_le_admin/pages/add_order.dart';
 import 'package:chakh_le_admin/static_variables/static_variables.dart';
 import 'package:chakh_le_admin/utils/color_loader.dart';
 import 'package:chakh_le_admin/utils/order_card.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -18,7 +19,9 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
   StreamController _orderController;
-  final notifications = FlutterLocalNotificationsPlugin();
+  String _message = "Waiting For Message";
+  final FirebaseMessaging _messaging = FirebaseMessaging();
+  // final notifications = FlutterLocalNotificationsPlugin();
   Timer timer;
 
   loadOrders() async {
@@ -37,20 +40,45 @@ class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
     });
   }
 
+  void getMessage(){
+       _messaging.configure(
+      onMessage: (Map<String,dynamic> message){
+        print("onMessage : $message");
+        setState(() => _message = message["notifications"]["title"]);
+        print(_message);
+      },
+      onLaunch: (Map<String,dynamic> message) {
+        print("onLaunch : $message");
+        setState(() => _message = message["notifications"]["title"]);
+        print(_message);
+      },
+      onResume: (Map<String,dynamic> message) {
+        print("onResume : $message");
+        setState(() => _message = message["notifications"]["title"]);
+        print(_message);
+      }
+    );
+  } 
+
+  void register(){
+    _messaging.getToken().then((token) => print(token));
+  }
+
   @override
   void initState() {
     super.initState();
-
+    getMessage();
+    register();
     _orderController = StreamController();
     if (widget.status == 'N')
       Timer.periodic(Duration(seconds: 3), (_) => loadOrders());
     else
       loadOrders();
-      final settingsAndroid = AndroidInitializationSettings('app_icon');
-    final settingIOS = IOSInitializationSettings();
+    //   final settingsAndroid = AndroidInitializationSettings('app_icon');
+    // final settingIOS = IOSInitializationSettings();
 
-    notifications
-        .initialize(InitializationSettings(settingsAndroid, settingIOS));
+    // notifications
+    //     .initialize(InitializationSettings(settingsAndroid, settingIOS));
 
     WidgetsBinding.instance.addObserver(this);
   }
@@ -87,9 +115,9 @@ class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
     fetchOrder(widget.status).then((res) async {
       if (res.orders.length > 0) {
         String suffix = res.orders.length == 1 ? 'order' : 'orders';
-        showOngoingNotification(notifications,
-            title: 'New Orders',
-            body: 'You have received ${res.orders.length} new $suffix.');
+        // showOngoingNotification(notifications,
+        //     title: 'New Orders',
+        //     body: 'You have received ${res.orders.length} new $suffix.');
       }
 
       return res;
@@ -120,9 +148,9 @@ class _OrderPageState extends State<OrderPage> with WidgetsBindingObserver {
                           .add(response.data.orders[i].id);
 
                       if (widget.status == 'N') {
-                        showOngoingNotification(notifications,
-                          title: 'Order Id: ${response.data.orders[i].id}',
-                          body: 'You have received a new order.');
+                        // showOngoingNotification(notifications,
+                        //   title: 'Order Id: ${response.data.orders[i].id}',
+                        //   body: 'You have received a new order.');
                       }
                     }
                   }
